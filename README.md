@@ -1,1 +1,51 @@
-# autoasset
+## auto update asasset.json
+ - update 2023-05-15 21:53:51.088852
+#### Red ball list
+ - 33 Count  9 ▆▆▆▆▆▆▆▆▆
+ - 07 Count  8 ▆▆▆▆▆▆▆▆
+ - 09 Count  8 ▆▆▆▆▆▆▆▆
+ - 24 Count  8 ▆▆▆▆▆▆▆▆
+ - 26 Count  8 ▆▆▆▆▆▆▆▆
+ - 31 Count  8 ▆▆▆▆▆▆▆▆
+ - 02 Count  7 ▆▆▆▆▆▆▆
+ - 03 Count  7 ▆▆▆▆▆▆▆
+ - 08 Count  7 ▆▆▆▆▆▆▆
+ - 14 Count  7 ▆▆▆▆▆▆▆
+ - 17 Count  7 ▆▆▆▆▆▆▆
+ - 20 Count  7 ▆▆▆▆▆▆▆
+ - 28 Count  7 ▆▆▆▆▆▆▆
+ - 30 Count  7 ▆▆▆▆▆▆▆
+ - 05 Count  6 ▆▆▆▆▆▆
+ - 10 Count  6 ▆▆▆▆▆▆
+ - 12 Count  6 ▆▆▆▆▆▆
+ - 23 Count  6 ▆▆▆▆▆▆
+ - 27 Count  6 ▆▆▆▆▆▆
+ - 06 Count  5 ▆▆▆▆▆
+ - 22 Count  5 ▆▆▆▆▆
+ - 01 Count  4 ▆▆▆▆
+ - 13 Count  4 ▆▆▆▆
+ - 29 Count  4 ▆▆▆▆
+ - 04 Count  3 ▆▆▆
+ - 15 Count  3 ▆▆▆
+ - 16 Count  3 ▆▆▆
+ - 19 Count  3 ▆▆▆
+ - 25 Count  3 ▆▆▆
+ - 32 Count  3 ▆▆▆
+ - 18 Count  2 ▆▆
+ - 21 Count  2 ▆▆
+ - 11 Count  1 ▆
+#### Blue ball list
+ - 08 Count  5 ▆▆▆▆▆
+ - 06 Count  4 ▆▆▆▆
+ - 05 Count  3 ▆▆▆
+ - 14 Count  3 ▆▆▆
+ - 03 Count  2 ▆▆
+ - 09 Count  2 ▆▆
+ - 10 Count  2 ▆▆
+ - 12 Count  2 ▆▆
+ - 15 Count  2 ▆▆
+ - 01 Count  1 ▆
+ - 02 Count  1 ▆
+ - 04 Count  1 ▆
+ - 07 Count  1 ▆
+ - 16 Count  1 ▆
