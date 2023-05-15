@@ -1,5 +1,5 @@
 ## Auto update asasset.json
- - update 2023-05-15 22:54:35.017995
+ - update 2023-05-15 22:57:44.995456
 ### Black box number *05 06 09 10 15 26 / 12*
 #### Red ball list
  - 33 Count  9 ▆▆▆▆▆▆▆▆▆

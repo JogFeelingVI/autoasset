@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-15 20:22:04
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-15 22:21:32
+# @Last Modified time: 2023-05-15 23:11:59
 from operator import ge
 import re, json
 from datetime import datetime as dtime
@@ -10,7 +10,10 @@ from time import sleep
 from typing import List
 from Codex import gethtml, pathliab
 
+
 class assetx:
+    error:bool = False
+    
     def getnetdate(self):
         try:
             asset_json = pathliab.ospath.file_path('./asset.json')
@@ -36,6 +39,7 @@ class assetx:
                 print(f'updata network error')
         except Exception as e:
             print(f'error: {e}')
+            self.error = True
     
     @staticmethod      
     def listTostr(lis:list) -> str:
@@ -55,6 +59,8 @@ class assetx:
             
     def tomd(self):
         try:
+            if self.error:
+                return
             markdown = []
             readme_md = pathliab.ospath.file_path('./README.md')
             if readme_md == '':
