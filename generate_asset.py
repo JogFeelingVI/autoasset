@@ -2,10 +2,11 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-15 20:22:04
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-15 21:53:49
+# @Last Modified time: 2023-05-15 22:21:32
 from operator import ge
 import re, json
 from datetime import datetime as dtime
+from time import sleep
 from typing import List
 from Codex import gethtml, pathliab
 
@@ -45,6 +46,12 @@ class assetx:
         temp_sort = sorted(temp_lis, key=lambda x: x[1], reverse=True)
         temp:str = '\n'.join([f' - {n:>02} Count {c:>2} {prompt * c}' for n, c in temp_sort])
         return temp
+    
+    def shownumber(self) -> str:
+        r =self.Lix['R'][-6::]
+        b =self.Lix['B'][-1]
+        r_str = ' '.join([f'{x:02}' for x in r])
+        return f'*{r_str} / {b:02}*'
             
     def tomd(self):
         try:
@@ -52,8 +59,9 @@ class assetx:
             readme_md = pathliab.ospath.file_path('./README.md')
             if readme_md == '':
                 return
-            markdown.append('## auto update asasset.json')
+            markdown.append('## Auto update asasset.json')
             markdown.append(f' - update {self.Lix.get("date", "None")}')
+            markdown.append(f'### Black box number {self.shownumber()}')
             markdown.append('#### Red ball list')
             markdown.append(f'{self.listTostr(self.Lix.get("R", []))}')
             markdown.append('#### Blue ball list')
