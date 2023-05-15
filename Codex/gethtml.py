@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-15 20:42:54
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-15 20:44:56
+# @Last Modified time: 2023-05-15 22:54:13
 
 import urllib.request
 import ssl
@@ -18,7 +18,7 @@ class get_html:
         'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
         'Host': 'm.cjcp.cn',
         'User-Agent':
-        'Mozilla/5.0 (iPhone; CPU iPhone OS 13_1_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.1 Mobile/15E148 Safari/604.1',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 Firefox/93.0',
         'Accept-Language': 'zh-cn',
         'Accept-Encoding': 'gzip, deflate, br',
         'Connection': 'keep-alive'
