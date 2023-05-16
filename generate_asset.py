@@ -2,12 +2,12 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-15 20:22:04
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-16 21:42:15
+# @Last Modified time: 2023-05-16 23:51:47
 from operator import ge
 import re, json
 from datetime import datetime as dtime
 from typing import List
-from Codex import gethtml, pathliab
+from Codex import gethtml, pathliab, glns
 
 
 class assetx:
@@ -95,6 +95,12 @@ class assetx:
             markdown.append(f'{self.listTostr(self.Lix.get("R", []))}')
             markdown.append('#### Blue ball list')
             markdown.append(f'{self.listTostr(self.Lix.get("B", []))}')
+            markdown.append('## creativity list')
+            for x in (0, 0, 0, 0, 0, 1, 0, 0, 0, 0 ,0):
+                if x == 1:
+                    markdown.append('- [ ] ---')
+                else:
+                    markdown.append(f'- [x] {glns.glnsMpls(self.Lix).creativity()}')
             readme_path = pathliab.Path(readme_md)
             with readme_path.open(mode='w') as wMd:
                 for line in markdown:

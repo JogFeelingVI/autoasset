@@ -1,13 +1,13 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-15 20:24:07
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-15 22:41:22
+# @Last Modified time: 2023-05-16 23:53:16
 name: Update asset.json
 on:
   schedule:
     # Run every day at 12:00 AM
-    # - cron: "0 0 * * *"
-    - cron: "*/15 * * * *"
+    - cron: "0 1 * * *"
+    # - cron: "*/15 * * * *"
 
 jobs:
   build:
@@ -16,6 +16,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+
+      - name: Set timezone
+        run: |
+          sudo apt-get install -y tzdata
+          sudo ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+          sudo dpkg-reconfigure -f noninteractive tzdata
 
       - name: Set up Python
         uses: actions/setup-python@v2
