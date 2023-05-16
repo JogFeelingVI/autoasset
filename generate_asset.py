@@ -2,11 +2,10 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-15 20:22:04
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-15 23:11:59
+# @Last Modified time: 2023-05-16 21:42:15
 from operator import ge
 import re, json
 from datetime import datetime as dtime
-from time import sleep
 from typing import List
 from Codex import gethtml, pathliab
 
@@ -14,16 +13,40 @@ from Codex import gethtml, pathliab
 class assetx:
     error:bool = False
     
+    @staticmethod
+    def anyishtml(text:str) -> list:
+        if text in ['', None]:
+            return []
+        pattern = re.compile(r'<tr[^>]*>(.*?)</tr>', re.DOTALL)
+        match = pattern.findall(text)
+        Rx =[]
+        Bx =[]
+        if match:
+            for _match in match:
+                td = re.compile(r'<td>[\d]{7}</td>')
+                if td.findall(_match):
+                    num_r = re.compile(r'ball_5\'>([\d]{2})</span')
+                    numsr  = num_r.findall(_match)
+                    num_b = re.compile(r'ball_1\'>([\d]{2})<span')
+                    numob = num_b.findall(_match)
+                    Rx.extend(numsr)
+                    Bx.extend(numob)
+        return [Rx, Bx]
+    
     def getnetdate(self):
         try:
             asset_json = pathliab.ospath.file_path('./asset.json')
             if asset_json == '':
                 return
-            nat_dev = 'https://m.cjcp.cn/zoushitu/cjwssq/hqfgzglclrw.html'
+            nat_dev = 'https://chart.cp.360.cn/kaijiang/ssq'
+            # nat_dev = 'https://m.cjcp.cn/zoushitu/cjwssq/hqfgzglclrw.html'
             html_content = gethtml.get_html(nat_dev).neirong
+            
+            
             if html_content != '':
-                Rx = re.findall(r'>([0-9,]{17})<', html_content)
-                Bx = re.findall(r'c_bule\">([0-9]{2})<', html_content)
+                # Rx = re.findall(r'>([0-9,]{17})<', html_content)
+                # Bx = re.findall(r'c_bule\">([0-9]{2})<', html_content)
+                Rx, Bx = self.anyishtml(html_content)
                 self.Lix = {
                     'R': [int(x) for r in Rx for x in r.split(',')],
                     'B': [int(x) for x in Bx],
