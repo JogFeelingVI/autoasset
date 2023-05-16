@@ -47,7 +47,13 @@ class glnsMpls:
     
     def __init__(self, lix:dict) -> None:
         self.R = lix.get('R', [])
+        fix_r = [x for x in range(1, 34) if x not in self.R]
+        self.R.extend(fix_r)
+        
         self.B = lix.get('B', [])
+        fix_b = [x for x in range(1, 17) if x not in self.B]
+        self.B.extend(fix_b)
+        
         
     @staticmethod    
     def CounterRB(rb:List[int], L:int) -> List[int]:
