@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-15 20:22:04
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-16 23:51:47
+# @Last Modified time: 2023-05-16 23:55:26
 from operator import ge
 import re, json
 from datetime import datetime as dtime
@@ -98,7 +98,7 @@ class assetx:
             markdown.append('## creativity list')
             for x in (0, 0, 0, 0, 0, 1, 0, 0, 0, 0 ,0):
                 if x == 1:
-                    markdown.append('- [ ] ---')
+                    markdown.append('---')
                 else:
                     markdown.append(f'- [x] {glns.glnsMpls(self.Lix).creativity()}')
             readme_path = pathliab.Path(readme_md)
