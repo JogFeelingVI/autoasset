@@ -75,8 +75,8 @@ class assetx:
         return temp
     
     def shownumber(self) -> str:
-        r =self.Lix['R'][-6::]
-        b =self.Lix['B'][-1]
+        r =self.Lix['R'][0:6]
+        b =self.Lix['B'][0]
         r_str = ' '.join([f'{x:02}' for x in r])
         return f'*{r_str} / {b:02}*'
             
