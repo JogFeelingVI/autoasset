@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-15 20:22:04
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-16 23:55:26
+# @Last Modified time: 2023-05-17 23:28:24
 from operator import ge
 import re, json
 from datetime import datetime as dtime
@@ -39,7 +39,6 @@ class assetx:
             if asset_json == '':
                 return
             nat_dev = 'https://chart.cp.360.cn/kaijiang/ssq'
-            # nat_dev = 'https://m.cjcp.cn/zoushitu/cjwssq/hqfgzglclrw.html'
             html_content = gethtml.get_html(nat_dev).neirong
             
             
