@@ -95,7 +95,7 @@ class assetx:
             markdown.append('#### Blue ball list')
             markdown.append(f'{self.listTostr(self.Lix.get("B", []))}')
             markdown.append('## creativity list')
-            for x in (0, 0, 0, 0, 0, 1, 0, 0, 0, 0 ,0):
+            for x in (0, 0, 0, 0, 0, 1, 0, 0, 0, 0 ,0,1,0,0,0,0,0,1,0,0,0,0,0):
                 if x == 1:
                     markdown.append('---')
                 else:
