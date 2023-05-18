@@ -27,7 +27,7 @@ jobs:
       uses: ad-m/github-push-action@master
       run: |        
         git config --global user.email lifelse@outlook.com
-        git config --global user.name JogFeelingVi
+        git config --global user.name JogFeelingVI
         git add .
         git commit -m "update" -a
     - name: Push changes
