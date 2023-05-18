@@ -24,7 +24,6 @@ jobs:
       run: python generate_asset.py
         
     - name: push GitHub
-      uses: ad-m/github-push-action@master
       run: |        
         git config --global user.email lifelse@outlook.com
         git config --global user.name JogFeelingVI
