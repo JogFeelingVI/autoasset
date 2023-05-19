@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-15 20:22:04
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-17 23:28:24
+# @Last Modified time: 2023-05-20 06:09:31
 from operator import ge
 import re, json
 from datetime import datetime as dtime
@@ -74,10 +74,27 @@ class assetx:
         return temp
     
     def shownumber(self) -> str:
-        r =self.Lix['R'][:6]
-        b =self.Lix['B'][0]
+        r = self.Lix['R'][:6]
+        b = self.Lix['B'][0]
         r_str = ' '.join([f'{x:02}' for x in r])
         return f'*{r_str} / {b:02}*'
+    
+    def groupBysix(self) ->None:
+        data = self.Lix.get('R', [])
+        groups = [data[i:i + 6] for i in range(0, len(data), 6)]
+        matrix = []
+
+        for group in groups:
+            row = ""
+            for i in range(1, 34):
+                if i in group:
+                    row += '▊'
+                else:
+                    row += '░'
+            matrix.append(row)
+        for i, row in enumerate(matrix):
+            print(f"Row {i + 1:>2}: {row}")
+
             
     def tomd(self):
         try:
@@ -111,6 +128,7 @@ def main():
     assx = assetx()
     assx.getnetdate()
     assx.tomd()
+    assx.groupBysix()
 
 
 if __name__ == "__main__":
