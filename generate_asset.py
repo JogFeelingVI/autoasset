@@ -2,8 +2,9 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-15 20:22:04
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-20 06:09:31
+# @Last Modified time: 2023-05-20 20:20:50
 from operator import ge
+from pickletools import markobject
 import re, json
 from datetime import datetime as dtime
 from typing import List
@@ -79,21 +80,22 @@ class assetx:
         r_str = ' '.join([f'{x:02}' for x in r])
         return f'*{r_str} / {b:02}*'
     
-    def groupBysix(self) ->None:
+    def groupBysix(self) ->List[str]:
         data = self.Lix.get('R', [])
         groups = [data[i:i + 6] for i in range(0, len(data), 6)]
         matrix = []
 
         for group in groups:
-            row = ""
+            row = ''
             for i in range(1, 34):
                 if i in group:
                     row += '█'
                 else:
                     row += '░'
             matrix.append(row)
-        for i, row in enumerate(matrix):
-            print(f"Row {i + 1:>2}: {row}")
+        return matrix
+        # for i, row in enumerate(matrix):
+        #     print(f"Row {i + 1:>2}: {row}")
 
             
     def tomd(self):
@@ -107,10 +109,14 @@ class assetx:
             markdown.append('## Auto update asasset.json')
             markdown.append(f' - update {self.Lix.get("date", "None")}')
             markdown.append(f'### Black box number {self.shownumber()}')
-            markdown.append('#### Red ball list')
-            markdown.append(f'{self.listTostr(self.Lix.get("R", []))}')
-            markdown.append('#### Blue ball list')
-            markdown.append(f'{self.listTostr(self.Lix.get("B", []))}')
+            matrix = self.groupBysix()
+            markdown.append('#### Sequence graphics')
+            for i, row in enumerate(matrix):
+                markdown.append(f' - Rom {i+1:>2} {row}')
+            # markdown.append('#### Red ball list')
+            # markdown.append(f'{self.listTostr(self.Lix.get("R", []))}')
+            # markdown.append('#### Blue ball list')
+            # markdown.append(f'{self.listTostr(self.Lix.get("B", []))}')
             markdown.append('## creativity list')
             for x in (0, 0, 0, 0, 0, 1, 0, 0, 0, 0 ,0,1,0,0,0,0,0,1,0,0,0,0,0):
                 if x == 1:
