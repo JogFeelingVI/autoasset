@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-15 20:22:04
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-20 20:44:02
+# @Last Modified time: 2023-05-20 22:08:46
 from operator import ge
 from pickletools import markobject
 import re, json
@@ -84,15 +84,24 @@ class assetx:
         data = self.Lix.get('R', [])
         groups = [data[i:i + 6] for i in range(0, len(data), 6)]
         matrix = []
-
-        for group in groups:
+        
+        for i in range(1, 34):
             row = ''
-            for i in range(1, 34):
-                if i in group:
+            for g in groups:
+                if i in g:
                     row += '█'
                 else:
-                    row += '░'
+                    row += '-'
             matrix.append(row)
+
+        # for group in groups:
+        #     row = ''
+        #     for i in range(1, 34):
+        #         if i in group:
+        #             row += '█'
+        #         else:
+        #             row += '░'
+        #     matrix.append(row)
         return matrix
         # for i, row in enumerate(matrix):
         #     print(f"Row {i + 1:>2}: {row}")
