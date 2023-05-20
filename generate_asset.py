@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-15 20:22:04
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-20 22:08:46
+# @Last Modified time: 2023-05-20 22:10:31
 from operator import ge
 from pickletools import markobject
 import re, json
@@ -91,7 +91,7 @@ class assetx:
                 if i in g:
                     row += '█'
                 else:
-                    row += '-'
+                    row += '░'
             matrix.append(row)
 
         # for group in groups:
