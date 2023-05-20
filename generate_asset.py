@@ -65,7 +65,7 @@ class assetx:
     
     @staticmethod      
     def listTostr(lis:list) -> str:
-        prompt = '▆'
+        prompt = '█'
         if lis.__len__() ==0:
             return 'No Numbers'
         temp_lis = [[i, lis.count(i)] for i in set(lis)]
@@ -88,7 +88,7 @@ class assetx:
             row = ""
             for i in range(1, 34):
                 if i in group:
-                    row += '▊'
+                    row += '█'
                 else:
                     row += '░'
             matrix.append(row)
