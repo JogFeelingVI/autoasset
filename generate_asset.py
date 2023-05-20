@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-15 20:22:04
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-20 20:20:50
+# @Last Modified time: 2023-05-20 20:44:02
 from operator import ge
 from pickletools import markobject
 import re, json
@@ -112,7 +112,7 @@ class assetx:
             matrix = self.groupBysix()
             markdown.append('#### Sequence graphics')
             for i, row in enumerate(matrix):
-                markdown.append(f' - Rom {i+1:>2} {row}')
+                markdown.append(f' - Row {i+1:02} {row}')
             # markdown.append('#### Red ball list')
             # markdown.append(f'{self.listTostr(self.Lix.get("R", []))}')
             # markdown.append('#### Blue ball list')
