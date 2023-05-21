@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-15 20:22:04
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-21 09:00:28
+# @Last Modified time: 2023-05-21 09:28:02
 from operator import ge
 from pickletools import markobject
 import re, json
@@ -90,9 +90,9 @@ class assetx:
             row = ''
             for g in groups:
                 if i in g:
-                    row += '■'
+                    row += '▮'
                 else:
-                    row += '□'
+                    row += '-'
             matrix.append(row)
 
         return matrix
