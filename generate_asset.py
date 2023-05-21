@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-15 20:22:04
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-21 09:54:54
+# @Last Modified time: 2023-05-21 21:59:51
 from operator import ge
 from pickletools import markobject
 import re, json
@@ -43,8 +43,6 @@ class assetx:
             html_content = gethtml.get_html(nat_dev).neirong
 
             if html_content != '':
-                # Rx = re.findall(r'>([0-9,]{17})<', html_content)
-                # Bx = re.findall(r'c_bule\">([0-9]{2})<', html_content)
                 Rx, Bx = self.anyishtml(html_content)
                 self.Lix = {
                     'R': [int(x) for r in Rx for x in r.split(',')],
@@ -117,13 +115,13 @@ class assetx:
             # markdown.append('#### Blue ball list')
             # markdown.append(f'{self.listTostr(self.Lix.get("B", []))}')
             markdown.append('## Creativity list')
+            glnsN = glns.glnsMpls(self.Lix)
             for x in (0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0,
                       0, 0, 0, 0):
                 if x == 1:
                     markdown.append('---')
                 else:
-                    markdown.append(
-                        f'- [x] {glns.glnsMpls(self.Lix).creativity()}')
+                    markdown.append(f'- [x] {glnsN.creativity()}')
             readme_path = pathliab.Path(readme_md)
             with readme_path.open(mode='w') as wMd:
                 for line in markdown:
@@ -136,7 +134,6 @@ def main():
     assx = assetx()
     assx.getnetdate()
     assx.tomd()
-    assx.groupBysix()
 
 
 if __name__ == "__main__":
