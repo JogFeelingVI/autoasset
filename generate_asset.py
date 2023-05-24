@@ -63,7 +63,7 @@ class assetx:
 
     @staticmethod
     def listTostr(lis: list) -> str:
-        prompt = '█'
+        prompt = '■'
         if lis.__len__() == 0:
             return 'No Numbers'
         temp_lis = [[i, lis.count(i)] for i in set(lis)]
@@ -116,11 +116,10 @@ class assetx:
             # markdown.append(f'{self.listTostr(self.Lix.get("B", []))}')
             markdown.append('## Creativity list')
             glnsN = glns.glnsMpls(self.Lix)
-            for x in (0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0,
-                      0, 0, 0, 0):
-                if x == 1:
+            for x in glns.splitqueue.queuestr():
+                if x == '□':
                     markdown.append('---')
-                else:
+                elif x == '■':
                     markdown.append(f'- [x] {glnsN.creativity()}')
             readme_path = pathliab.Path(readme_md)
             with readme_path.open(mode='w') as wMd:

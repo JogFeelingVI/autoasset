@@ -11,6 +11,16 @@ import random, re, itertools
 from collections import Counter
 from typing import List
 
+class  splitqueue:
+    @staticmethod
+    def queuestr(n:int = 4, gsize:int=5) -> str:
+        '''
+            gsize group size = 5 
+            n gsize * n
+        '''
+        block = ['■'* gsize] * n
+        return '□'.join(block)
+        
 
 class Note:
 
@@ -164,7 +174,8 @@ class glnsMpls:
 def main():
     print("Hello, World!")
     n = Note([1, 2, 3, 4, 5, 6], [2, 3])
-    print(n)
+    block = splitqueue().queuestr()
+    print(block)
 
 
 if __name__ == "__main__":
