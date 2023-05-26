@@ -1,7 +1,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-26 08:56:59
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-26 16:22:56
+# @Last Modified time: 2023-05-26 16:27:39
 name: Update Wiki
 
 on:
@@ -16,6 +16,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          repository: ${{github.repository}}.wiki
+          path: generated_wiki
 
       - name: Set up Python
         uses: actions/setup-python@v3
@@ -34,12 +37,10 @@ jobs:
 
       - name: Commit and push to wiki
         run: |
+          cd generated_wiki
           git config --global user.name "JogFeelingVI"
           git config --global user.email "lifelse@outlook.com"
           echo ${{ github.repository }}
-          git clone https://github.com/${{ github.repository }}.wiki.git wiki
-          cp -r generated_wiki/* wiki/
-          cd wiki
           git add .
           git commit -m "Update wiki content (automated)"
           git push
