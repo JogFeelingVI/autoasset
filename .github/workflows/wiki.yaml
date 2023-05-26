@@ -1,7 +1,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-26 08:56:59
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-26 15:54:49
+# @Last Modified time: 2023-05-26 16:03:29
 name: Update Wiki
 
 on:
@@ -34,12 +34,12 @@ jobs:
 
       - name: Commit and push to wiki
         env:
-          WIKI_TOKEN: ${{ secrets.WIKI_TOKEN }}
+          WIKI_TOKEN: ${{ github.token }}
         run: |
           git config user.name "JogFeelingVI"
           git config user.email "lifelse@outlook.com"
           # https://github.com/JogFeelingVI/autoasset.wiki.git
-          git clone https://github.com/${{github.repository}}.wiki.git wiki
+          git clone https://x-access-token:${WIKI_TOKEN}@github.com/${{github.repository}}.wiki.git wiki
           cp -r generated_wiki/* wiki/
           cd wiki
           git add .
