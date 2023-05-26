@@ -1,7 +1,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-26 08:56:59
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-26 16:34:17
+# @Last Modified time: 2023-05-26 16:38:41
 name: Update Wiki
 
 on:
@@ -32,17 +32,16 @@ jobs:
           # Replace this with the command to generate your wiki content
           python ./generate_wiki.py
 
-      - name: Checkout wiki code
-        uses: actions/checkout@v3
-        with:
-          repository: ${{github.repository}}.wiki
-          path: generated_wiki
-
       - name: Commit and push to wiki
+        env:
+          WIKI_TOKEN: ${{ secrets.WIKI_TOKEN }}
         run: |
-          cd generated_wiki
           git config --global user.name "JogFeelingVI"
           git config --global user.email "lifelse@outlook.com"
+          git clone https://x-access-token:${WIKI_TOKEN}@github.com/${{ github.repository }}.wiki.git wiki
+          cp -r generated_wiki/* wiki/
+          cd wiki
+          ls ./
           echo ${{ github.repository }}
           git add .
           git commit -m "Update wiki content (automated)"
