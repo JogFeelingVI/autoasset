@@ -1,7 +1,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-15 20:24:07
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-18 06:56:53
+# @Last Modified time: 2023-05-26 08:59:31
 name: Update asset.json
 on:
   schedule:
@@ -21,7 +21,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
-          python-version: "3.x"
+          python-version: "3.11"
 
       - name: Install dependencies
         run: |

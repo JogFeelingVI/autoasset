@@ -11,16 +11,18 @@ import random, re, itertools
 from collections import Counter
 from typing import List
 
-class  splitqueue:
+
+class splitqueue:
+
     @staticmethod
-    def queuestr(n:int = 4, gsize:int=5) -> str:
+    def queuestr(n: int = 4, gsize: int = 5) -> str:
         '''
             gsize group size = 5 
             n gsize * n
         '''
-        block = ['■'* gsize] * n
+        block = ['■' * gsize] * n
         return '□'.join(block)
-        
+
 
 class Note:
 
@@ -54,6 +56,7 @@ class filterN:
 
     def __init__(self, referto: Note) -> None:
         self.rego = Path('rego')
+        print(self.rego.stat().st_ctime)
         if self.rego.exists():
             self.init = True
             self.load_rego()
