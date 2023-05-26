@@ -1,7 +1,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-26 08:56:59
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-26 16:27:39
+# @Last Modified time: 2023-05-26 16:29:16
 name: Update Wiki
 
 on:
@@ -33,7 +33,7 @@ jobs:
       - name: Generate wiki content
         run: |
           # Replace this with the command to generate your wiki content
-          python generate_wiki.py
+          python ./generate_wiki.py
 
       - name: Commit and push to wiki
         run: |
