@@ -2,13 +2,13 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-15 20:22:04
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-21 21:59:51
+# @Last Modified time: 2023-05-26 17:18:37
 from operator import ge
 from pickletools import markobject
 import re, json
 from datetime import datetime as dtime
 from typing import List
-from Codex import gethtml, pathliab, glns
+from Codex import gethtml, pathliab, glns, md
 
 
 class assetx:
@@ -76,7 +76,7 @@ class assetx:
         r = self.Lix['R'][:6]
         b = self.Lix['B'][0]
         r_str = ' '.join([f'{x:02}' for x in r])
-        return f'*{r_str} / {b:02}*'
+        return md.markdown.ltalic(f'{r_str} / {b}')
 
     def groupBysix(self) -> List[str]:
         data = self.Lix.get('R', [])
@@ -99,28 +99,31 @@ class assetx:
         try:
             if self.error:
                 return
+            _mdf = md.markdown()
             markdown = []
             readme_md = pathliab.ospath.file_path('./README.md')
             if readme_md == '':
                 return
-            markdown.append('## Auto update asasset.json')
-            markdown.append(f' - update {self.Lix.get("date", "None")}')
-            markdown.append(f' - Black box number {self.shownumber()}')
+            markdown.append(_mdf.title('Auto update asasset.json', 2))
+            markdown.append(
+                _mdf.unordered_list(f'update {self.Lix.get("date", "None")}'))
+            markdown.append(
+                _mdf.unordered_list(f'Black box number {self.shownumber()}'))
             matrix = self.groupBysix()
-            markdown.append('#### Sequence graphics')
+            markdown.append(_mdf.title('Sequence graphics', 4))
             for i, row in enumerate(matrix):
-                markdown.append(f' - Row {i+1:02} {row}')
+                markdown.append(_mdf.unordered_list(f'{i+1:02}: {row}'))
             # markdown.append('#### Red ball list')
             # markdown.append(f'{self.listTostr(self.Lix.get("R", []))}')
             # markdown.append('#### Blue ball list')
             # markdown.append(f'{self.listTostr(self.Lix.get("B", []))}')
-            markdown.append('## Creativity list')
+            markdown.append(_mdf.title('Creativity list', 2))
             glnsN = glns.glnsMpls(self.Lix)
             for x in glns.splitqueue.queuestr():
                 if x == '□':
-                    markdown.append('---')
+                    markdown.append(_mdf.Dividing_line())
                 elif x == '■':
-                    markdown.append(f'- [x] {glnsN.creativity()}')
+                    markdown.append(_mdf.plan(f'{glnsN.creativity()}', 'x'))
             readme_path = pathliab.Path(readme_md)
             with readme_path.open(mode='w') as wMd:
                 for line in markdown:
