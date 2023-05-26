@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-26 09:00:55
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-26 10:17:26
+# @Last Modified time: 2023-05-26 10:24:36
 
 import pathlib as plib
 
@@ -81,10 +81,14 @@ class markdown:
 def main():
     _wiki = plib.Path('./generated_wiki')
     if _wiki.exists():
-        _md = markdown()
-        fre_md = _wiki / 'frequency.md'
-        with fre_md.open(mode='w', encoding='utf-8') as fre:
-            fre.write(_md.plan('hello word~', 'x'))
+        print('generated_wiki is exists')
+    else:
+        _wiki.mkdir()
+        print('generated_wiki is not exists')
+    _md = markdown()
+    fre_md = _wiki / 'frequency.md'
+    with fre_md.open(mode='w', encoding='utf-8') as fre:
+        fre.write(_md.plan('hello word~', 'x'))
 
 
 if __name__ == "__main__":
