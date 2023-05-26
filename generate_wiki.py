@@ -2,9 +2,10 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-26 09:00:55
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-26 10:24:36
+# @Last Modified time: 2023-05-26 15:45:44
 
 import pathlib as plib
+from types import MethodType
 
 
 class markdown:
@@ -24,6 +25,18 @@ class markdown:
         ''' link '''
         format_link = '[{t}}]({l}})'
         return format_link.format(a=text, l=link)
+
+    @staticmethod
+    def actualUrl(url: str) -> str:
+        ''' actual <URL> '''
+        formart_actual = '<{url}>'
+        return formart_actual.format(url=url)
+
+    @staticmethod
+    def image(text: str, link: str) -> str:
+        ''' image '''
+        format_image = '![{t}}]({l})'
+        return format_image.format(a=text, l=link)
 
     @staticmethod
     def bold(text: str) -> str:
@@ -78,17 +91,44 @@ class markdown:
         return plan_format.format(t=text, s=st)
 
 
+class wikigo:
+    __wiki_init = False
+    __wiki = None
+    __run_work = {}
+
+    def __init__(self) -> None:
+        _wiki = plib.Path('./generated_wiki')
+        if _wiki.exists() == False:
+            _wiki.mkdir()
+        self.__wiki = _wiki
+        self.__wiki_init = True
+        self.__md = markdown()
+        self.__run_work.update({
+            'frequency': self.__frequency,
+            '2': 'glns',
+        })
+
+    def __frequency(self):
+        if self.__wiki is not None and self.__wiki_init:
+            fre_md = self.__wiki / 'frequency.md'
+            with fre_md.open(mode='w', encoding='utf-8') as fre:
+                fre.write(self.__md.plan('hello word~', 'x'))
+
+    def run_work(self):
+        for k, lab in self.__run_work.items():
+            print(f'work {k} runing... {type(lab)}')
+
+            if isinstance(lab, MethodType):
+                lab()
+            elif isinstance(lab, str):
+                print(f'Echo {lab}')
+            else:
+                print('unhandled type')
+
+
 def main():
-    _wiki = plib.Path('./generated_wiki')
-    if _wiki.exists():
-        print('generated_wiki is exists')
-    else:
-        _wiki.mkdir()
-        print('generated_wiki is not exists')
-    _md = markdown()
-    fre_md = _wiki / 'frequency.md'
-    with fre_md.open(mode='w', encoding='utf-8') as fre:
-        fre.write(_md.plan('hello word~', 'x'))
+    _wiki = wikigo()
+    _wiki.run_work()
 
 
 if __name__ == "__main__":
