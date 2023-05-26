@@ -1,7 +1,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-26 08:56:59
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-26 16:29:16
+# @Last Modified time: 2023-05-26 16:34:17
 name: Update Wiki
 
 on:
@@ -16,9 +16,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          repository: ${{github.repository}}.wiki
-          path: generated_wiki
 
       - name: Set up Python
         uses: actions/setup-python@v3
@@ -34,6 +31,12 @@ jobs:
         run: |
           # Replace this with the command to generate your wiki content
           python ./generate_wiki.py
+
+      - name: Checkout wiki code
+        uses: actions/checkout@v3
+        with:
+          repository: ${{github.repository}}.wiki
+          path: generated_wiki
 
       - name: Commit and push to wiki
         run: |
