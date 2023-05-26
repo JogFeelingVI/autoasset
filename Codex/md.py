@@ -2,11 +2,17 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-26 17:03:21
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-26 17:04:54
+# @Last Modified time: 2023-05-26 22:58:35
+
+from datetime import datetime as dtime
 
 
 class markdown:
     '''markdown'''
+
+    @staticmethod
+    def time() -> str:
+        return f'* Last Modified _`{dtime.now()}`_'
 
     @staticmethod
     def title(T: str, L: int = 1) -> str:
@@ -14,7 +20,7 @@ class markdown:
         # TITLE
         '''
         flg = '#' * L
-        t_str = f'{T}'
+        t_str = f'{T}\n'
         return f'{flg} {t_str}'
 
     @staticmethod
@@ -56,25 +62,25 @@ class markdown:
     @staticmethod
     def unordered_list(text: str) -> str:
         ''' code '''
-        unordered_list = '* {t}'
+        unordered_list = '* {t}\n'
         return unordered_list.format(t=text)
 
     @staticmethod
     def ordered_list(text: str, sn: int = 1) -> str:
         ''' code '''
-        ordered_list = '{s}. {t}'
+        ordered_list = '{s}. {t}\n'
         return ordered_list.format(t=text, s=sn)
 
     @staticmethod
     def blockquote(text: str) -> str:
         ''' blockquote > TEXT'''
-        blockquote = '> {t}'
+        blockquote = '> {t}\n'
         return blockquote.format(t=text)
 
     @staticmethod
     def Dividing_line() -> str:
         ''' *** '''
-        Dividing_line = '***'
+        Dividing_line = '***\n'
         return Dividing_line
 
     @staticmethod
@@ -83,6 +89,6 @@ class markdown:
         plan - [x] plan a
         stat un / x
         '''
-        plan_format = '- [{s}] {t}'
+        plan_format = '- [{s}] {t}\n'
         st = [' ', 'x'][stat in 'xdc1']
         return plan_format.format(t=text, s=st)

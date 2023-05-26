@@ -2,13 +2,13 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-15 20:22:04
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-26 17:18:37
+# @Last Modified time: 2023-05-26 21:48:25
 from operator import ge
 from pickletools import markobject
 import re, json
 from datetime import datetime as dtime
 from typing import List
-from Codex import gethtml, pathliab, glns, md
+from Codex import gethtml, pathliab, glns, md, datav
 
 
 class assetx:
@@ -61,45 +61,12 @@ class assetx:
             print(f'error: {e}')
             self.error = True
 
-    @staticmethod
-    def listTostr(lis: list) -> str:
-        prompt = '■'
-        if lis.__len__() == 0:
-            return 'No Numbers'
-        temp_lis = [[i, lis.count(i)] for i in set(lis)]
-        temp_sort = sorted(temp_lis, key=lambda x: x[1], reverse=True)
-        temp: str = '\n'.join(
-            [f' - {n:>02} Count {c:>2} {prompt * c}' for n, c in temp_sort])
-        return temp
-
-    def shownumber(self) -> str:
-        r = self.Lix['R'][:6]
-        b = self.Lix['B'][0]
-        r_str = ' '.join([f'{x:02}' for x in r])
-        return md.markdown.ltalic(f'{r_str} / {b}')
-
-    def groupBysix(self) -> List[str]:
-        data = self.Lix.get('R', [])
-        groups = [data[i:i + 6] for i in range(0, len(data), 6)]
-        groups = groups[::-1]
-        matrix = []
-
-        for i in range(1, 34):
-            row = ''
-            for g in groups:
-                if i in g:
-                    row += '■'
-                else:
-                    row += '□'
-            matrix.append(row)
-
-        return matrix
-
     def tomd(self):
         try:
             if self.error:
                 return
             _mdf = md.markdown()
+            _datav = datav.data_visualization(self.Lix)
             markdown = []
             readme_md = pathliab.ospath.file_path('./README.md')
             if readme_md == '':
@@ -108,8 +75,10 @@ class assetx:
             markdown.append(
                 _mdf.unordered_list(f'update {self.Lix.get("date", "None")}'))
             markdown.append(
-                _mdf.unordered_list(f'Black box number {self.shownumber()}'))
-            matrix = self.groupBysix()
+                _mdf.unordered_list(
+                    f'Black box number {_mdf.ltalic(_datav.showlastnumber())}')
+            )
+            matrix = _datav.groupBysix()
             markdown.append(_mdf.title('Sequence graphics', 4))
             for i, row in enumerate(matrix):
                 markdown.append(_mdf.unordered_list(f'{i+1:02}: {row}'))
