@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-26 09:00:55
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-27 07:47:28
+# @Last Modified time: 2023-05-27 16:08:48
 
 import pathlib as plib
 from types import MethodType
@@ -23,9 +23,24 @@ class wikigo:
         self.__md = md.markdown()
         self.__datav = datav.data_visualization(datav.LoadJson().toLix)
         self.__run_work.update({
-            'frequency': self.__frequency,
-            '2': 'glns',
+            'frequency':
+            self.__frequency,
+            'Comprehensive chart':
+            self.__Comprehensive_chart,
         })
+
+    def __Comprehensive_chart(self) -> None:
+        if self.__wiki is not None and self.__wiki_init:
+            fre_md = self.__wiki / 'Comprehensive_chart.md'
+            with fre_md.open(mode='w', encoding='utf-8') as fre:
+                for key in 'RB':
+                    fre.write(
+                        self.__md.title(f'Comprehensive chart for {key}\n'))
+                    matrix = self.__datav.Comprehensive_chart(key=key)
+                    for line in matrix:
+                        fre.write(self.__md.title(f'{line}\n', 5))
+                    fre.write(f'{self.__md.Dividing_line()}\n')
+                fre.write(f'{self.__md.time()}\n')
 
     def __frequency(self):
         if self.__wiki is not None and self.__wiki_init:

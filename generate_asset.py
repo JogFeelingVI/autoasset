@@ -82,10 +82,6 @@ class assetx:
             markdown.append(_mdf.title('Sequence graphics', 4))
             for i, row in enumerate(matrix):
                 markdown.append(_mdf.unordered_list(f'{i+1:02}: {row}'))
-            # markdown.append('#### Red ball list')
-            # markdown.append(f'{self.listTostr(self.Lix.get("R", []))}')
-            # markdown.append('#### Blue ball list')
-            # markdown.append(f'{self.listTostr(self.Lix.get("B", []))}')
             markdown.append(_mdf.title('Creativity list', 2))
             glnsN = glns.glnsMpls(self.Lix)
             for x in glns.splitqueue.queuestr():

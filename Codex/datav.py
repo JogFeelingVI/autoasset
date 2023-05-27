@@ -1,7 +1,7 @@
 # @Author: JogFeelingVi
 # @Date: 2023-05-26 18:16:42
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-26 22:40:24
+# @Last Modified time: 2023-05-27 15:55:30
 import pathlib, json
 from typing import List
 from collections import Counter
@@ -36,6 +36,30 @@ class data_visualization:
         b = self.Lix['B'][0]
         r_str = ' '.join([f'{x:02}' for x in r])
         return f'{r_str} / {b:02}'
+
+    def Comprehensive_chart(self, key: str) -> List[str]:
+        matrix = []
+        if key in 'RB':
+            data = self.Lix.get(key, [])
+            if key == 'R':
+                columes = [x for x in range(1, 34)]
+                groups = [data[i:i + 6] for i in range(0, len(data), 6)]
+            else:
+                columes = [x for x in range(1, 17)]
+                groups = [data[i:i + 1] for i in range(0, len(data), 1)]
+            groups = groups[::-1]
+            for row in groups:
+                s_row = ''
+                for colume in columes:
+                    if colume in row:
+                        s_row += f'[{colume:>02}]'
+                    else:
+                        s_row += '----'
+                matrix.append(s_row)
+                s_row = ''
+
+            print(matrix)
+        return matrix
 
     def groupBysix(self) -> List[str]:
         data = self.Lix.get('R', [])
@@ -86,4 +110,4 @@ class LoadJson:
 if __name__ == '__main__':
     ljson = LoadJson()
     datav = data_visualization(ljson.toLix)
-    print(datav.frequency('R'))
+    print(datav.Comprehensive_chart('R'))
