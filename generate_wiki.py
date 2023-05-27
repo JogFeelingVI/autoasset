@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-26 09:00:55
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-27 16:08:48
+# @Last Modified time: 2023-05-27 16:23:10
 
 import pathlib as plib
 from types import MethodType
@@ -38,7 +38,7 @@ class wikigo:
                         self.__md.title(f'Comprehensive chart for {key}\n'))
                     matrix = self.__datav.Comprehensive_chart(key=key)
                     for line in matrix:
-                        fre.write(self.__md.title(f'{line}\n', 5))
+                        fre.write(f'{line}\n')
                     fre.write(f'{self.__md.Dividing_line()}\n')
                 fre.write(f'{self.__md.time()}\n')
 

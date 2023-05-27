@@ -1,7 +1,7 @@
 # @Author: JogFeelingVi
 # @Date: 2023-05-26 18:16:42
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-27 15:55:30
+# @Last Modified time: 2023-05-27 16:20:54
 import pathlib, json
 from typing import List
 from collections import Counter
@@ -47,16 +47,25 @@ class data_visualization:
             else:
                 columes = [x for x in range(1, 17)]
                 groups = [data[i:i + 1] for i in range(0, len(data), 1)]
+
+            header = "|"
+            separator = "|"
+            for i in columes:
+                header += f" {i} |"
+                separator += ":-:|"
+            matrix.append(header)
+            matrix.append(separator)
+
             groups = groups[::-1]
             for row in groups:
-                s_row = ''
+                s_row = '|'
                 for colume in columes:
                     if colume in row:
-                        s_row += f'[{colume:>02}]'
+                        s_row += f'{colume:>02}|'
                     else:
-                        s_row += '----'
+                        s_row += '--|'
                 matrix.append(s_row)
-                s_row = ''
+                s_row = '|'
 
             print(matrix)
         return matrix
