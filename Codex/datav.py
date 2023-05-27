@@ -25,9 +25,6 @@ class data_visualization:
                 matrix.append('No Numbers')
             temp_lis = Counter(lis)
             temp_sort = temp_lis.most_common()
-            temp: str = '\n'.join([
-                f' - {n:>02} Count {c:>2} {prompt * c}' for n, c in temp_sort
-            ])
             for n, c in temp_sort:
                 matrix.append(f'{n:>02} Count {c:>2} {prompt * c}')
         else:
@@ -38,7 +35,7 @@ class data_visualization:
         r = self.Lix['R'][:6]
         b = self.Lix['B'][0]
         r_str = ' '.join([f'{x:02}' for x in r])
-        return f'{r_str} / {b}'
+        return f'{r_str} / {b:02}'
 
     def groupBysix(self) -> List[str]:
         data = self.Lix.get('R', [])

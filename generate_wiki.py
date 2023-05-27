@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-26 09:00:55
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-26 23:00:15
+# @Last Modified time: 2023-05-27 07:47:28
 
 import pathlib as plib
 from types import MethodType
@@ -32,12 +32,17 @@ class wikigo:
             fre_md = self.__wiki / 'frequency.md'
             with fre_md.open(mode='w', encoding='utf-8') as fre:
                 for key in 'RB':
-                    fre.write(self.__md.title(f'Frequency for {key}'))
+                    fre.write(self.__md.title(f'Frequency for {key}\n'))
                     matrix = self.__datav.frequency(key=key)
+                    sr, sb = self.__datav.showlastnumber().split('/')
+                    keymap = [sr, sb][key == 'B']
                     for line in matrix:
-                        fre.write(self.__md.plan(line, 'x'))
-                    fre.write(self.__md.Dividing_line())
-                    fre.write(self.__md.time())
+                        if line[:2] in keymap:
+                            fre.write(self.__md.plan(f'{line}\n', '1'))
+                        else:
+                            fre.write(self.__md.plan(f'{line}\n', '0'))
+                    fre.write(f'{self.__md.Dividing_line()}\n')
+                fre.write(f'{self.__md.time()}\n')
 
     def run_work(self):
         for k, lab in self.__run_work.items():

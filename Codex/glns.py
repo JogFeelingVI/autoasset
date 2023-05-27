@@ -85,7 +85,7 @@ class filterN:
             Rex.append([False, True][diff.count(1) >= 1
                                      and diff.count(2) >= 1])
 
-        if Rex.count(True) == self.fixrb.__len__():
+        if Rex.count(True) == Rex.__len__():
             return True
         else:
             return False
