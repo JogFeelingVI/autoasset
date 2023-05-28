@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-16 22:12:41
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-21 22:47:08
+# @Last Modified time: 2023-05-28 10:23:35
 
 from array import ArrayType
 from multiprocessing.heap import rebuild_arena
@@ -10,6 +10,7 @@ from pathlib import Path
 import random, re, itertools
 from collections import Counter
 from typing import List
+from Codex import datav
 
 
 class splitqueue:
@@ -54,7 +55,7 @@ class filterN:
     referto = None
     fixrb = {}
 
-    def __init__(self, referto: Note) -> None:
+    def __init__(self, referto: Note, lvc: dict) -> None:
         self.rego = Path('rego')
         print(self.rego.stat().st_ctime)
         if self.rego.exists():
@@ -62,6 +63,7 @@ class filterN:
             self.load_rego()
             if referto is not None:
                 self.referto = referto
+            self.lvc = lvc
 
     def verify(self, N: Note) -> bool:
         Rex = []
@@ -79,11 +81,12 @@ class filterN:
 
         if self.referto is not None:
             diff = [
-                abs(a - b)
-                for a, b in itertools.product(N.number, self.referto.number)
+                abs(a - b) for a, b in itertools.product(N.number, N.number)
             ]
             Rex.append([False, True][diff.count(1) >= 1
                                      and diff.count(2) >= 1])
+
+            Rex.append(self.verify_Three_categories(self.referto.number))
 
         if Rex.count(True) == Rex.__len__():
             return True
@@ -118,6 +121,20 @@ class filterN:
         numx = [int(x) for x in _nums.findall(match)]
         self.fixrb.update({'+': numx})
 
+    def verify_Three_categories(self, number: List) -> bool:
+        bools = False
+        level1_elements = [item[0] for item in self.lvc.get('lv1', [])]
+        level2_elements = [item[0] for item in self.lvc.get('lv2', [])]
+        level3_elements = [item[0] for item in self.lvc.get('lv3', [])]
+        # 检查号码中是否包含每个等级的元素
+        contains_level1 = any(element in number for element in level1_elements)
+        contains_level2 = any(element in number for element in level2_elements)
+        contains_level3 = any(element in number for element in level3_elements)
+        if contains_level1 and contains_level2 and contains_level3:
+            bools = True
+
+        return bools
+
 
 class glnsMpls:
     '''glns mpls'''
@@ -140,7 +157,10 @@ class glnsMpls:
         fix_b = [x for x in range(1, 17) if x not in self.B]
         self.B.extend(fix_b)
 
-        self.filter = filterN(referto=Note(self.groupby[0], self.B[0]))
+        self._datav = datav.data_visualization(Lix=lix)
+
+        self.filter = filterN(referto=Note(self.groupby[0], self.B[0]),
+                              lvc=self._datav.Three_categories())
 
     @staticmethod
     def CounterRB(rb: List[int], L: int) -> List[int]:

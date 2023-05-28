@@ -1,7 +1,7 @@
 # @Author: JogFeelingVi
 # @Date: 2023-05-26 18:16:42
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-27 16:20:54
+# @Last Modified time: 2023-05-28 08:28:20
 import pathlib, json
 from typing import List
 from collections import Counter
@@ -15,6 +15,20 @@ class data_visualization:
     def __init__(self, Lix: dict) -> None:
         if LoadJson.verify(Lix=Lix):
             self.Lix = Lix
+            self.Three_categories()
+
+    def Three_categories(self) -> dict:
+        counter = Counter(self.Lix.get('R', []))
+        counter_list = list(counter.items())
+        # 按频率对列表进行排序
+        counter_list.sort(key=lambda x: x[1])
+        # 计算每个等级的元素数量
+        level_size = len(counter_list) // 3
+        # 将列表分成三个等级
+        level1 = counter_list[:level_size]
+        level2 = counter_list[level_size:level_size * 2]
+        level3 = counter_list[level_size * 2:]
+        return {'lv1': level1, 'lv2': level2, 'lv3': level3}
 
     def frequency(self, key: str) -> List[str]:
         matrix = []
@@ -66,8 +80,6 @@ class data_visualization:
                         s_row += '--|'
                 matrix.append(s_row)
                 s_row = '|'
-
-            print(matrix)
         return matrix
 
     def groupBysix(self) -> List[str]:
