@@ -84,7 +84,7 @@ class assetx:
                 markdown.append(_mdf.unordered_list(f'{i+1:02}: {row}'))
             markdown.append(_mdf.title('Creativity list', 2))
             glnsN = glns.glnsMpls(self.Lix)
-            for x in glns.splitqueue.queuestr():
+            for x in glns.splitqueue.queuestr(n=10):
                 if x == '□':
                     markdown.append(_mdf.Dividing_line())
                 elif x == '■':
