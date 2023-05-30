@@ -45,8 +45,8 @@ class assetx:
             if html_content != '':
                 Rx, Bx = self.anyishtml(html_content)
                 self.Lix = {
-                    'R': [int(x) for r in Rx for x in r.split(',')],
-                    'B': [int(x) for x in Bx],
+                    'R': [int(x, base=10) for r in Rx for x in r.split(',')],
+                    'B': [int(x, base=10) for x in Bx],
                     'date': dtime.now().__str__()
                 }
 

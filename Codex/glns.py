@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-16 22:12:41
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-28 10:23:35
+# @Last Modified time: 2023-05-30 22:26:35
 
 from array import ArrayType
 from multiprocessing.heap import rebuild_arena
@@ -46,8 +46,7 @@ class Note:
         rxbool = []
         for k, v in self.__vers.items():
             rxbool.extend([v(x) for x in [self.number, self.tiebie]])
-        rxbool = set(rxbool)
-        return [True, False][rxbool.__len__() == 2]
+        return [False, True][rxbool.count(True) == 2]
 
 
 class filterN:
@@ -83,8 +82,7 @@ class filterN:
             diff = [
                 abs(a - b) for a, b in itertools.product(N.number, N.number)
             ]
-            Rex.append([False, True][diff.count(1) >= 1
-                                     and diff.count(2) >= 1])
+            Rex.append([False, True][diff.count(1) in [0, 1, 2]])
 
             Rex.append(self.verify_Three_categories(self.referto.number))
 
@@ -112,7 +110,7 @@ class filterN:
         _nums = re.compile('[0-9]{1,2}')
         _fixw = re.compile('(R|B)$')
         pfix = _fixw.findall(match)
-        numx = [int(x) for x in _nums.findall(match)]
+        numx = [int(x, base=10) for x in _nums.findall(match)]
         for p in pfix:
             self.fixrb.update({p: numx})
 
@@ -120,8 +118,8 @@ class filterN:
         _nums = re.compile('[0-9]{1,2}')
         numx = [int(x) for x in _nums.findall(match)]
         self.fixrb.update({'+': numx})
-        
-    def consecutive(self, N:List[int]) -> bool:
+
+    def consecutive(self, N: List[int]) -> bool:
         bools = False
         count = 0
         for i in range(len(N) - 1):
@@ -182,7 +180,7 @@ class glnsMpls:
     @staticmethod
     def CounterRB(rb: List[int], L: int) -> List[int]:
         counter = Counter(rb)
-        total = sum(counter.values())
+        total = max(counter.values())
         inverse_freq = {k: total - v for k, v in counter.items()}
         weights = list(inverse_freq.values())
         number_pool = list(inverse_freq.keys())
@@ -194,10 +192,11 @@ class glnsMpls:
             r = self.CounterRB(self.R, self._rlen)
             b = self.CounterRB(self.B, self._blen)
             n = Note(r, b)
-            f = self.filter.verify(N=n)
-            cons = self.filter.consecutive(N=n.number)
-            if n.verify() and self.maxjac(N=n) < 0.34 and f and cons:
-                return n
+            if n.verify():
+                f = self.filter.verify(N=n)
+                cons = self.filter.consecutive(N=r)
+                if self.maxjac(N=n) < 0.34 and f and cons:
+                    return n
 
     def maxjac(self, N: Note) -> float:
         g = [self.jaccard(x, N.number) for x in self.groupby]
