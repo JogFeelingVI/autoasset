@@ -120,6 +120,23 @@ class filterN:
         _nums = re.compile('[0-9]{1,2}')
         numx = [int(x) for x in _nums.findall(match)]
         self.fixrb.update({'+': numx})
+        
+    def consecutive(self, N:List[int]) -> bool:
+        bools = False
+        count = 0
+        for i in range(len(N) - 1):
+            _n = N[i]
+            _n1 = _n + 1
+            while True:
+                if _n1 in N:
+                    count += 1
+                    _n1 += 1
+                else:
+                    break
+        #print(count)
+        if count in [0, 1, 2]:
+            bools = True
+        return bools
 
     def verify_Three_categories(self, number: List) -> bool:
         bools = False
@@ -178,7 +195,8 @@ class glnsMpls:
             b = self.CounterRB(self.B, self._blen)
             n = Note(r, b)
             f = self.filter.verify(N=n)
-            if n.verify() and self.maxjac(N=n) < 0.34 and f:
+            cons = self.filter.consecutive(N=n.number)
+            if n.verify() and self.maxjac(N=n) < 0.34 and f and cons:
                 return n
 
     def maxjac(self, N: Note) -> float:
