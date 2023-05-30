@@ -5,9 +5,7 @@
 name: Update Wiki
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch
 
 jobs:
   update_wiki:
