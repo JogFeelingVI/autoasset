@@ -28,6 +28,6 @@ jobs:
         git config --global user.email lifelse@outlook.com
         git config --global user.name JogFeelingVI
         git add .
-        git commit -m "update" -a
+        git commit -m "update plns" -a
         git push
         
