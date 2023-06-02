@@ -121,6 +121,7 @@ class LoadJson:
                 Lix = json.load(jsfile)
                 if self.verify(Lix=Lix):
                     self.toLix = Lix
+                
 
     @staticmethod
     def verify(Lix: dict) -> bool:

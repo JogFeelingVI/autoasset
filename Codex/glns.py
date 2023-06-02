@@ -56,7 +56,7 @@ class filterN:
 
     def __init__(self, referto: Note, lvc: dict) -> None:
         self.rego = Path('rego')
-        print(self.rego.stat().st_ctime)
+        #print(self.rego.stat().st_ctime)
         if self.rego.exists():
             self.init = True
             self.load_rego()
