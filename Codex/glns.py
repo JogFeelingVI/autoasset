@@ -91,7 +91,7 @@ class filterN:
                 ]
                 Rex.append([False, True][diff.count(1) in [0, 1, 2]])
 
-                Rex.append(self.verify_Three_categories(self.referto.number))
+                Rex.append(self.verify_Three_categories(N.number))
                 
         if False in Rex:
             return False
