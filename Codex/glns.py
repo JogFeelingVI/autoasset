@@ -34,8 +34,12 @@ class Note:
         self.tiebie = [T, [T]][isinstance(T, int)]
 
     @property
-    def setnumber(self):
+    def setnumber_R(self):
         return set(self.number)
+    
+    @property
+    def setnumber_B(self):
+        return set(self.tiebie)
 
     def __str__(self) -> str:
         n = ' '.join([f'{num:02d}' for num in self.number])
@@ -69,27 +73,31 @@ class filterN:
         if self.init == False:
             return True
         if 'R' in self.fixrb.keys():
-            intersection = N.setnumber.intersection(set(self.fixrb['R']))
+            intersection = N.setnumber_R.intersection(set(self.fixrb['R']))
             Rex.append([False, True][intersection.__len__() == 0])
         if 'B' in self.fixrb.keys():
-            intersection = N.setnumber.intersection(set(self.fixrb['B']))
+            intersection = N.setnumber_B.intersection(set(self.fixrb['B']))
             Rex.append([False, True][intersection.__len__() == 0])
         if '+' in self.fixrb.keys():
-            intersection = N.setnumber.intersection(set(self.fixrb['+']))
+            intersection = N.setnumber_R.intersection(set(self.fixrb['+']))
             Rex.append([False, True][intersection.__len__() > 0])
-
-        if self.referto is not None:
-            diff = [
-                abs(a - b) for a, b in itertools.product(N.number, N.number)
-            ]
-            Rex.append([False, True][diff.count(1) in [0, 1, 2]])
-
-            Rex.append(self.verify_Three_categories(self.referto.number))
-
-        if Rex.count(True) == Rex.__len__():
-            return True
-        else:
+            
+        if False in Rex:
             return False
+        else:
+            if self.referto is not None:
+                diff = [
+                    abs(a - b) for a, b in itertools.product(N.number, N.number)
+                ]
+                Rex.append([False, True][diff.count(1) in [0, 1, 2]])
+
+                Rex.append(self.verify_Three_categories(self.referto.number))
+                
+        if False in Rex:
+            return False
+        else:
+            return True
+
 
     def load_rego(self):
         _huanhang = re.compile(r'\\n')
@@ -156,6 +164,7 @@ class glnsMpls:
 
     _rlen = 6
     _blen = 1
+    _deep = 10000 * 1
 
     @property
     def rLan(self) -> int:
@@ -188,15 +197,19 @@ class glnsMpls:
         return result
 
     def creativity(self) -> Note:
+        Count = 0
         while True:
             r = self.CounterRB(self.R, self._rlen)
             b = self.CounterRB(self.B, self._blen)
             n = Note(r, b)
+            Count += 1
+            if Count >= self._deep:
+                return Note([1, 2, 3, 4, 5, 6], [7])
             if n.verify():
-                f = self.filter.verify(N=n)
-                cons = self.filter.consecutive(N=r)
-                if self.maxjac(N=n) < 0.34 and f and cons:
-                    return n
+                if self.filter.verify(N=n):
+                    if self.filter.consecutive(N=r):
+                        if self.maxjac(N=n) < 0.34:
+                            return n
 
     def maxjac(self, N: Note) -> float:
         g = [self.jaccard(x, N.number) for x in self.groupby]
