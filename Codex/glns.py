@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-16 22:12:41
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-30 22:26:35
+# @Last Modified time: 2023-08-01 21:43:55
 
 from array import ArrayType
 from multiprocessing.heap import rebuild_arena
@@ -34,9 +34,17 @@ class Note:
         self.tiebie = [T, [T]][isinstance(T, int)]
 
     @property
+    def R(self):
+        return self.number
+
+    @property
+    def B(self):
+        return self.tiebie
+
+    @property
     def setnumber_R(self):
         return set(self.number)
-    
+
     @property
     def setnumber_B(self):
         return set(self.tiebie)
@@ -72,38 +80,51 @@ class filterN:
         Rex = []
         if self.init == False:
             return True
-        if 'R' in self.fixrb.keys():
+        keysrb = self.fixrb.keys()
+        if 'R' in keysrb:
             intersection = N.setnumber_R.intersection(set(self.fixrb['R']))
             Rex.append([False, True][intersection.__len__() == 0])
-        if 'B' in self.fixrb.keys():
+        if 'B' in keysrb:
             intersection = N.setnumber_B.intersection(set(self.fixrb['B']))
             Rex.append([False, True][intersection.__len__() == 0])
-        if '+' in self.fixrb.keys():
+        if '+' in keysrb:
             intersection = N.setnumber_R.intersection(set(self.fixrb['+']))
             Rex.append([False, True][intersection.__len__() > 0])
-            
+        if 'bit' in keysrb:
+            bit_number = dict(self.fixrb['bit'])
+            for bit, number in bit_number.items():
+                bit = int(bit)
+                Nbit = {0}
+                if bit in [6, 1, 2, 3, 4, 5]:
+                    Nbit = {N.number[bit - 1]}
+                if bit in [7]:
+                    Nbit = N.setnumber_B
+                intersection = Nbit.intersection(set(number))
+                Rex.append([False, True][intersection.__len__() > 0])
+
         if False in Rex:
             return False
         else:
             if self.referto is not None:
                 diff = [
-                    abs(a - b) for a, b in itertools.product(N.number, N.number)
+                    abs(a - b)
+                    for a, b in itertools.product(N.number, N.number)
                 ]
                 Rex.append([False, True][diff.count(1) in [0, 1, 2]])
 
                 Rex.append(self.verify_Three_categories(N.number))
-                
+
         if False in Rex:
             return False
         else:
             return True
-
 
     def load_rego(self):
         _huanhang = re.compile(r'\\n')
         _zs = re.compile(r'^#.*')
         _bh = re.compile(r'^\+([ 0-9]+)$')
         _pc = re.compile(r'^-([ 0-9]+)as [R|B]$')
+        _bit = re.compile(r'^\+([ 0-9]+)@bit[1-7]$')
         with self.rego.open(mode='r', encoding='utf-8') as go:
             reglins = go.readlines()
             for linx in reglins:
@@ -113,6 +134,17 @@ class filterN:
                         self.__fix_rb(remac.string)
                     if (remac := _bh.match(tmp_huan)) != None:
                         self.__fix_bh(remac.string)
+                    if (remac := _bit.match(tmp_huan)) != None:
+                        self.__fix_bit(remac.string)
+
+    def __fix_bit(self, match: str) -> None:
+        _nums = re.compile(r'\s([0-9]{1,2})')
+        _fixw = re.compile(r'@bit([1-7])$')
+        pfix = _fixw.findall(match)
+        numx = [int(x, base=10) for x in _nums.findall(match)]
+        bit_dict = dict(self.fixrb.get('bit', {}))
+        bit_dict.update({f'{pfix[0]}': numx})
+        self.fixrb.update({'bit': bit_dict})
 
     def __fix_rb(self, match: str):
         _nums = re.compile('[0-9]{1,2}')
