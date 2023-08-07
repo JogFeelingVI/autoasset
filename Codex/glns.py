@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-16 22:12:41
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-08-01 21:43:55
+# @Last Modified time: 2023-08-07 17:49:41
 
 from array import ArrayType
 from multiprocessing.heap import rebuild_arena
@@ -33,13 +33,11 @@ class Note:
         self.number = sorted(n)
         self.tiebie = [T, [T]][isinstance(T, int)]
 
-    @property
-    def R(self):
-        return self.number
-
-    @property
-    def B(self):
-        return self.tiebie
+    def filter(self, func) -> None:
+        '''
+        filter jiekou
+        '''
+        self.number = list(filter(func, self.number))
 
     @property
     def setnumber_R(self):
