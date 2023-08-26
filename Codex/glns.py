@@ -97,6 +97,7 @@ class filterN:
                     Nbit = {N.number[bit - 1]}
                 if bit in [7]:
                     Nbit = N.setnumber_B
+                #print(f'bit {bit} num {number} NB {Nbit}')
                 intersection = Nbit.intersection(set(number))
                 Rex.append([False, True][intersection.__len__() > 0])
 
