@@ -27,7 +27,7 @@ class splitqueue:
 
 class Note:
 
-    __vers = {'len': lambda x: len(set(x)) == len(x)}
+    __vers = {'len': lambda x: len(set(x)) == len(x),'notx': lambda x: x != [1, 2, 3, 4, 5, 6]}
 
     def __init__(self, n: List[int], T: List[int] | int) -> None:
         self.number = sorted(n)
@@ -55,8 +55,11 @@ class Note:
     def verify(self) -> bool:
         rxbool = []
         for k, v in self.__vers.items():
-            rxbool.extend([v(x) for x in [self.number, self.tiebie]])
-        return [False, True][rxbool.count(True) == 2]
+            if k in ['len']:
+                rxbool.extend([v(x) for x in [self.number, self.tiebie]])
+            elif k in ['notx']:
+                rxbool.extend([v(self.number)])
+        return [False, True][False not in rxbool]
 
 
 class filterN:
@@ -234,8 +237,8 @@ class glnsMpls:
             b = self.CounterRB(self.B, self._blen)
             n = Note(r, b)
             Count += 1
-            if Count >= self._deep:
-                return Note([1, 2, 3, 4, 5, 6], [7])
+            # if Count >= self._deep:
+            #     return Note([1, 2, 3, 4, 5, 6], [7])
             if n.verify():
                 if self.filter.verify(N=n):
                     if self.filter.consecutive(N=r):
