@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-16 22:12:41
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-08-07 17:49:41
+# @Last Modified time: 2023-09-21 22:29:51
 
 from array import ArrayType
 from multiprocessing.heap import rebuild_arena
@@ -27,7 +27,10 @@ class splitqueue:
 
 class Note:
 
-    __vers = {'len': lambda x: len(set(x)) == len(x),'notx': lambda x: x != [1, 2, 3, 4, 5, 6]}
+    __vers = {
+        'len': lambda x: len(set(x)) == len(x),
+        'notx': lambda x: x != [1, 2, 3, 4, 5, 6]
+    }
 
     def __init__(self, n: List[int], T: List[int] | int) -> None:
         self.number = sorted(n)
@@ -204,21 +207,33 @@ class glnsMpls:
     def rLan(self) -> int:
         return self._rlen
 
-    def __init__(self, lix: dict) -> None:
-        self.R = lix.get('R', [])
-        fix_r = [x for x in range(1, 34) if x not in self.R]
-        self.R.extend(fix_r)
+    @staticmethod
+    def __fixrbs(max: int = 16, n: List[int] = []) -> List[int]:
+        '''
+        修复 R B 中缺失的数字
+        '''
+        max_set = set([x for x in range(1, max + 1)])
+        if max == 16 or max == 33 and n is not None:
+            fix = max_set.difference(set(n))
+            if fix is None:
+                return list(max_set)
+            else:
+                n.extend(list(fix))
+                return n
+        else:
+            return list(max_set)
 
-        self.groupby = [self.R[i:i + 6] for i in range(0, len(self.R), 6)]
-
-        self.B = lix.get('B', [])
-        fix_b = [x for x in range(1, 17) if x not in self.B]
-        self.B.extend(fix_b)
-
-        self._datav = datav.data_visualization(Lix=lix)
-
-        self.filter = filterN(referto=Note(self.groupby[0], self.B[0]),
-                              lvc=self._datav.Three_categories())
+    def __init__(self, cdic: dict) -> None:
+        self._datav = datav.data_visualization(Lix=cdic)
+        if 'R' in cdic and 'B' in cdic:
+            self.R = self.__fixrbs(max=33, n=cdic.get('R', []))
+            self.B = self.__fixrbs(max=16, n=cdic.get('B', []))
+            if self.R != None and self.B != None:
+                self.groupby = [
+                    self.R[i:i + 6] for i in range(0, len(self.R), 6)
+                ]
+                self.filter = filterN(referto=Note(self.groupby[0], self.B[0]),
+                                      lvc=self._datav.Three_categories())
 
     @staticmethod
     def CounterRB(rb: List[int], L: int) -> List[int]:
