@@ -2,9 +2,12 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-21 21:14:47
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-09-21 22:06:18
+# @Last Modified time: 2023-09-22 21:45:54
 
+from collections import Counter
+import random
 from typing import List
+from .datav import LoadJson
 
 
 class splitqueue:
@@ -74,24 +77,59 @@ class glnsMpls:
         if 'R' in cdic and 'B' in cdic:
             self.R = self.__fixrb(max=33, n=cdic.get('R', []))
             self.B = self.__fixrb(max=16, n=cdic.get('B', []))
+            if self.R != None and self.B != None:
+                pass
 
     @staticmethod
-    def __fixrb(max: int = 16, n: List[int] = []):
+    def __fixrb(max: int = 16, n: List[int] = []) -> List[int]:
         '''
         修复 R B 中缺失的数字
         '''
-        if max == 16 or max == 33 and n.__len__() > 1:
-            max_set = set([x for x in range(1, max + 1)])
+        max_set = set([x for x in range(1, max + 1)])
+        if max == 16 or max == 33 and n is not None:
             fix = max_set.difference(set(n))
-            return n.extend(list(fix))
+            if fix is None:
+                return list(max_set)
+            else:
+                n.extend(list(fix))
+                return n
+        else:
+            return list(max_set)
+
+    @staticmethod
+    def CounterRB(rb: List[int], L: int) -> List[int]:
+        counter = Counter(rb)
+        total = max(counter.values())
+        inverse_freq = {k: total - v for k, v in counter.items()}
+        weights = list(inverse_freq.values())
+        number_pool = list(inverse_freq.keys())
+        result = random.choices(number_pool, weights=weights, k=L)
+        return result
+
+    def creativity(self) -> Note:
+        Count = 0
+        while True:
+            r = self.CounterRB(self.R, self._rlen)
+            b = self.CounterRB(self.B, self._blen)
+            n = Note(r, b)
+            Count += 1
+            return n
+            # if Count >= self._deep:
+            #     return Note([1, 2, 3, 4, 5, 6], [7])
+            # if n.verify():
+            #     if self.filter.verify(N=n):
+            #         if self.filter.consecutive(N=r):
+            #             if self.maxjac(N=n) < 0.34:
+            #                 return n
 
 
 def main():
     n = Note(n=[1, 2, 3, 4, 5, 6], T=[1, 15])
     print(f'Hello Note {n}')
     block = splitqueue().queuestr()
-    cdic = {'R': [1, 2, 3, 4, 2, 4, 33, 22], 'B': [1, 2, 3, 4, 5, 6]}
+    cdic = LoadJson().toLix
     glns = glnsMpls(cdic=cdic)
+    print(f'glns {glns.creativity()}')
 
 
 if __name__ == "__main__":
