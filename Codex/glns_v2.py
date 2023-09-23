@@ -2,8 +2,9 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-21 21:14:47
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-09-22 21:45:54
+# @Last Modified time: 2023-09-23 15:49:55
 
+from cProfile import label
 from collections import Counter
 import random
 from typing import List
@@ -48,6 +49,30 @@ class Note:
         return f'{n} + {t}'
 
 
+class filterN_v2:
+    ''' 对Note进行过滤 '''
+    filters = {}
+
+    def __init__(self) -> None:
+        self.filters = {
+            'lens': self.lens,
+            'sixlan': self.sixlan,
+        }
+
+    def lens(self, N: Note) -> bool:
+        '''判断红色区域和蓝色区域是否在去重之后长度是否一致'''
+        lamb = lambda x: len(set(x)) == len(x)
+        rb_b = [lamb(x) for x in [N.setnumber_B, N.setnumber_R]]
+        rb = [True, False][False in rb_b]
+        return rb
+
+    def sixlan(self, N: Note) -> bool:
+        '''判断红色区域是否等于 1, 2, 3, 4, 5, 6, 7'''
+        ntoe = {1, 2, 3, 4, 5, 6}
+        rb = [False, True][N.setnumber_R != ntoe]
+        return rb
+
+
 class glnsMpls:
     '''glns mpls'''
 
@@ -60,7 +85,7 @@ class glnsMpls:
         return self._rlen
 
     @rLen.setter
-    def rLen(self, value: int):
+    def rLen(self, value: int) -> None:
         if value >= 6 and value <= 19:
             self._rlen = value
 
@@ -69,7 +94,7 @@ class glnsMpls:
         return self._blen
 
     @bLen.setter
-    def bLen(self, value: int):
+    def bLen(self, value: int) -> None:
         if value >= 1 and value <= 16:
             self._blen = value
 
@@ -78,7 +103,9 @@ class glnsMpls:
             self.R = self.__fixrb(max=33, n=cdic.get('R', []))
             self.B = self.__fixrb(max=16, n=cdic.get('B', []))
             if self.R != None and self.B != None:
-                pass
+                self.groupby = [
+                    self.R[i:i + 6] for i in range(0, len(self.R), 6)
+                ]
 
     @staticmethod
     def __fixrb(max: int = 16, n: List[int] = []) -> List[int]:
@@ -113,14 +140,24 @@ class glnsMpls:
             b = self.CounterRB(self.B, self._blen)
             n = Note(r, b)
             Count += 1
-            return n
-            # if Count >= self._deep:
-            #     return Note([1, 2, 3, 4, 5, 6], [7])
-            # if n.verify():
-            #     if self.filter.verify(N=n):
-            #         if self.filter.consecutive(N=r):
-            #             if self.maxjac(N=n) < 0.34:
-            #                 return n
+            if Count >= self._deep:
+                self.creativity()
+            # n filter
+            if self.maxjac(N=n) < 0.34:
+                return n
+
+    def maxjac(self, N: Note) -> float:
+        # [2, 6, 20, 25, 29, 33]
+        g = [self.jaccard(x, N.number) for x in self.groupby]
+        return max(g)
+
+    @staticmethod
+    def jaccard(A: List, B: List) -> float:
+        set_a = set(A)
+        set_b = set(B)
+        intersection = len(set_a.intersection(set_b))
+        union = len(set_a.union(set_b))
+        return intersection / union
 
 
 def main():
