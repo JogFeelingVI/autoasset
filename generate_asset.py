@@ -2,13 +2,13 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-15 20:22:04
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-26 21:48:25
+# @Last Modified time: 2023-09-24 14:15:44
 from operator import ge
 from pickletools import markobject
 import re, json
 from datetime import datetime as dtime
 from typing import List
-from Codex import gethtml, pathliab, glns, md, datav
+from Codex import gethtml, pathliab, glns_v2, md, datav
 
 
 class assetx:
@@ -83,12 +83,28 @@ class assetx:
             for i, row in enumerate(matrix):
                 markdown.append(_mdf.unordered_list(f'{i+1:02}: {row}'))
             markdown.append(_mdf.title('Creativity list', 2))
-            glnsN = glns.glnsMpls(self.Lix)
-            for x in glns.splitqueue.queuestr(n=5):
-                if x == '□':
+            cdic = datav.LoadJson().toLix
+            glns = glns_v2.glnsMpls(cdic=cdic)
+            duLie = glns_v2.formation(max=25)
+            filters = glns_v2.filterN_v2()
+            filters.Lever = glns.getabc
+            filters.Last = glns.getlast
+            count = 0
+            while True:
+                n = glns.creativity()
+                rxfil = [f(n) for _, f in filters.filters.items()]
+                if False not in rxfil:
+                    duLie.addNote(n=n)
+                    count += 1
+                    print(f'[{count:>3}]: {n}')
+                if count >= duLie.maxlen:
+                    break
+            # glnsN = glns.glnsMpls(self.Lix)
+            for x in glns_v2.splitqueue.queuestr(n=5):
+                if x == '-':
                     markdown.append(_mdf.Dividing_line())
-                elif x == '■':
-                    markdown.append(_mdf.plan(f'{glnsN.creativity()}', 'x'))
+                elif x == '+':
+                    markdown.append(_mdf.plan(f'{duLie.DuLie.pop()}', 'x'))
             readme_path = pathliab.Path(readme_md)
             with readme_path.open(mode='w') as wMd:
                 for line in markdown:
