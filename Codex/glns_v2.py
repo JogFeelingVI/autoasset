@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-21 21:14:47
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-09-24 11:44:17
+# @Last Modified time: 2023-09-25 09:44:07
 
 from collections import Counter, deque
 import itertools
@@ -79,11 +79,27 @@ class filterN_v2:
         self.filters = {
             'lens': self.lens,
             'sixlan': self.sixlan,
+            'linma': self.linma,
+            'duplicates': self.duplicates,
             'rego': self.rego,
             'lianhao': self.lianhao,
             'denji': self.denji,
             'hisdiff': self.hisdiff,
         }
+
+    def linma(self, N: Note) -> bool:
+        '''计算临码'''
+        plus_minus = []
+        plus_minus.extend([x + 1 for x in N.setnumber_R])
+        plus_minus.extend([x - 1 for x in N.setnumber_R])
+        plus_minus = set(x for x in plus_minus if 1 <= x <= 33)
+        linma = plus_minus & set(self.Last)
+        return [False, True][linma.__len__() in (0, 1, 2, 3)]
+
+    def duplicates(self, N: Note) -> bool:
+        '''计算数组是否有重复项目'''
+        duplic = N.setnumber_R & set(self.Last)
+        return [False, True][duplic.__len__() in (0, 1, 2)]
 
     def lens(self, N: Note) -> bool:
         '''判断红色区域和蓝色区域是否在去重之后长度是否一致'''
@@ -194,7 +210,7 @@ class filterN_v2:
         bit_dict.update({f'{pfix[0]}': numx})
         self.fixrb.update({'bit': bit_dict})
 
-    def __fix_rb(self, match: str):
+    def __fix_rb(self, match: str) -> None:
         _nums = re.compile('[0-9]{1,2}')
         _fixw = re.compile('(R|B)$')
         pfix = _fixw.findall(match)

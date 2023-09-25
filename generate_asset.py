@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-15 20:22:04
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-09-24 14:15:44
+# @Last Modified time: 2023-09-25 12:02:59
 from operator import ge
 from pickletools import markobject
 import re, json
@@ -96,7 +96,7 @@ class assetx:
                 if False not in rxfil:
                     duLie.addNote(n=n)
                     count += 1
-                    print(f'[{count:>3}]: {n}')
+                    print(f'[{count:^4}]: {n}')
                 if count >= duLie.maxlen:
                     break
             # glnsN = glns.glnsMpls(self.Lix)
