@@ -85,7 +85,14 @@ class filterN_v2:
             'lianhao': self.lianhao,
             'denji': self.denji,
             'hisdiff': self.hisdiff,
+            'ac': self.acvalue,
         }
+
+    def acvalue(self, N: Note) -> bool:
+        '''计算数字复杂程度 默认 P len = 6'''
+        p = N.setnumber_R
+        ac = len(set(x - y for x in p for y in p if x > y)) - (len(p) - 1)
+        return [True, False][ac > 4]
 
     def linma(self, N: Note) -> bool:
         '''计算临码'''
