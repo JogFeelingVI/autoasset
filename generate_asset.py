@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-15 20:22:04
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-09-25 12:02:59
+# @Last Modified time: 2023-10-11 21:00:25
 from operator import ge
 from pickletools import markobject
 import re, json
@@ -13,6 +13,15 @@ from Codex import gethtml, pathliab, glns_v2, md, datav
 
 class assetx:
     error: bool = False
+
+    @staticmethod
+    def anyishtml_N(text: str) -> list:
+        if text != '':
+            Rx = re.findall(r'>([0-9,]{17})<', text)
+            Bx = re.findall(r'c_bule\">([0-9]{2})<', text)
+
+            return [Rx, Bx]
+        return []
 
     @staticmethod
     def anyishtml(text: str) -> list:
@@ -39,11 +48,12 @@ class assetx:
             asset_json = pathliab.ospath.file_path('./asset.json')
             if asset_json == '':
                 return
-            nat_dev = 'https://chart.cp.360.cn/kaijiang/ssq'
+            #nat_dev = 'https://chart.cp.360.cn/kaijiang/ssq'
+            nat_dev = 'https://www.cjcp.cn/zoushitu/cjwssq/hqaczhi.html'
             html_content = gethtml.get_html(nat_dev).neirong
 
             if html_content != '':
-                Rx, Bx = self.anyishtml(html_content)
+                Rx, Bx = self.anyishtml_N(html_content)
                 self.Lix = {
                     'R': [int(x, base=10) for r in Rx for x in r.split(',')],
                     'B': [int(x, base=10) for x in Bx],

@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-21 21:14:47
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-09-25 09:44:07
+# @Last Modified time: 2023-10-11 20:53:00
 
 from collections import Counter, deque
 import itertools
@@ -289,7 +289,7 @@ class glnsMpls:
 
     @property
     def getlast(self) -> List[int]:
-        return self.R[:6]
+        return self.R[-6:]
 
     @property
     def getabc(self) -> dict:
@@ -309,8 +309,8 @@ class glnsMpls:
     def __init__(self, cdic: dict) -> None:
         if 'R' in cdic and 'B' in cdic:
 
-            self.R = self.__fixrb(max=33, n=cdic.get('R', []))
-            self.B = self.__fixrb(max=16, n=cdic.get('B', []))
+            self.R = cdic.get('R', [])
+            self.B = cdic.get('B', [])
             if self.R != None and self.B != None:
                 self.groupby = [
                     self.R[i:i + 6] for i in range(0, len(self.R), 6)
@@ -344,9 +344,11 @@ class glnsMpls:
 
     def creativity(self) -> Note:
         Count = 0
+        FixR = self.__fixrb(max=33, n=self.R)
+        FixB = self.__fixrb(max=16, n=self.B)
         while True:
-            r = self.CounterRB(self.R, self._rlen)
-            b = self.CounterRB(self.B, self._blen)
+            r = self.CounterRB(FixR, self._rlen)
+            b = self.CounterRB(FixB, self._blen)
             n = Note(r, b)
             Count += 1
             if Count >= self._deep:

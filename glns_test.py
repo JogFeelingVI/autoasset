@@ -14,6 +14,7 @@ def main():
     filters = glns_v2.filterN_v2()
     filters.Lever = glns.getabc
     filters.Last = glns.getlast
+
     count = 0
 
     while True:

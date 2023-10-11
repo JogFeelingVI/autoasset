@@ -46,8 +46,8 @@ class data_visualization:
         return matrix
 
     def showlastnumber(self) -> str:
-        r = self.Lix['R'][:6]
-        b = self.Lix['B'][0]
+        r = self.Lix['R'][-6:]
+        b = self.Lix['B'][0 - 1]
         r_str = ' '.join([f'{x:02}' for x in r])
         return f'{r_str} / {b:02}'
 
@@ -85,7 +85,7 @@ class data_visualization:
     def groupBysix(self) -> List[str]:
         data = self.Lix.get('R', [])
         groups = [data[i:i + 6] for i in range(0, len(data), 6)]
-        groups = groups[::-1]
+        #groups = groups[::-1]
         matrix = []
 
         for i in range(1, 34):
@@ -121,7 +121,6 @@ class LoadJson:
                 Lix = json.load(jsfile)
                 if self.verify(Lix=Lix):
                     self.toLix = Lix
-                
 
     @staticmethod
     def verify(Lix: dict) -> bool:
