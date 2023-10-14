@@ -2,8 +2,16 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-22 21:46:48
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-10-10 10:20:20
+# @Last Modified time: 2023-10-14 22:48:23
 from Codex import datav, glns_v2
+
+
+def Test_main():
+    cdic = datav.LoadJson().toLix
+    rb = glns_v2.random_rb(cdic['R'], 6)
+    for x in range(1000):
+        rb.get_number()
+        print(f'dep {rb.dep}')
 
 
 def main():

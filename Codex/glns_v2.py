@@ -2,10 +2,11 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-21 21:14:47
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-10-11 20:53:00
+# @Last Modified time: 2023-10-14 22:54:08
 
 from collections import Counter, deque
 import itertools
+from lib2to3.fixes.fix_next import find_assign
 import random, re
 from typing import List
 from pathlib import Path
@@ -262,6 +263,53 @@ class formation:
         return self.DuLie.__len__()
 
 
+class random_rb:
+    '''random R & B'''
+
+    def __init__(self, rb: List[int], L: int) -> None:
+        self.dep = [0] * L
+        self.duilie = rb
+        self.nPool = []
+        self.weights = None
+
+    def find_zero(self) -> int:
+        '''find zero'''
+        if 0 in self.dep:
+            return self.dep.index(0)
+        return -1
+
+    def __initializations(self):
+        '''initialization data'''
+        if self.nPool == [] or self.weights == None:
+            counter = Counter(self.duilie)
+            total = max(counter.values())
+            inverse_freq = {k: total - v for k, v in counter.items()}
+            self.nPool = list(inverse_freq.keys())
+            self.weights = list(inverse_freq.values())
+
+    def get_number(self):
+        find = self.find_zero()
+        if find == -1:
+            return True
+
+        if self.nPool == []:
+            self.__initializations()
+        result = random.choices(self.nPool, weights=self.weights, k=6)
+        for num in result:
+            if self.__isok(n=num, index=find):
+                self.dep[find] = num
+                if self.get_number():
+                    return True
+                self.dep[find] = 0
+        return False
+
+    def __isok(self, n: int, index: int) -> bool:
+        '''判断数字是否符合标准'''
+        if n in self.dep:
+            return False
+        return True
+
+
 class glnsMpls:
     '''glns mpls'''
 
@@ -334,13 +382,9 @@ class glnsMpls:
 
     @staticmethod
     def CounterRB(rb: List[int], L: int) -> List[int]:
-        counter = Counter(rb)
-        total = max(counter.values())
-        inverse_freq = {k: total - v for k, v in counter.items()}
-        weights = list(inverse_freq.values())
-        number_pool = list(inverse_freq.keys())
-        result = random.choices(number_pool, weights=weights, k=L)
-        return result
+        rns = random_rb(rb=rb, L=L)
+        rns.get_number()
+        return rns.dep
 
     def creativity(self) -> Note:
         Count = 0
@@ -369,16 +413,3 @@ class glnsMpls:
         intersection = len(set_a.intersection(set_b))
         union = len(set_a.union(set_b))
         return intersection / union
-
-
-def main():
-    n = Note(n=[1, 2, 3, 4, 5, 6], T=[1, 15])
-    print(f'Hello Note {n}')
-    block = splitqueue().queuestr()
-    cdic = LoadJson().toLix
-    glns = glnsMpls(cdic=cdic)
-    print(f'glns {glns.creativity()}')
-
-
-if __name__ == "__main__":
-    main()
