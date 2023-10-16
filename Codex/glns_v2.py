@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-21 21:14:47
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-10-14 22:54:08
+# @Last Modified time: 2023-10-16 23:00:38
 
 from collections import Counter, deque
 import itertools
@@ -265,12 +265,21 @@ class formation:
 
 class random_rb:
     '''random R & B'''
+    __usew = False
 
     def __init__(self, rb: List[int], L: int) -> None:
         self.dep = [0] * L
         self.duilie = rb
         self.nPool = []
         self.weights = None
+
+    @property
+    def usew(self) -> bool:
+        return self.__usew
+
+    @usew.setter
+    def usew(self, value: bool):
+        self.__usew = value
 
     def find_zero(self) -> int:
         '''find zero'''
@@ -294,7 +303,10 @@ class random_rb:
 
         if self.nPool == []:
             self.__initializations()
-        result = random.choices(self.nPool, weights=self.weights, k=6)
+        if self.usew:
+            result = random.choices(self.nPool, weights=self.weights, k=6)
+        else:
+            result = random.choices(self.nPool, k=6)
         for num in result:
             if self.__isok(n=num, index=find):
                 self.dep[find] = num
