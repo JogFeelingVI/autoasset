@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-21 21:14:47
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-10-21 07:52:17
+# @Last Modified time: 2023-10-21 19:40:01
 
 from collections import Counter, deque
 import itertools
@@ -89,7 +89,28 @@ class filterN_v2:
             'denji': self.denji,
             'hisdiff': self.hisdiff,
             'ac': self.acvalue,
+            'dzx': self.dzx
         }
+
+    def dzx(self, N: Note) -> bool:
+        a = range(1, 34)
+        g = [a[i:i + 11] for i in range(0, len(a), 11)]
+        count = [[], [], []]
+        for ai in N.setnumber_R:
+            index = 1
+            while True:
+                if ai in g[index]:
+                    count[index].append(ai)
+                    break
+                else:
+                    if ai < min(g[index]):
+                        index -= 1
+                    if ai > max(g[index]):
+                        index += 1
+
+        flgrex = [len(x) for x in count]
+        rebool = [False, True][4 in flgrex and 0 in flgrex]
+        return rebool
 
     def acvalue(self, N: Note) -> bool:
         '''计算数字复杂程度 默认 P len = 6'''
@@ -233,7 +254,6 @@ class filterN_v2:
 class formation:
     __dulie: deque
     __maxlen = 15
-    __ExNote = Note(n=[1, 2, 3, 4, 5, 6], T=[7])
 
     @property
     def maxlen(self) -> int:
@@ -409,7 +429,7 @@ class glnsMpls:
             if Count >= self._deep:
                 self.creativity()
             # n filter
-            if self.maxjac(N=n) < 0.34:
+            if self.maxjac(N=n) < 0.24:
                 return n
 
     def maxjac(self, N: Note) -> float:

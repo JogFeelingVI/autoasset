@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-10-20 14:47:22
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-10-20 20:53:43
+# @Last Modified time: 2023-10-21 18:26:54
 from random import randrange
 from typing import List
 import unittest, time
@@ -50,6 +50,27 @@ def lianhao(N: List[int]) -> List | None:
     return [len(r) for r in ranges if len(r) > 1]
 
 
+@runtime
+def dzx(N: List):
+    a = range(1, 34)
+    g = [a[i:i + 11] for i in range(0, len(a), 11)]
+    count = [[], [], []]
+    for ai in N:
+        index = 1
+        while True:
+            if ai in g[index]:
+                count[index].append(ai)
+                break
+            else:
+                if ai < min(g[index]):
+                    index -= 1
+                if ai > max(g[index]):
+                    index += 1
+
+    flgrex = [len(x) for x in count]
+    print(f'{flgrex}')
+
+
 class lianhaotest(unittest.TestCase):
 
     def setUp(self) -> None:
@@ -58,12 +79,9 @@ class lianhaotest(unittest.TestCase):
         self.c = [6, 9, 11, 12, 19, 25]
         return super().setUp()
 
-    def test_lianhao_1(self):
-        rex_a = linma(N=self.a, L=self.b)
-
     def test_linma(self):
         '''test linma'''
-        rex_a = linma_2(N=self.a, L=self.b)
+        rex_a = dzx(N=self.c)
         #print(f'Linma {rex_a}')
 
 
