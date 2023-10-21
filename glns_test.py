@@ -2,8 +2,10 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-22 21:46:48
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-10-14 22:48:23
+# @Last Modified time: 2023-10-21 21:49:11
+import pathlib
 from Codex import datav, glns_v2
+from Codex.md import markdown
 
 
 def Test_main():
@@ -33,7 +35,19 @@ def main():
             count += 1
             print(f'N {count:>3}: {n}')
         if count >= duLie.maxlen:
-            return
+            break
+    # to md file
+    _mdf = markdown()
+    md = []
+    for x in glns_v2.splitqueue.queuestr(n=5):
+        if x == '-':
+            md.append(_mdf.Dividing_line())
+        elif x == '+':
+            md.append(_mdf.plan(f'{duLie.DuLie.pop()}', 'x'))
+            readme_path = pathlib.Path('./TEST.md')
+            with readme_path.open(mode='w') as wMd:
+                for line in md:
+                    wMd.write(f'{line}\n')
 
 
 if __name__ == "__main__":
