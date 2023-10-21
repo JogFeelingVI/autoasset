@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-21 21:14:47
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-10-16 23:00:38
+# @Last Modified time: 2023-10-21 07:52:17
 
 from collections import Counter, deque
 import itertools
@@ -61,6 +61,7 @@ class filterN_v2:
 
     @property
     def Lever(self) -> dict:
+        ''' 出号频率等级 '''
         return self.__Lever
 
     @Lever.setter
@@ -69,6 +70,7 @@ class filterN_v2:
 
     @property
     def Last(self) -> List[int]:
+        ''' 最后的出号 '''
         return self.__Last
 
     @Last.setter
@@ -98,11 +100,10 @@ class filterN_v2:
     def linma(self, N: Note) -> bool:
         '''计算临码'''
         plus_minus = []
-        plus_minus.extend([x + 1 for x in N.setnumber_R])
-        plus_minus.extend([x - 1 for x in N.setnumber_R])
-        plus_minus = set(x for x in plus_minus if 1 <= x <= 33)
-        linma = plus_minus & set(self.Last)
-        return [False, True][linma.__len__() in (0, 1, 2, 3)]
+        for n in N.setnumber_R:
+            if n + 1 in self.Last or n - 1 in self.Last:
+                plus_minus.append(n)
+        return [False, True][plus_minus.__len__() in (0, 1, 2, 3)]
 
     def duplicates(self, N: Note) -> bool:
         '''计算数组是否有重复项目'''
@@ -123,16 +124,13 @@ class filterN_v2:
         return rb
 
     def lianhao(self, n: Note) -> bool:
-        count = 0
-        for i in range(len(n.setnumber_R) - 1):
-            _n1 = n.number[i] + 1
-            while True:
-                if _n1 in n.number:
-                    count += 1
-                    _n1 += 1
-                else:
-                    break
-        rebool = [False, True][count in [0, 1, 2]]
+        count = []
+        for v in n.setnumber_R:
+            if not count or v != count[-1][-1] + 1:
+                count.append([])
+            count[-1].append(v)
+        flgrex = sorted([len(v) for v in count if len(v) > 1])
+        rebool = [False, True][flgrex in [[], [3], [2], [2, 2]]]
         return rebool
 
     def rego(self, N: Note) -> bool:
@@ -399,6 +397,7 @@ class glnsMpls:
         return rns.dep
 
     def creativity(self) -> Note:
+        '''产生号码'''
         Count = 0
         FixR = self.__fixrb(max=33, n=self.R)
         FixB = self.__fixrb(max=16, n=self.B)
@@ -420,6 +419,7 @@ class glnsMpls:
 
     @staticmethod
     def jaccard(A: List, B: List) -> float:
+        '''相似度 雅卡尔指数'''
         set_a = set(A)
         set_b = set(B)
         intersection = len(set_a.intersection(set_b))
