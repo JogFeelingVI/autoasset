@@ -2,11 +2,10 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-21 21:14:47
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-10-21 19:40:01
+# @Last Modified time: 2023-10-22 20:39:56
 
 from collections import Counter, deque
 import itertools
-from lib2to3.fixes.fix_next import find_assign
 import random, re
 from typing import List
 from pathlib import Path
@@ -28,6 +27,12 @@ class splitqueue:
 class Note:
 
     def __init__(self, n: List[int], T: List[int] | int) -> None:
+        """Note
+
+        Args:
+            n (List[int]): 1-33 红色号码球
+            T (List[int] | int): 1-16 蓝色号码球
+        """
         self.number = sorted(n)
         self.tiebie = [T, [T]][isinstance(T, int)]
 
@@ -93,6 +98,7 @@ class filterN_v2:
         }
 
     def dzx(self, N: Note) -> bool:
+        '''xiao zhong da'''
         a = range(1, 34)
         g = [a[i:i + 11] for i in range(0, len(a), 11)]
         count = [[], [], []]
