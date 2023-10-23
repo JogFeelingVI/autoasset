@@ -115,7 +115,7 @@ class filterN_v2:
                         index += 1
 
         flgrex = [len(x) for x in count]
-        rebool = [False, True][4 in flgrex and 0 in flgrex]
+        rebool = [False, True][5 not in flgrex or 6 in flgrex]
         return rebool
 
     def acvalue(self, N: Note) -> bool:
