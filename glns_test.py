@@ -2,18 +2,18 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-22 21:46:48
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-10-21 21:49:11
+# @Last Modified time: 2023-10-24 22:55:00
 import pathlib
-from Codex import datav, glns_v2
+from Codex import datav, glns_v2, rego
 from Codex.md import markdown
 
 
 def Test_main():
-    cdic = datav.LoadJson().toLix
-    rb = glns_v2.random_rb(cdic['R'], 6)
-    for x in range(1000):
-        rb.get_number()
-        print(f'dep {rb.dep}')
+    N = glns_v2.Note([4, 15, 18, 20, 24, 25], T=7)
+    _rego = rego.rego()
+    _rego.parse()
+    _rego.debug = True
+    _rego.filtration(N)
 
 
 def main():
@@ -51,4 +51,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    Test_main()

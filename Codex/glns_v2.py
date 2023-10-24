@@ -89,7 +89,7 @@ class filterN_v2:
             'sixlan': self.sixlan,
             'linma': self.linma,
             'duplicates': self.duplicates,
-            'rego': self.rego,
+            #'rego': self.rego,
             'lianhao': self.lianhao,
             'denji': self.denji,
             'hisdiff': self.hisdiff,
