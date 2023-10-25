@@ -120,10 +120,12 @@ class rego:
             for line in self.__rego_lines:
                 line = _huanhang.sub('', line)
                 if line.__len__() > 1:
-                    self.__parse_dict.extend(
-                        [funx(line) for funx in self.re_dict.values()])
-                    if self.debug:
-                        print(f'debug {self.__parse_dict}')
+                    for k, kv in self.re_dict.items():
+                        enx = kv(line)
+                        if enx != None:
+                            self.__parse_dict.append(enx)
+            if self.debug:
+                print(f'debug {self.__parse_dict}')
 
     @staticmethod
     def __f_paichu(N: Note, args: dict) -> bool:

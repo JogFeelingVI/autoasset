@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-22 21:46:48
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-10-25 20:47:47
+# @Last Modified time: 2023-10-25 23:08:45
 import pathlib
 from Codex import datav, glns_v2, rego
 from Codex.md import markdown
