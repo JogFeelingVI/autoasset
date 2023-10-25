@@ -2,13 +2,13 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-15 20:22:04
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-10-14 23:13:14
+# @Last Modified time: 2023-10-25 22:30:31
 from operator import ge
 from pickletools import markobject
 import re, json
 from datetime import datetime as dtime
 from typing import List
-from Codex import gethtml, pathliab, glns_v2, md, datav
+from Codex import gethtml, pathliab, glns_v2, md, datav, rego
 
 
 class assetx:
@@ -97,6 +97,8 @@ class assetx:
             glns = glns_v2.glnsMpls(cdic=cdic)
             duLie = glns_v2.formation(max=25)
             filters = glns_v2.filterN_v2()
+            reeego = rego.rego()
+            reeego.parse()
             filters.Lever = glns.getabc
             filters.Last = glns.getlast
             count = 0
@@ -104,9 +106,10 @@ class assetx:
                 n = glns.creativity()
                 rxfil = [f(n) for _, f in filters.filters.items()]
                 if False not in rxfil:
-                    duLie.addNote(n=n)
-                    count += 1
-                    print(f'[{count:^4}]: {n}')
+                    if reeego.filtration(n):
+                        duLie.addNote(n=n)
+                        count += 1
+                        print(f'[{count:^4}]: {n}')
                 if count >= duLie.maxlen:
                     break
             # glnsN = glns.glnsMpls(self.Lix)

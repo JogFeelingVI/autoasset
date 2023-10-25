@@ -83,13 +83,11 @@ class filterN_v2:
         self.__Last = value
 
     def __init__(self) -> None:
-        self.load_rego()
         self.filters = {
             'lens': self.lens,
             'sixlan': self.sixlan,
             'linma': self.linma,
             'duplicates': self.duplicates,
-            #'rego': self.rego,
             'lianhao': self.lianhao,
             'denji': self.denji,
             'hisdiff': self.hisdiff,
@@ -160,39 +158,6 @@ class filterN_v2:
         rebool = [False, True][flgrex in [[], [3], [2], [2, 2]]]
         return rebool
 
-    def rego(self, N: Note) -> bool:
-        '''根据rego规则判断项目是否符合标准'''
-        rebool = False
-        if self.fixrb is {}:
-            # rego 规则不存在或者rego没有定义任何规则
-            rebool = True
-        else:
-            Rex = []
-            keysrb = self.fixrb.keys()
-            if 'R' in keysrb:
-                intersection = N.setnumber_R.intersection(set(self.fixrb['R']))
-                Rex.append([False, True][intersection.__len__() == 0])
-            if 'B' in keysrb:
-                intersection = N.setnumber_B.intersection(set(self.fixrb['B']))
-                Rex.append([False, True][intersection.__len__() == 0])
-            if '+' in keysrb:
-                intersection = N.setnumber_R.intersection(set(self.fixrb['+']))
-                Rex.append([False, True][intersection.__len__() > 0])
-            if 'bit' in keysrb:
-                bit_number = dict(self.fixrb['bit'])
-                for bit, number in bit_number.items():
-                    bit = int(bit)
-                    Nbit = {0}
-                    if bit in [6, 1, 2, 3, 4, 5]:
-                        Nbit = {N.number[bit - 1]}
-                    if bit in [7]:
-                        Nbit = N.setnumber_B
-                    #print(f'bit {bit} num {number} NB {Nbit}')
-                    intersection = Nbit.intersection(set(number))
-                    Rex.append([False, True][intersection.__len__() > 0])
-            rebool = [True, False][False in Rex]
-        return rebool
-
     def hisdiff(self, N: Note) -> bool:
         '''
         hisdiff 与上一期号码对比
@@ -214,47 +179,6 @@ class filterN_v2:
             rex.append(any(x in N.setnumber_R for x in vz))
         bools = [False, True][False not in rex]
         return bools
-
-    def load_rego(self):
-        rego = Path('rego')
-        _huanhang = re.compile(r'\\n')
-        _zs = re.compile(r'^#.*')
-        _bh = re.compile(r'^\+([ 0-9]+)$')
-        _pc = re.compile(r'^-([ 0-9]+)as [R|B]$')
-        _bit = re.compile(r'^\+([ 0-9]+)@bit[1-7]$')
-        with rego.open(mode='r', encoding='utf-8') as go:
-            reglins = go.readlines()
-            for linx in reglins:
-                if not _zs.match(linx):
-                    tmp_huan = _huanhang.sub('', linx)
-                    if (remac := _pc.match(tmp_huan)) != None:
-                        self.__fix_rb(remac.string)
-                    if (remac := _bh.match(tmp_huan)) != None:
-                        self.__fix_bh(remac.string)
-                    if (remac := _bit.match(tmp_huan)) != None:
-                        self.__fix_bit(remac.string)
-
-    def __fix_bit(self, match: str) -> None:
-        _nums = re.compile(r'\s([0-9]{1,2})')
-        _fixw = re.compile(r'@bit([1-7])$')
-        pfix = _fixw.findall(match)
-        numx = [int(x, base=10) for x in _nums.findall(match)]
-        bit_dict = dict(self.fixrb.get('bit', {}))
-        bit_dict.update({f'{pfix[0]}': numx})
-        self.fixrb.update({'bit': bit_dict})
-
-    def __fix_rb(self, match: str) -> None:
-        _nums = re.compile('[0-9]{1,2}')
-        _fixw = re.compile('(R|B)$')
-        pfix = _fixw.findall(match)
-        numx = [int(x, base=10) for x in _nums.findall(match)]
-        for p in pfix:
-            self.fixrb.update({p: numx})
-
-    def __fix_bh(self, match: str):
-        _nums = re.compile('[0-9]{1,2}')
-        numx = [int(x) for x in _nums.findall(match)]
-        self.fixrb.update({'+': numx})
 
 
 class formation:
