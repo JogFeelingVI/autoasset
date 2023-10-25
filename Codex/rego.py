@@ -7,7 +7,6 @@
 import re
 from typing import List
 import pathlib
-from weakref import ref
 from .glns_v2 import Note
 
 
