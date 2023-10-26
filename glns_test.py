@@ -2,22 +2,24 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-22 21:46:48
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-10-25 23:08:45
+# @Last Modified time: 2023-10-26 21:00:54
 import pathlib
+import time
 from Codex import datav, glns_v2, rego
 from Codex.md import markdown
 
 
 def Test_main():
     N = glns_v2.Note([4, 15, 18, 20, 24, 28], T=7)
-    _rego = rego.rego()
-    _rego.debug = True
-    _rego.parse()
-    _rego.filtration(N)
+    print(f'Note {N}')
+    # _rego = rego.rego()
+    # _rego.debug = True
+    # _rego.parse()
+    # _rego.filtration(N)
 
 
 def main():
-    print("Hello, World!")
+    print('glns test')
     cdic = datav.LoadJson().toLix
     glns = glns_v2.glnsMpls(cdic=cdic)
     duLie = glns_v2.formation(max=25)
@@ -31,6 +33,7 @@ def main():
 
     while True:
         n = glns.creativity()
+        #print(f'debug {time.time()} {n}\n')
         rxfil = [f(n) for _, f in filters.filters.items()]
         if False not in rxfil:
             if reeego.filtration(n):

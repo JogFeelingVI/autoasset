@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-21 21:14:47
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-10-22 20:39:56
+# @Last Modified time: 2023-10-26 20:35:13
 
 from collections import Counter, deque
 import itertools
@@ -33,8 +33,17 @@ class Note:
             n (List[int]): 1-33 红色号码球
             T (List[int] | int): 1-16 蓝色号码球
         """
-        self.number = sorted(n)
-        self.tiebie = [T, [T]][isinstance(T, int)]
+        self.number = []
+        self.tiebie = []
+        for i in sorted(n):
+            if 1 <= i <= 33 and n.count(i) == 1:
+                self.number.append(i)
+        Tx = [T, [T]][isinstance(T, int)]
+        for i in sorted(Tx):
+            if 1 <= i <= 16 and Tx.count(i) == 1:
+                self.tiebie.append(i)
+        if self.number.__len__() < 6 or self.tiebie.__len__() == 0:
+            raise Exception(f'Note Creation failed {self.number}')
 
     def filter(self, func) -> None:
         '''
@@ -356,11 +365,11 @@ class glnsMpls:
             b = self.CounterRB(FixB, self._blen)
             n = Note(r, b)
             Count += 1
+            if self.maxjac(N=n) < 0.24:
+                return n
             if Count >= self._deep:
                 self.creativity()
             # n filter
-            if self.maxjac(N=n) < 0.24:
-                return n
 
     def maxjac(self, N: Note) -> float:
         # [2, 6, 20, 25, 29, 33]
