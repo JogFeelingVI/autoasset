@@ -2,11 +2,13 @@
 # @Author: JogFeelingVI
 # @Date:   2023-10-20 14:47:22
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-10-29 21:19:04
+# @Last Modified time: 2023-10-29 21:29:32
 # from Codex.datav import LoadJson
 # from Codex.rego import rego
+from collections import Counter
 import itertools
 from pdb import run
+import random
 from typing import List, Self
 import unittest, time, os
 
@@ -169,6 +171,65 @@ class filterN_v2:
         return bools
 
 
+class random_rb:
+    '''random R & B'''
+    __usew = False
+
+    def __init__(self, rb: List[int], L: int) -> None:
+        self.dep = [0] * L
+        self.duilie = rb
+        self.nPool = []
+        self.weights = None
+
+    @property
+    def usew(self) -> bool:
+        return self.__usew
+
+    @usew.setter
+    def usew(self, value: bool):
+        self.__usew = value
+
+    def find_zero(self) -> int:
+        '''find zero'''
+        if 0 in self.dep:
+            return self.dep.index(0)
+        return -1
+
+    def __initializations(self):
+        '''initialization data'''
+        if self.nPool == [] or self.weights == None:
+            counter = Counter(self.duilie)
+            total = max(counter.values())
+            inverse_freq = {k: total - v for k, v in counter.items()}
+            self.nPool = list(inverse_freq.keys())
+            self.weights = list(inverse_freq.values())
+
+    def get_number(self):
+        find = self.find_zero()
+        if find == -1:
+            return True
+
+        if self.nPool == []:
+            self.__initializations()
+        if self.usew:
+            result = random.choices(self.nPool, weights=self.weights, k=6)
+        else:
+            result = random.choices(self.nPool, k=6)
+        for num in result:
+            if self.__isok(n=num, index=find):
+                self.dep[find] = num
+                if self.get_number():
+                    return True
+                self.dep[find] = 0
+        return False
+
+    def __isok(self, n: int, index: int) -> bool:
+        '''判断数字是否符合标准'''
+        if n in self.dep:
+            return False
+        return True
+
+
 def runtime(func):
 
     def inst(*args, **kwargs):
@@ -184,7 +245,11 @@ def runtime(func):
 @runtime
 def dzx(N: List):
     print('glns test')
-    n = Note(N, 7)
+    rlist = [random.choice(range(1, 34)) for i in range(1, 181)]
+    rb = random_rb(rlist, 6)
+    rb.usew = False
+    rb.get_number()
+    n = Note(rb.dep, 7)
     filters = filterN_v2()
     refilter = [f'key {k:>9} -> {f(n)}' for k, f in filters.filters.items()]
     print(refilter)
