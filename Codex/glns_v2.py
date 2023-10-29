@@ -93,7 +93,6 @@ class filterN_v2:
 
     def __init__(self) -> None:
         self.filters = {
-            'lens': self.lens,
             'sixlan': self.sixlan,
             'linma': self.linma,
             'duplicates': self.duplicates,
@@ -143,13 +142,6 @@ class filterN_v2:
         '''计算数组是否有重复项目'''
         duplic = N.setnumber_R & set(self.Last)
         return [False, True][duplic.__len__() in (0, 1, 2)]
-
-    def lens(self, N: Note) -> bool:
-        '''判断红色区域和蓝色区域是否在去重之后长度是否一致'''
-        lamb = lambda x: len(set(x)) == len(x)
-        rb_b = [lamb(x) for x in [N.number, N.tiebie]]
-        rb = [True, False][False in rb_b]
-        return rb
 
     def sixlan(self, N: Note) -> bool:
         '''判断红色区域是否等于 1, 2, 3, 4, 5, 6, 7'''
@@ -325,13 +317,14 @@ class glnsMpls:
 
     def __init__(self, cdic: dict) -> None:
         if 'R' in cdic and 'B' in cdic:
-
             self.R = cdic.get('R', [])
             self.B = cdic.get('B', [])
             if self.R != None and self.B != None:
                 self.groupby = [
                     self.R[i:i + 6] for i in range(0, len(self.R), 6)
                 ]
+                self.FixR = self.__fixrb(max=33, n=self.R)
+                self.FixB = self.__fixrb(max=16, n=self.B)
 
     @staticmethod
     def __fixrb(max: int = 16, n: List[int] = []) -> List[int]:
@@ -358,18 +351,13 @@ class glnsMpls:
     def creativity(self) -> Note:
         '''产生号码'''
         Count = 0
-        FixR = self.__fixrb(max=33, n=self.R)
-        FixB = self.__fixrb(max=16, n=self.B)
         while True:
-            r = self.CounterRB(FixR, self._rlen)
-            b = self.CounterRB(FixB, self._blen)
+            r = self.CounterRB(self.FixR, self._rlen)
+            b = self.CounterRB(self.FixB, self._blen)
             n = Note(r, b)
             Count += 1
             if self.maxjac(N=n) < 0.24:
                 return n
-            if Count >= self._deep:
-                self.creativity()
-            # n filter
 
     def maxjac(self, N: Note) -> float:
         # [2, 6, 20, 25, 29, 33]
