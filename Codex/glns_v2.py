@@ -2,27 +2,12 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-21 21:14:47
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-10-30 23:24:06
+# @Last Modified time: 2023-10-31 05:48:28
 
 from collections import Counter, deque
 import itertools
-import random, re
+import random
 from typing import List
-from pathlib import Path
-from unittest.util import three_way_cmp
-from .datav import LoadJson
-
-
-class splitqueue:
-
-    @staticmethod
-    def queuestr(n: int = 4, gsize: int = 5) -> str:
-        '''
-            gsize group size = 5 
-            n gsize * n
-        '''
-        block = ['+' * gsize] * n
-        return '-'.join(block)
 
 
 class Note:
@@ -199,6 +184,18 @@ class formation:
     @property
     def DuLie(self) -> deque:
         return self.__dulie
+
+    def queuestr(self) -> str:
+        '''
+            gsize group size = 5 
+            n gsize * n
+            +++++-+++++-+++++-+++++-+++
+        '''
+        temps = ['+'] * self.maxlen
+        temps_group = [
+            ''.join(temps[i:i + 5]) for i in range(0, self.maxlen, 5)
+        ]
+        return '-'.join(temps_group)
 
     def __init__(self, max: int = 15) -> None:
         '''

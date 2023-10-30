@@ -2,11 +2,10 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-22 21:46:48
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-10-30 23:45:37
+# @Last Modified time: 2023-10-31 05:59:17
 import pathlib
 import time
-from Codex import datav, glns_v2, rego
-from Codex.md import markdown
+from Codex import datav, glns_v2, rego, md
 
 
 def Test_main():
@@ -41,16 +40,16 @@ def main():
         if count >= duLie.maxlen:
             break
     # to md file
-    _mdf = markdown()
-    md = []
-    for x in glns_v2.splitqueue.queuestr(n=5):
+    _mdf = md.markdown()
+    mdx = []
+    for x in duLie.queuestr():
         if x == '-':
-            md.append(_mdf.Dividing_line())
+            mdx.append(_mdf.Dividing_line())
         elif x == '+':
-            md.append(_mdf.plan(f'{duLie.DuLie.pop()}', 'x'))
-            readme_path = pathlib.Path('./TEST.md')
+            mdx.append(_mdf.plan(f'{duLie.DuLie.pop()}', 'x'))
+            readme_path = pathlib.Path('./test.md')
             with readme_path.open(mode='w') as wMd:
-                for line in md:
+                for line in mdx:
                     wMd.write(f'{line}\n')
 
 

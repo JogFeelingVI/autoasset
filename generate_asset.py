@@ -2,9 +2,8 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-15 20:22:04
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-10-25 22:30:31
-from operator import ge
-from pickletools import markobject
+# @Last Modified time: 2023-10-31 06:01:28
+
 import re, json
 from datetime import datetime as dtime
 from typing import List
@@ -113,7 +112,7 @@ class assetx:
                 if count >= duLie.maxlen:
                     break
             # glnsN = glns.glnsMpls(self.Lix)
-            for x in glns_v2.splitqueue.queuestr(n=5):
+            for x in duLie.queuestr():
                 if x == '-':
                     markdown.append(_mdf.Dividing_line())
                 elif x == '+':
