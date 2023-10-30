@@ -2,13 +2,14 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-21 21:14:47
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-10-26 20:35:13
+# @Last Modified time: 2023-10-30 23:24:06
 
 from collections import Counter, deque
 import itertools
 import random, re
 from typing import List
 from pathlib import Path
+from unittest.util import three_way_cmp
 from .datav import LoadJson
 
 
@@ -207,9 +208,11 @@ class formation:
         self.__dulie = deque([], maxlen=self.maxlen)
 
     def addNote(self, n: Note) -> int:
-        if self.maxlen >= self.DuLie.__len__() >= 0:
+        try:
             self.DuLie.append(n)
-        return self.DuLie.__len__()
+            return self.DuLie.__len__()
+        except:
+            return -1
 
 
 class random_rb:

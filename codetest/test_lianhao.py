@@ -2,10 +2,10 @@
 # @Author: JogFeelingVI
 # @Date:   2023-10-20 14:47:22
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-10-30 05:55:17
+# @Last Modified time: 2023-10-30 22:40:25
 # from Codex.datav import LoadJson
 # from Codex.rego import rego
-from collections import Counter
+from collections import Counter, deque
 import itertools
 import rego, glns_v2
 import random
@@ -27,15 +27,17 @@ def runtime(func):
 
 def dzx(N: List):
     print('glns test')
+    dulie = glns_v2.formation(max=25)
     rlist = [random.choice(range(1, 34)) for i in range(1, 181)]
     rb = glns_v2.random_rb(rlist, 6)
     rb.usew = False
     rb.get_number()
     n = glns_v2.Note(rb.dep, 7)
     reego = rego.rego()
+    reego.debug = True
     reego.parse_v2()
-    # regoo = reego.filtration(N=n)
-    # print(f'rego {regoo}')
+    regoo = reego.filtration(N=n)
+    print(f'rego {n}')
 
 
 class lianhaotest(unittest.TestCase):

@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-10-24 19:04:50
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-10-30 05:51:28
+# @Last Modified time: 2023-10-30 22:24:18
 
 import re
 from typing import List
@@ -17,7 +17,7 @@ class rego:
     __debug = False
     __re_dict = None
     __func = None
-    __version = '2023/10/25'
+    __version = '2023/10/30 V2'
 
     @property
     def re_dict(self) -> dict:
@@ -65,12 +65,6 @@ class rego:
     def __init__(self) -> None:
         self.__load_rego_v2()
 
-    def __load_rego(self) -> None:
-        '''装载rego文件'''
-        rego = pathlib.Path('rego')
-        with rego.open(mode='r', encoding='utf-8') as go:
-            self.__rego_lines = go.readlines()
-
     def __load_rego_v2(self) -> None:
         '''装载rego文件'''
         rego = pathlib.Path('rego')
@@ -78,69 +72,67 @@ class rego:
             self.__rego_lines = go.read()
 
     @staticmethod
-    def __paichu(line: str) -> dict | None:
+    def __paichu(line: str) -> List | None:
         '''排除法检测'''
-        _paichu = re.compile(r'^-([ 0-9]+)as [R|B]$', flags=re.M)
-        if (_match := _paichu.match(line)) != None:
-            _n = re.compile('[0-9]{1,2}')
-            _p = re.compile('(R|B)$')
-            rb = _p.findall(_match.string)
-            nm = [int(x, base=10) for x in _n.findall(_match.string)]
-            return {'name': 'paichu', 'rb': rb, 'number': nm}
+        temp = []
+        _paichu = re.compile(r'^-[ 0-9]+as [R|B]$', flags=re.M)
+        if (_match := _paichu.findall(line)) != None:
+            for _m in _match:
+                _n = re.compile('[0-9]{1,2}')
+                _p = re.compile('R|B')
+                rb = _p.findall(_m)
+                nm = [int(x, base=10) for x in _n.findall(_m)]
+                temp.append({'name': 'paichu', 'rb': rb, 'number': nm})
+            return temp
         return None
 
     @staticmethod
-    def __baohan(line: str) -> dict | None:
-        _baohan = re.compile(r'^\+([ 0-9]+)$')
-        if (_match := _baohan.match(line)) != None:
-            _n = re.compile('[0-9]{1,2}')
-            nm = [int(x, base=10) for x in _n.findall(_match.string)]
-            return {'name': 'baohan', 'rb': ['R'], 'number': nm}
+    def __baohan(line: str) -> List | None:
+        _baohan = re.compile(r'^\+[ 0-9]+as R$', flags=re.M)
+        temp = []
+        if (_match := _baohan.findall(line)) != None:
+            for _m in _match:
+                _n = re.compile('[0-9]{1,2}')
+                nm = [int(x, base=10) for x in _n.findall(_m)]
+                temp.append({'name': 'baohan', 'rb': ['R'], 'number': nm})
+            return temp
         return None
 
     @staticmethod
-    def __bit(line: str) -> dict | None:
+    def __bit(line: str) -> List | None:
         '''Bit'''
-        _bit = re.compile(r'^\+([ 0-9]+)@bit[1-7]$')
-        if (_match := _bit.match(line)) != None:
-            _n = re.compile(r'\s([0-9]{1,2})')
-            p = re.compile(r'@bit([1-7])$').findall(_match.string)[0]
-            nm = [int(x, base=10) for x in _n.findall(_match.string)]
-            return {'name': f'bit_{p}', 'rb': [], 'number': nm}
+        temp = []
+        _bit = re.compile(r'^\+[ 0-9]+@bit[1-7]$', re.M)
+        if (_match := _bit.findall(line)) != None:
+            for _m in _match:
+                _n = re.compile(r'\s([0-9]{1,2})')
+                p = re.compile(r'@bit([1-7])$').findall(_m)[0]
+                nm = [int(x, base=10) for x in _n.findall(_m)]
+                temp.append({'name': f'bit_{p}', 'rb': [], 'number': nm})
+            return temp
         return None
 
     @staticmethod
-    def __bitex(line: str) -> dict | None:
+    def __bitex(line: str) -> List | None:
         '''Bit ex'''
-        _bit = re.compile(r'^-([ 0-9]+)@bit[1-7]$')
-        if (_match := _bit.match(line)) != None:
-            _n = re.compile(r'\s([0-9]{1,2})')
-            p = re.compile(r'@bit([1-7])$').findall(_match.string)[0]
-            nm = [int(x, base=10) for x in _n.findall(_match.string)]
-            return {'name': f'bitex_{p}', 'rb': [], 'number': nm}
+        temp = []
+        _bit = re.compile(r'^-[ 0-9]+@bit[1-7]$', re.M)
+        if (_match := _bit.findall(line)) != None:
+            for _m in _match:
+                _n = re.compile(r'\s([0-9]{1,2})')
+                p = re.compile(r'@bit([1-7])$').findall(_m)[0]
+                nm = [int(x, base=10) for x in _n.findall(_m)]
+                temp.append({'name': f'bitex_{p}', 'rb': [], 'number': nm})
+            return temp
         return None
-
-    def parse(self) -> None:
-        '''格式化rego文件'''
-        _huanhang = re.compile(r'\\n')
-        if self.__rego_lines != None:
-            for line in self.__rego_lines:
-                line = _huanhang.sub('', line)
-                if line.__len__() > 1:
-                    for k, kv in self.re_dict.items():
-                        enx = kv(line)
-                        if enx != None:
-                            self.__parse_dict.append(enx)
-            if self.debug:
-                print(f'debug {self.__parse_dict}')
 
     def parse_v2(self) -> None:
         '''格式化rego文件'''
-        _huanhang = re.compile(r'\\n')
         if self.__rego_lines != None:
             for k, pfunc in self.re_dict.items():
                 env = pfunc(self.__rego_lines)
-                print(f'debug [{k}] \n\t-> {env}')
+                if env != None:
+                    self.__parse_dict.extend(env)
             if self.debug:
                 print(f'debug {self.__parse_dict}')
 

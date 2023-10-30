@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-22 21:46:48
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-10-26 21:00:54
+# @Last Modified time: 2023-10-30 23:45:37
 import pathlib
 import time
 from Codex import datav, glns_v2, rego
@@ -25,21 +25,19 @@ def main():
     duLie = glns_v2.formation(max=25)
     filters = glns_v2.filterN_v2()
     reeego = rego.rego()
-    reeego.parse()
+    reeego.parse_v2()
     filters.Lever = glns.getabc
     filters.Last = glns.getlast
 
     count = 0
-
     while True:
         n = glns.creativity()
-        #print(f'debug {time.time()} {n}\n')
         rxfil = [f(n) for _, f in filters.filters.items()]
         if False not in rxfil:
             if reeego.filtration(n):
                 duLie.addNote(n=n)
                 count += 1
-                print(f'N {count:>3}: {n}')
+                print(f'[{count:^4}]: {n}')
         if count >= duLie.maxlen:
             break
     # to md file
