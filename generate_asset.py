@@ -103,8 +103,13 @@ class assetx:
             count = 0
             while True:
                 n = glns.creativity()
-                rxfil = [f(n) for _, f in filters.filters.items()]
-                if False not in rxfil:
+                rxfil = True
+                for k, func in filters.filters.items():
+                    if func(n) == False:
+                        rxfil = False
+                        #print(f'key {k} is False')
+                        break
+                if rxfil:
                     if reeego.filtration(n):
                         duLie.addNote(n=n)
                         count += 1

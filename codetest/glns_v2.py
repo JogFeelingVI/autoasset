@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-21 21:14:47
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-10-31 05:48:28
+# @Last Modified time: 2023-10-31 21:44:09
 
 from collections import Counter, deque
 import itertools
@@ -220,6 +220,7 @@ class random_rb:
 
     def __init__(self, rb: List[int], L: int) -> None:
         self.dep = [0] * L
+        self.len = L
         self.duilie = rb
         self.nPool = []
         self.weights = None
@@ -231,6 +232,9 @@ class random_rb:
     @usew.setter
     def usew(self, value: bool):
         self.__usew = value
+
+    def remark(self):
+        self.dep = [0] * self.len
 
     def find_zero(self) -> int:
         '''find zero'''
@@ -255,9 +259,9 @@ class random_rb:
         if self.nPool == []:
             self.__initializations()
         if self.usew:
-            result = random.choices(self.nPool, weights=self.weights, k=6)
+            result = random.choices(self.nPool, weights=self.weights, k=7)
         else:
-            result = random.choices(self.nPool, k=6)
+            result = random.choices(self.nPool, k=7)
         for num in result:
             if self.__isok(n=num, index=find):
                 self.dep[find] = num
@@ -278,7 +282,6 @@ class glnsMpls:
 
     _rlen = 6
     _blen = 1
-    _deep = 10000 * 1
 
     @property
     def rLen(self) -> int:
@@ -344,22 +347,19 @@ class glnsMpls:
         else:
             return list(max_set)
 
-    @staticmethod
-    def CounterRB(rb: List[int], L: int) -> List[int]:
-        rns = random_rb(rb=rb, L=L)
-        rns.get_number()
-        return rns.dep
-
     def creativity(self) -> Note:
         '''产生号码'''
-        Count = 0
+        get_r = random_rb(self.FixR, self.rLen)
+        get_b = random_rb(self.FixB, self.bLen)
         while True:
-            r = self.CounterRB(self.FixR, self._rlen)
-            b = self.CounterRB(self.FixB, self._blen)
-            n = Note(r, b)
-            Count += 1
+            get_r.get_number()
+            get_b.get_number()
+            n = Note(n=get_r.dep, T=get_b.dep)
             if self.maxjac(N=n) < 0.24:
                 return n
+            else:
+                get_r.remark()
+                get_b.remark()
 
     def maxjac(self, N: Note) -> float:
         # [2, 6, 20, 25, 29, 33]
