@@ -2,12 +2,12 @@
 # @Author: JogFeelingVI
 # @Date:   2023-10-20 14:47:22
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-10-31 05:44:21
+# @Last Modified time: 2023-10-31 19:23:23
 # from Codex.datav import LoadJson
 # from Codex.rego import rego
 from collections import Counter, deque
 import itertools
-import rego, glns_v2
+import rego, glns_v2, datav
 import random
 from typing import List
 import unittest, time, os
@@ -27,10 +27,26 @@ def runtime(func):
 
 def dzx(N: List):
     print('glns test')
-    maxlen = 23
-    temps = ['+'] * maxlen
-    temps_group = [''.join(temps[i:i + 5]) for i in range(0, maxlen, 5)]
-    print('-'.join(temps_group))
+    cdic = datav.LoadJson().toLix
+    glns = glns_v2.glnsMpls(cdic=cdic)
+    duLie = glns_v2.formation(max=5)
+    filters = glns_v2.filterN_v2()
+    reeego = rego.rego()
+    reeego.parse_v2()
+    filters.Lever = glns.getabc
+    filters.Last = glns.getlast
+
+    count = 0
+    while True:
+        n = glns.creativity()
+        rxfil = [f(n) for _, f in filters.filters.items()]
+        if False not in rxfil:
+            if reeego.filtration(n):
+                duLie.addNote(n=n)
+                count += 1
+                print(f'[{count:^4}]: {n}')
+        if count >= duLie.maxlen:
+            break
 
 
 class lianhaotest(unittest.TestCase):

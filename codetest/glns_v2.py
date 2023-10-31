@@ -171,6 +171,7 @@ class filterN_v2:
 class formation:
     __dulie: deque
     __maxlen = 15
+    __count = [0]
 
     @property
     def maxlen(self) -> int:
@@ -202,6 +203,7 @@ class formation:
         max 设置maxlen = 15
         '''
         self.maxlen = max
+        self.__count = [0] * max
         self.__dulie = deque([], maxlen=self.maxlen)
 
     def addNote(self, n: Note) -> int:
