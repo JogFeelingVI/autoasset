@@ -19,15 +19,8 @@ class Note:
             n (List[int]): 1-33 红色号码球
             T (List[int] | int): 1-16 蓝色号码球
         """
-        self.number = []
-        self.tiebie = []
-        for i in sorted(n):
-            if 1 <= i <= 33 and n.count(i) == 1:
-                self.number.append(i)
-        Tx = [T, [T]][isinstance(T, int)]
-        for i in sorted(Tx):
-            if 1 <= i <= 16 and Tx.count(i) == 1:
-                self.tiebie.append(i)
+        self.number = n
+        self.tiebie = [T, [T]][isinstance(T, int)]
         if self.number.__len__() < 6 or self.tiebie.__len__() == 0:
             raise Exception(f'Note Creation failed {self.number}')
 
@@ -58,6 +51,15 @@ class filterN_v2:
 
     __Lever = {}
     __Last = [0, 0, 0, 0, 0, 0]
+    __debug = False
+    
+    @property
+    def debug(self) -> bool:
+        return self.__debug
+    
+    @debug.setter
+    def debug(self, value:bool) -> None:
+        self.__debug = value
 
     @property
     def Lever(self) -> dict:
@@ -88,6 +90,11 @@ class filterN_v2:
             'ac': self.acvalue,
             'dzx': self.dzx
         }
+        if self.debug == False:
+            diskey = ['sixlan', 'duplicates', 'denji', 'hisdiff', 'ac']
+            for k in diskey:
+                self.filters.pop(k)
+            print(self.filters)
 
     def dzx(self, N: Note) -> bool:
         '''xiao zhong da'''
@@ -352,23 +359,21 @@ class glnsMpls:
         while True:
             get_r.get_number()
             get_b.get_number()
-            n = Note(n=get_r.dep, T=get_b.dep)
-            if self.maxjac(N=n) < 0.24:
-                return n
+            #n = Note(n=get_r.dep, T=get_b.dep)
+            if self.maxjac(N=get_r.dep) < 0.24:
+                return Note(n=get_r.dep, T=get_b.dep)
             else:
                 get_r.remark()
                 get_b.remark()
 
-    def maxjac(self, N: Note) -> float:
+    def maxjac(self, N: List) -> float:
         # [2, 6, 20, 25, 29, 33]
-        g = [self.jaccard(x, N.number) for x in self.groupby]
+        def jaccard(A: List, B: List) -> float:
+            '''相似度 雅卡尔指数'''
+            set_a = set(A)
+            set_b = set(B)
+            intersection = len(set_a.intersection(set_b))
+            union = len(set_a.union(set_b))
+            return intersection / union
+        g = [jaccard(x, N) for x in self.groupby]
         return max(g)
-
-    @staticmethod
-    def jaccard(A: List, B: List) -> float:
-        '''相似度 雅卡尔指数'''
-        set_a = set(A)
-        set_b = set(B)
-        intersection = len(set_a.intersection(set_b))
-        union = len(set_a.union(set_b))
-        return intersection / union
