@@ -94,7 +94,6 @@ class filterN_v2:
             diskey = ['sixlan', 'duplicates', 'denji', 'hisdiff', 'ac']
             for k in diskey:
                 self.filters.pop(k)
-            print(self.filters)
 
     def dzx(self, N: Note) -> bool:
         '''xiao zhong da'''

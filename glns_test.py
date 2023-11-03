@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-22 21:46:48
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-10-31 20:42:07
+# @Last Modified time: 2023-11-03 22:13:41
 import pathlib
 import time
 from Codex import datav, glns_v2, rego, md
@@ -52,7 +52,7 @@ def main():
             mdx.append(_mdf.Dividing_line())
         elif x == '+':
             mdx.append(_mdf.plan(f'{duLie.DuLie.pop()}', 'x'))
-            readme_path = pathlib.Path('./test.md')
+            readme_path = pathlib.Path('./glns_test.md')
             with readme_path.open(mode='w') as wMd:
                 for line in mdx:
                     wMd.write(f'{line}\n')

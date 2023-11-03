@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-21 21:14:47
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-10-31 05:48:28
+# @Last Modified time: 2023-11-03 22:23:29
 
 from collections import Counter, deque
 import itertools
@@ -94,7 +94,7 @@ class filterN_v2:
             diskey = ['sixlan', 'duplicates', 'denji', 'hisdiff', 'ac']
             for k in diskey:
                 self.filters.pop(k)
-            print(self.filters)
+            print(self.filters.keys())
 
     def dzx(self, N: Note) -> bool:
         '''xiao zhong da'''
@@ -134,7 +134,7 @@ class filterN_v2:
     def duplicates(self, N: Note) -> bool:
         '''计算数组是否有重复项目'''
         duplic = N.setnumber_R & set(self.Last)
-        return [False, True][duplic.__len__() in (0, 1, 2)]
+        return [False, True][duplic.__len__() in (0, 1, 2, 3)]
 
     def sixlan(self, N: Note) -> bool:
         '''判断红色区域是否等于 1, 2, 3, 4, 5, 6, 7'''
