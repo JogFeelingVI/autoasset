@@ -19,7 +19,7 @@ class Note:
             n (List[int]): 1-33 红色号码球
             T (List[int] | int): 1-16 蓝色号码球
         """
-        self.number = n
+        self.number = sorted(n)
         self.tiebie = [T, [T]][isinstance(T, int)]
         if self.number.__len__() < 6 or self.tiebie.__len__() == 0:
             raise Exception(f'Note Creation failed {self.number}')
@@ -91,7 +91,7 @@ class filterN_v2:
             'dzx': self.dzx
         }
         if self.debug == False:
-            diskey = ['sixlan', 'duplicates', 'denji', 'hisdiff', 'ac']
+            diskey = ['sixlan', 'duplicates', 'denji', 'hisdiff']
             for k in diskey:
                 self.filters.pop(k)
 
@@ -117,10 +117,10 @@ class filterN_v2:
         return rebool
 
     def acvalue(self, N: Note) -> bool:
-        '''计算数字复杂程度 默认 P len = 6'''
-        p = N.setnumber_R
-        ac = len(set(x - y for x in p for y in p if x > y)) - (len(p) - 1)
-        return [True, False][ac > 4]
+        '''计算数字复杂程度 默认 P len = 6 这里操造成效率低下'''
+        p = list(N.setnumber_R)
+        ac = len(set(x - y for x in p[1::] for y in p[0:5] if x > y)) - (len(p) - 1)
+        return [False, True][ac >= 4]
 
     def linma(self, N: Note) -> bool:
         '''计算临码'''

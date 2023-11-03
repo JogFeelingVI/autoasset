@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-21 21:14:47
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-11-03 22:23:29
+# @Last Modified time: 2023-10-31 05:48:28
 
 from collections import Counter, deque
 import itertools
@@ -19,7 +19,7 @@ class Note:
             n (List[int]): 1-33 红色号码球
             T (List[int] | int): 1-16 蓝色号码球
         """
-        self.number = n
+        self.number = sorted(n)
         self.tiebie = [T, [T]][isinstance(T, int)]
         if self.number.__len__() < 6 or self.tiebie.__len__() == 0:
             raise Exception(f'Note Creation failed {self.number}')
@@ -91,10 +91,9 @@ class filterN_v2:
             'dzx': self.dzx
         }
         if self.debug == False:
-            diskey = ['sixlan', 'duplicates', 'denji', 'hisdiff', 'ac']
+            diskey = ['sixlan', 'duplicates', 'denji', 'hisdiff']
             for k in diskey:
                 self.filters.pop(k)
-            print(self.filters.keys())
 
     def dzx(self, N: Note) -> bool:
         '''xiao zhong da'''
@@ -118,10 +117,10 @@ class filterN_v2:
         return rebool
 
     def acvalue(self, N: Note) -> bool:
-        '''计算数字复杂程度 默认 P len = 6'''
-        p = N.setnumber_R
-        ac = len(set(x - y for x in p for y in p if x > y)) - (len(p) - 1)
-        return [True, False][ac > 4]
+        '''计算数字复杂程度 默认 P len = 6 这里操造成效率低下'''
+        p = list(N.setnumber_R)
+        ac = len(set(x - y for x in p[1::] for y in p[0:5] if x > y)) - (len(p) - 1)
+        return [False, True][ac >= 4]
 
     def linma(self, N: Note) -> bool:
         '''计算临码'''
@@ -134,7 +133,7 @@ class filterN_v2:
     def duplicates(self, N: Note) -> bool:
         '''计算数组是否有重复项目'''
         duplic = N.setnumber_R & set(self.Last)
-        return [False, True][duplic.__len__() in (0, 1, 2, 3)]
+        return [False, True][duplic.__len__() in (0, 1, 2)]
 
     def sixlan(self, N: Note) -> bool:
         '''判断红色区域是否等于 1, 2, 3, 4, 5, 6, 7'''

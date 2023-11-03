@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-10-20 14:47:22
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-11-03 22:53:06
+# @Last Modified time: 2023-11-03 23:06:09
 # from Codex.datav import LoadJson
 # from Codex.rego import rego
 from collections import Counter, deque
@@ -70,7 +70,7 @@ class lianhaotest(unittest.TestCase):
 
     def test_linma(self):
         '''test linma'''
-        rex_a = ac(self.c)
+        rex_a = dzx()
         #print(f'Linma {rex_a}')
 
 
