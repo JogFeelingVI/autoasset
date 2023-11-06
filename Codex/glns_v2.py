@@ -357,9 +357,9 @@ class glnsMpls:
         get_b = random_rb(self.FixB, self.bLen)
         while True:
             get_r.get_number()
-            get_b.get_number()
             #n = Note(n=get_r.dep, T=get_b.dep)
             if self.maxjac(N=get_r.dep) < 0.24:
+                get_b.get_number()
                 return Note(n=get_r.dep, T=get_b.dep)
             else:
                 get_r.remark()
@@ -374,5 +374,6 @@ class glnsMpls:
             intersection = len(set_a.intersection(set_b))
             union = len(set_a.union(set_b))
             return intersection / union
-        g = [jaccard(x, N) for x in self.groupby]
+        nls = [N] * 30
+        g = map(jaccard, nls, self.groupby)
         return max(g)
