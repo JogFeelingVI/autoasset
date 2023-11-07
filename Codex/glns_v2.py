@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-21 21:14:47
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-10-31 05:48:28
+# @Last Modified time: 2023-11-07 20:33:17
 
 from collections import Counter, deque
 import itertools
@@ -354,16 +354,14 @@ class glnsMpls:
     def creativity(self) -> Note:
         '''产生号码'''
         get_r = random_rb(self.FixR, self.rLen)
-        get_b = random_rb(self.FixB, self.bLen)
         while True:
             get_r.get_number()
-            #n = Note(n=get_r.dep, T=get_b.dep)
             if self.maxjac(N=get_r.dep) < 0.24:
+                get_b = random_rb(self.FixB, self.bLen)
                 get_b.get_number()
                 return Note(n=get_r.dep, T=get_b.dep)
             else:
                 get_r.remark()
-                get_b.remark()
 
     def maxjac(self, N: List) -> float:
         # [2, 6, 20, 25, 29, 33]

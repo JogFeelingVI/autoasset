@@ -2,10 +2,11 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-21 21:14:47
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-10-31 05:48:28
+# @Last Modified time: 2023-11-07 20:35:08
 
 from collections import Counter, deque
 import itertools
+import math
 import random
 from typing import List
 
@@ -263,9 +264,9 @@ class random_rb:
         if self.nPool == []:
             self.__initializations()
         if self.usew:
-            result = random.choices(self.nPool, weights=self.weights, k=7)
+            result = random.choices(self.nPool, weights=self.weights, k=3)
         else:
-            result = random.choices(self.nPool, k=7)
+            result = random.choices(self.nPool, k=3)
         for num in result:
             if self.__isok(n=num, index=find):
                 self.dep[find] = num
@@ -354,16 +355,15 @@ class glnsMpls:
     def creativity(self) -> Note:
         '''产生号码'''
         get_r = random_rb(self.FixR, self.rLen)
-        get_b = random_rb(self.FixB, self.bLen)
         while True:
             get_r.get_number()
-            get_b.get_number()
-            #n = Note(n=get_r.dep, T=get_b.dep)
-            if self.maxjac(N=get_r.dep) < 0.24:
+            if 0.74< self.cosv(N=get_r.dep) < 0.97:
+                get_b = random_rb(self.FixB, self.bLen)
+                get_b.get_number()
                 return Note(n=get_r.dep, T=get_b.dep)
             else:
                 get_r.remark()
-                get_b.remark()
+        
 
     def maxjac(self, N: List) -> float:
         # [2, 6, 20, 25, 29, 33]
@@ -374,5 +374,13 @@ class glnsMpls:
             intersection = len(set_a.intersection(set_b))
             union = len(set_a.union(set_b))
             return intersection / union
-        g = [jaccard(x, N) for x in self.groupby]
+        nls = [N] * 30
+        g = map(jaccard, nls, self.groupby)
         return max(g)
+    
+    def cosv(self, N:List) -> float:
+        dot = sum(a*b for a, b in zip(N, self.getlast))
+        normx = math.sqrt(sum([a*a for a in N]))
+        normy = math.sqrt(sum([a*a for a in self.getlast]))
+        cos = dot / (normx * normy)
+        return cos

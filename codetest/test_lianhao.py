@@ -2,11 +2,12 @@
 # @Author: JogFeelingVI
 # @Date:   2023-10-20 14:47:22
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-11-03 23:06:09
+# @Last Modified time: 2023-11-07 21:17:33
 # from Codex.datav import LoadJson
 # from Codex.rego import rego
 from collections import Counter, deque
 import itertools
+import math
 import rego, glns_v2, datav
 import random
 from typing import List
@@ -23,11 +24,12 @@ def runtime(func):
     return inst
 
 @runtime
-def ac(N:List=[1, 4, 5, 14, 16, 17]):
-    N = sorted(N)
-    ac = len(set(x - y for x in N[1::] for y in N[0:5] if x > y)) - (len(N) - 1)
-    print(f'AC Valuse {N[1::]} - {N[0:5]} {ac}')
-
+def cosv(x:List, y:List):
+    dot = sum(a*b for a, b in zip(x, y))
+    normx = math.sqrt(sum([a*a for a in x]))
+    normy = math.sqrt(sum([a*a for a in y]))
+    cos = dot / (normx * normy)
+    print(f'COS {cos}')
 
 def dzx():
     print('glns test')
@@ -39,22 +41,21 @@ def dzx():
     reeego.parse_v2()
     filters.Lever = glns.getabc
     filters.Last = glns.getlast
-
+    
     count = 0
     while True:
         # n = glns 是最慢的
-        n = glns.creativity()
-        rxfil = True
+        n=glns.creativity()
+        # = True
         for k, func in filters.filters.items():
             if func(n) == False:
-                rxfil = False
+                #rxfil = False
                 #print(f'key {k} is False')
                 break
-        if rxfil:
-            if reeego.filtration(n):
-                duLie.addNote(n=n)
-                count += 1
-                print(f'[{count:^4}]: {n}')
+        if reeego.filtration(n):
+            duLie.addNote(n=n)
+            count += 1
+            print(f'[{count:^4}]: {n}')
 
         if count >= duLie.maxlen:
             break
@@ -63,8 +64,8 @@ def dzx():
 class lianhaotest(unittest.TestCase):
 
     def setUp(self) -> None:
-        self.a = [1, 2, 6, 7, 8, 10]
-        self.b = [20, 9, 3, 19, 21, 28]
+        self.a = [10, 24, 26, 28, 29, 31]
+        self.b = [3, 8, 19, 22, 26, 32]
         self.c = [11,15,18,24,26,32]
         return super().setUp()
 
