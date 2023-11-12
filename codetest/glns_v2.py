@@ -2,18 +2,16 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-21 21:14:47
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-11-07 20:35:08
+# @Last Modified time: 2023-11-12 22:01:24
 
 from collections import Counter, deque
-import itertools
-import math
-import random
+import itertools, random, math, time
 from typing import List
 
 
 class Note:
 
-    def __init__(self, n: List[int], T: List[int] | int) -> None:
+    def __init__(self, n: List[int]=[0,0,0,0,0,0], T: List[int] | int=0) -> None:
         """Note
 
         Args:
@@ -92,7 +90,7 @@ class filterN_v2:
             'dzx': self.dzx
         }
         if self.debug == False:
-            diskey = ['sixlan', 'duplicates', 'denji', 'hisdiff']
+            diskey = ['sixlan', 'duplicates', 'denji', 'hisdiff', 'ac']
             for k in diskey:
                 self.filters.pop(k)
 
@@ -103,7 +101,7 @@ class filterN_v2:
         count = [[], [], []]
         for ai in N.setnumber_R:
             index = 1
-            while True:
+            while 1:
                 if ai in g[index]:
                     count[index].append(ai)
                     break
@@ -257,6 +255,11 @@ class random_rb:
             self.nPool = list(inverse_freq.keys())
             self.weights = list(inverse_freq.values())
 
+    def get_number_v2(self):
+        if self.nPool == []:
+            self.__initializations()
+        self.dep = random.sample(self.nPool, k=self.len)
+
     def get_number(self):
         find = self.find_zero()
         if find == -1:
@@ -265,9 +268,9 @@ class random_rb:
         if self.nPool == []:
             self.__initializations()
         if self.usew:
-            result = random.choices(self.nPool, weights=self.weights, k=3)
+            result = random.choices(self.nPool, weights=self.weights, k=6)
         else:
-            result = random.choices(self.nPool, k=3)
+            result = random.choices(self.nPool, k=6)
         for num in result:
             if self.__isok(n=num, index=find):
                 self.dep[find] = num
@@ -356,14 +359,17 @@ class glnsMpls:
     def creativity(self) -> Note:
         '''产生号码'''
         get_r = random_rb(self.FixR, self.rLen)
-        while True:
-            get_r.get_number()
-            if 0.19 < self.maxjac(get_r.dep):
+        N = Note()
+        while 1:
+            get_r.get_number_v2()
+            if self.maxjac(N=get_r.dep) > 0.19:
                 get_b = random_rb(self.FixB, self.bLen)
-                get_b.get_number()
-                return Note(n=get_r.dep, T=get_b.dep)
+                get_b.get_number_v2()
+                N = Note(n=get_r.dep, T=get_b.dep)
+                break
             else:
                 get_r.remark()
+        return N
 
     def maxjac(self, N: List) -> float:
         # [2, 6, 20, 25, 29, 33]
@@ -378,6 +384,10 @@ class glnsMpls:
         nls = [N] * 30
         g = map(jaccard, nls, self.groupby)
         return max(g)
+
+    def maxjac_v2(self, N: List) -> float:
+        # [2, 6, 20, 25, 29, 33]
+        return 0.2
 
     def cosv(self, N: List) -> float:
         dot = sum(a * b for a, b in zip(N, self.getlast))
