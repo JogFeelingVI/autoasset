@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-21 21:14:47
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-11-21 12:45:17
+# @Last Modified time: 2023-11-21 20:21:34
 
 from collections import Counter, deque
 import itertools, random, math, time
@@ -103,23 +103,9 @@ class filterN_v2:
 
     def dzx(self, N: Note) -> bool:
         '''xiao zhong da'''
-        a = range(1, 34)
-        g = [a[i:i + 11] for i in range(0, len(a), 11)]
-        count = [[], [], []]
-        for ai in N.setnumber_R:
-            index = 1
-            while 1:
-                if ai in g[index]:
-                    count[index].append(ai)
-                    break
-                else:
-                    if ai < min(g[index]):
-                        index -= 1
-                    if ai > max(g[index]):
-                        index += 1
-
-        flgrex = [len(x) for x in count]
-        rebool = [False, True][5 not in flgrex or 6 in flgrex]
+        g = [range(i, i + 11) for i in range(0, 33, 11)]
+        countofg = map(lambda x: N.setnumber_R.intersection(x).__len__(), g)
+        rebool = [False, True][5 not in countofg or 6 in countofg]
         return rebool
 
     def acvalue(self, N: Note) -> bool:
@@ -144,8 +130,7 @@ class filterN_v2:
 
     def sixlan(self, N: Note) -> bool:
         '''判断红色区域是否等于 1, 2, 3, 4, 5, 6, 7'''
-        ntoe = {1, 2, 3, 4, 5, 6}
-        rb = [False, True][N.setnumber_R != ntoe]
+        rb = [False, True][max(N.setnumber_R) != 6]
         return rb
 
     def lianhao(self, n: Note) -> bool:
@@ -170,14 +155,13 @@ class filterN_v2:
         '''
         [(4, 1), (20, 3), (7, 3), (23, 3), (21, 3), (2, 4), (29, 4), (28, 4), (5, 4), (12, 4), (17, 4)]
         '''
-        bools = True
         if self.Lever.keys().__len__() == 0:
             return True
         Levers = map(lambda x: [i[0] for i in x], self.Lever.values())
         Rexts = map(lambda x: N.setnumber_R.intersection(x).__len__(), Levers)
         if 0 in Rexts:
-            bools = False
-        return bools
+            return False
+        return True
 
 
 class formation:
