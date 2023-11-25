@@ -97,7 +97,6 @@ class assetx:
             duLie = glns_v2.formation(max=25)
             filters = glns_v2.filterN_v2()
             reeego = rego.rego()
-            reeego.parse_v2()
             filters.Lever = glns.getabc
             filters.Last = glns.getlast
             count = 0
