@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-10-20 14:47:22
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-11-19 09:54:59
+# @Last Modified time: 2023-11-26 21:47:19
 # from Codex.datav import LoadJson
 # from Codex.rego import rego
 from collections import Counter, deque
@@ -59,21 +59,21 @@ def dzx():
     duLie = glns_v2.formation(max=25)
     filters = glns_v2.filterN_v2()
     reeego = rego.rego()
-    reeego.parse_v2()
     filters.Lever = glns.getabc
     filters.Last = glns.getlast
 
     count = 0
     while True:
         # n = glns 是最慢的
-        n = glns.creativity()
+        _n, _t = glns.creativity()
+        n = glns_v2.Note(_n, _t)
         # = True
         for k, func in filters.filters.items():
             if func(n) == False:
                 #rxfil = False
                 #print(f'key {k} is False')
                 break
-        if reeego.filtration(n):
+        if reeego.filtration_olde(n):
             duLie.addNote(n=n)
             count += 1
             print(f'[{count:^4}]: {n}')

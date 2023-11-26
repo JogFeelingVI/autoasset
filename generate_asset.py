@@ -101,7 +101,8 @@ class assetx:
             filters.Last = glns.getlast
             count = 0
             while True:
-                n = glns.creativity()
+                _n, _t = glns.creativity()
+                n = glns_v2.Note(_n, _t)
                 rxfil = True
                 for k, func in filters.filters.items():
                     if func(n) == False:
@@ -109,7 +110,7 @@ class assetx:
                         #print(f'key {k} is False')
                         break
                 if rxfil:
-                    if reeego.filtration(n):
+                    if reeego.filtration_olde(n):
                         duLie.addNote(n=n)
                         count += 1
                         print(f'[{count:^4}]: {n}')

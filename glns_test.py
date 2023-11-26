@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-22 21:46:48
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-11-25 18:07:00
+# @Last Modified time: 2023-11-26 21:45:55
 import pathlib
 import time
 from Codex import datav, glns_v2, rego, md
@@ -29,7 +29,9 @@ def main():
 
     count = 0
     while True:
-        n = glns.creativity()
+        _n, _t = glns.creativity()
+        n = glns_v2.Note(_n, _t)
+
         rxfil = True
         for k, func in filters.filters.items():
             if func(n) == False:
@@ -37,7 +39,7 @@ def main():
                 #print(f'key {k} is False')
                 break
         if rxfil:
-            if reeego.filtration(n):
+            if reeego.filtration_olde(n):
                 duLie.addNote(n=n)
                 count += 1
                 print(f'[{count:^4}]: {n}')
