@@ -2,10 +2,10 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-22 21:46:48
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-11-26 21:45:55
+# @Last Modified time: 2023-11-30 10:12:06
 import pathlib
 import time
-from Codex import datav, glns_v2, rego, md
+from Codex import datav, glns_v2, rego_v2, md
 
 
 def Test_main():
@@ -23,7 +23,7 @@ def main():
     glns = glns_v2.glnsMpls(cdic=cdic)
     duLie = glns_v2.formation(max=25)
     filters = glns_v2.filterN_v2()
-    reeego = rego.rego()
+    reeego = rego_v2.rego().parse_dict
     filters.Lever = glns.getabc
     filters.Last = glns.getlast
 
@@ -38,11 +38,16 @@ def main():
                 rxfil = False
                 #print(f'key {k} is False')
                 break
+
+        for k, f in reeego.items():
+            if f['f'](n, f['a']) == False:
+                rxfil = False
+                break
         if rxfil:
-            if reeego.filtration_olde(n):
-                duLie.addNote(n=n)
-                count += 1
-                print(f'[{count:^4}]: {n}')
+            duLie.addNote(n=n)
+            count += 1
+            print(f'[{count:^4}]: {n}')
+
         if count >= duLie.maxlen:
             break
     # to md file
