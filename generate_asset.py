@@ -2,12 +2,12 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-15 20:22:04
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-10-31 06:01:28
+# @Last Modified time: 2023-12-02 17:18:43
 
 import re, json
 from datetime import datetime as dtime
 from typing import List
-from Codex import gethtml, pathliab, glns_v2, md, datav, rego
+from Codex import gethtml, pathliab, glns_v2, md, datav, rego_v2
 
 
 class assetx:
@@ -83,6 +83,7 @@ class assetx:
             markdown.append(_mdf.title('Auto update asasset.json', 2))
             markdown.append(
                 _mdf.unordered_list(f'update {self.Lix.get("date", "None")}'))
+
             markdown.append(
                 _mdf.unordered_list(
                     f'Black box number {_mdf.ltalic(_datav.showlastnumber())}')
@@ -96,24 +97,30 @@ class assetx:
             glns = glns_v2.glnsMpls(cdic=cdic)
             duLie = glns_v2.formation(max=25)
             filters = glns_v2.filterN_v2()
-            reeego = rego.rego()
+            reeego = rego_v2.rego().parse_dict
             filters.Lever = glns.getabc
             filters.Last = glns.getlast
             count = 0
             while True:
                 _n, _t = glns.creativity()
                 n = glns_v2.Note(_n, _t)
+
                 rxfil = True
                 for k, func in filters.filters.items():
                     if func(n) == False:
                         rxfil = False
                         #print(f'key {k} is False')
                         break
+
+                for k, f in reeego.items():
+                    if f['f'](n, f['a']) == False:
+                        rxfil = False
+                        break
                 if rxfil:
-                    if reeego.filtration_olde(n):
-                        duLie.addNote(n=n)
-                        count += 1
-                        print(f'[{count:^4}]: {n}')
+                    duLie.addNote(n=n)
+                    count += 1
+                    print(f'[{count:^4}]: {n}')
+
                 if count >= duLie.maxlen:
                     break
             # glnsN = glns.glnsMpls(self.Lix)

@@ -2,11 +2,10 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-21 21:14:47
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-11-26 21:33:37
+# @Last Modified time: 2023-12-02 17:11:01
 
-from ast import Return, Tuple
 from collections import Counter, deque
-import itertools, random, math, time
+import itertools, random, math
 from typing import List
 
 
@@ -14,19 +13,20 @@ class Note:
     __set_r = None
     __set_b = None
 
-    def __init__(self,
-                 n: List[int] = [0, 0, 0, 0, 0, 0],
-                 T: List[int] | int = 0) -> None:
+    def __init__(self,n: List[int],T: List[int] | int) -> None:
         """Note
         Args:
             n (List[int]): 1-33 红色号码球
             T (List[int] | int): 1-16 蓝色号码球
         """
-        self.number = sorted(n)
-        self.tiebie = [T, [T]][isinstance(T, int)]
-        if self.number.__len__() < 6 or self.tiebie.__len__() == 0:
-            raise Exception(f'Note Creation failed {self.number}')
+        _T = [T, [T]][isinstance(T, int)]
+        if sum(n) > 21 and _T.__len__()!=0:
+            self.number = sorted(n)
+            self.tiebie = sorted(_T)
+        
 
+    def index(self, i:int) -> int:
+        return self.number[i-1]
 
     @property
     def setnumber_R(self):
@@ -49,7 +49,6 @@ class Note:
 class filterN_v2:
     ''' 对Note进行过滤 '''
     filters = {}
-    fixrb = {}
 
     __Lever = {}
     __Last = [0, 0, 0, 0, 0, 0]
@@ -91,13 +90,14 @@ class filterN_v2:
             'lianhao': self.lianhao,
             'ac': self.acvalue,
             'denji': self.denji,  #
+            'mod3': self.mod3
         }
 
         if self.__debug == False:
             #diskey = ['sixlan', 'denji']
             diskey = [
                 'sixlan',
-                'duplicates',
+                #'duplicates',
                 'denji',
             ]
             for k in diskey:
@@ -153,9 +153,21 @@ class filterN_v2:
         flgrex = sorted([len(v) for v in count if len(v) > 1])
         rebool = [False, True][flgrex in [[], [3], [2], [2, 2]]]
         return rebool
+    
+    def mod3(self, n: Note) -> bool:
+        '''mod 3 not in [[6], [5,1],[3,3]]'''
+        f = lambda x: x % 3
+        cts =[[6], [5,1]]
+        s = sorted(n.number, key=f)
+        modg = itertools.groupby(s, key=f)
+        counts = sorted([len(list(g[1])) for g in modg])
+        if counts in cts:
+            return False
+        return True
 
     def denji(self, N: Note) -> bool:
         '''
+        这个方法会造成命中率降低弃用
         [(4, 1), (20, 3), (7, 3), (23, 3), (21, 3), (2, 4), (29, 4), (28, 4), (5, 4), (12, 4), (17, 4)]
         '''
         if self.Lever.keys().__len__() == 0:
@@ -213,22 +225,12 @@ class formation:
 
 class random_rb:
     '''random R & B'''
-    __usew = False
 
-    def __init__(self, rb: List[int], L: int) -> None:
+    def __init__(self, rb: List, L: int) -> None:
         self.dep = [0] * L
         self.len = L
-        self.duilie = rb
-        self.nPool = []
-        self.weights = None
+        self.nPool = rb
 
-    @property
-    def usew(self) -> bool:
-        return self.__usew
-
-    @usew.setter
-    def usew(self, value: bool):
-        self.__usew = value
 
     def remark(self):
         self.dep = [0] * self.len
@@ -239,44 +241,35 @@ class random_rb:
             return self.dep.index(0)
         return -1
 
-    def __initializations(self):
-        '''initialization data'''
-        if self.nPool == [] or self.weights == None:
-            counter = Counter(self.duilie)
-            total = max(counter.values())
-            inverse_freq = {k: total - v for k, v in counter.items()}
-            self.nPool = list(inverse_freq.keys())
-            self.weights = list(inverse_freq.values())
 
     def get_number_v2(self):
-        if self.nPool == []:
-            self.__initializations()
-        self.dep = random.sample(self.nPool, k=self.len)
+        self.dep = sorted(random.sample(self.nPool, k=self.len))
 
-    def get_number(self):
-        find = self.find_zero()
-        if find == -1:
-            return True
+    # 已经删除
+    # def get_number(self):
+    #     find = self.find_zero()
+    #     if find == -1:
+    #         return True
 
-        if self.nPool == []:
-            self.__initializations()
-        if self.usew:
-            result = random.choices(self.nPool, weights=self.weights, k=6)
-        else:
-            result = random.choices(self.nPool, k=6)
-        for num in result:
-            if self.__isok(n=num, index=find):
-                self.dep[find] = num
-                if self.get_number():
-                    return True
-                self.dep[find] = 0
-        return False
+    #     if self.nPool == []:
+    #         self.__initializations()
+    #     if self.usew:
+    #         result = random.choices(self.nPool, weights=self.weights, k=6)
+    #     else:
+    #         result = random.choices(self.nPool, k=6)
+    #     for num in result:
+    #         if self.__isok(n=num, index=find):
+    #             self.dep[find] = num
+    #             if self.get_number():
+    #                 return True
+    #             self.dep[find] = 0
+    #     return False
 
-    def __isok(self, n: int, index: int) -> bool:
-        '''判断数字是否符合标准'''
-        if n in self.dep:
-            return False
-        return True
+    # def __isok(self, n: int, index: int) -> bool:
+    #     '''判断数字是否符合标准'''
+    #     if n in self.dep:
+    #         return False
+    #     return True
 
 
 class glnsMpls:
@@ -330,24 +323,17 @@ class glnsMpls:
                 self.groupby = [
                     self.R[i:i + 6] for i in range(0, len(self.R), 6)
                 ]
-                self.random_r = random_rb(self.__fixrb(max=33, n=self.R), self.rLen)
-                self.random_b = random_rb(self.__fixrb(max=16, n=self.B), self.bLen)
+                self.random_r = random_rb(self.__fixrb(max=33), self.rLen)
+                self.random_b = random_rb(self.__fixrb(max=16), self.bLen)
+            # print(f'glns init done')
 
     @staticmethod
-    def __fixrb(max: int = 16, n: List[int] = []) -> List[int]:
+    def __fixrb(max: int = 16) -> List:
         '''
         修复 R B 中缺失的数字
         '''
-        max_set = set([x for x in range(1, max + 1)])
-        if max == 16 or max == 33 and n is not None:
-            fix = max_set.difference(set(n))
-            if fix is None:
-                return list(max_set)
-            else:
-                n.extend(list(fix))
-                return n
-        else:
-            return list(max_set)
+        max_set = [x for x in range(1, max+1)]
+        return max_set
 
     def creativity(self) -> tuple[list[int], list[int]]:
         '''产生号码'''
