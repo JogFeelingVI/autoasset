@@ -2,11 +2,12 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-21 21:14:47
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-12-05 12:56:33
+# @Last Modified time: 2023-12-05 16:09:30
 
 from collections import Counter, deque
 import itertools, random, math
-from typing import List
+from typing import Any, List
+
 
 def Range_M(M: int = 16) -> List:
     '''
@@ -15,6 +16,7 @@ def Range_M(M: int = 16) -> List:
     '''
     max_set = [x for x in range(1, M + 1)]
     return max_set
+
 
 class Note:
     __set_r = None
@@ -91,16 +93,16 @@ class filterN_v2:
             'sixlan': self.sixlan,  #
             'dx16': self.dx16,
             'zhihe': self.zhihe,
-            'mod2': self.mod2,
-            'mod3': self.mod3,
-            'mod5': self.mod5,
-            'mod6': self.mod6,
-            'mod7': self.mod7,
             'duplicates': self.duplicates,  #
             'linma': self.linma,  #
             'dzx': self.dzx,
             'lianhao': self.lianhao,
             'ac': self.acvalue,
+            'mod2': self.mod2,
+            'mod3': self.mod3,
+            'mod5': self.mod5,
+            'mod6': self.mod6,
+            'mod7': self.mod7,
             'denji': self.denji,  #
         }
 
@@ -165,62 +167,58 @@ class filterN_v2:
         rebool = [False, True][flgrex in [[], [3], [2], [2, 2]]]
         return rebool
 
+    def mod(self, n: Note, m: int):
+        ''' mod ? m = 2 3 4 5 6'''
+        f = lambda x: x % m
+        s = sorted(n.number, key=f)
+        return itertools.groupby(s, key=f)
+
     def mod3(self, n: Note) -> bool:
         '''mod 3 not in [[6], [5,1],[3,3]]'''
-        f = lambda x: x % 3
         cts = [[6], [5, 1]]
-        s = sorted(n.number, key=f)
-        modg = itertools.groupby(s, key=f)
+        modg = self.mod(n, 3)
         counts = sorted([len(list(g[1])) for g in modg])
         if counts in cts:
             return False
         return True
-    
+
     def mod2(self, n: Note) -> bool:
         '''mod 2 not in [[6], [5,1],[3,3]]'''
-        f = lambda x: x % 2
-        cts = [[6], [0]]
-        s = sorted(n.number, key=f)
-        modg = itertools.groupby(s, key=f)
+        cts = [[6], [5, 1]]
+        modg = self.mod(n, 2)
         counts = sorted([len(list(g[1])) for g in modg])
         if counts in cts:
             return False
         return True
-    
+
     def mod5(self, n: Note) -> bool:
         '''mod 5 not in [[6], [5,1],[3,3]]'''
-        f = lambda x: x % 5
         cts = [4, 5, 6]
-        s = sorted(n.number, key=f)
-        modg = itertools.groupby(s, key=f)
+        modg = self.mod(n, 5)
         counts = max([len(list(g[1])) for g in modg])
         if counts in cts:
             return False
         return True
-    
+
     def mod6(self, n: Note) -> bool:
         '''mod 5 not in [[6], [5,1],[3,3]]'''
-        f = lambda x: x % 6
         cts = [4, 5, 3]
-        s = sorted(n.number, key=f)
-        modg = itertools.groupby(s, key=f)
+        modg = self.mod(n, 6)
         counts = [len(list(g[1])) for g in modg].__len__()
         if counts not in cts:
             return False
         return True
-    
+
     def mod7(self, n: Note) -> bool:
         '''mod 5 not in [[6], [5,1],[3,3]]'''
-        f = lambda x: x % 7
         cts = [4, 5, 3, 6]
-        s = sorted(n.number, key=f)
-        modg = itertools.groupby(s, key=f)
+        modg = self.mod(n, 7)
         counts = [len(list(g[1])) for g in modg].__len__()
         if counts not in cts:
             return False
         return True
-    
-    def dx16(self, n:Note) -> bool:
+
+    def dx16(self, n: Note) -> bool:
         '''
         da:xiao 1:5 n > 16.02 is da
         '''
@@ -232,12 +230,12 @@ class filterN_v2:
         if counts in cts:
             return False
         return True
-    
-    def zhihe(self, n:Note) -> bool:
+
+    def zhihe(self, n: Note) -> bool:
         '''
         da:xiao 1:5 n > 16.02 is da
         '''
-        f = lambda x: x in (1,2,3,5,7,11,13,17,19,23,29,31)
+        f = lambda x: x in (1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31)
         cts = [[6], [0]]
         s = sorted(n.number, key=f)
         modg = itertools.groupby(s, key=f)
@@ -370,7 +368,6 @@ class glnsMpls:
                 self.random_r = random_rb(Range_M(M=33), self.rLen)
                 self.random_b = random_rb(Range_M(M=16), self.bLen)
             # print(f'glns init done')
-
 
     def creativity(self) -> tuple[list[int], list[int]]:
         '''产生号码'''
