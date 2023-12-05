@@ -2,12 +2,19 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-21 21:14:47
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-12-05 16:09:30
+# @Last Modified time: 2023-12-05 16:42:26
 
 from collections import Counter, deque
 import itertools, random, math
 from typing import Any, List
 
+def mod(n: List, m: int):
+    ''' mod ? m = 2 3 4 5 6'''
+    f = lambda x: x % m
+    s = sorted(n, key=f)
+    gby = itertools.groupby(s, key=f)
+    # sorted([len(list(g[1])) for g in gby])
+    return [len(list(v)) for g, v in gby]
 
 def Range_M(M: int = 16) -> List:
     '''
@@ -167,17 +174,11 @@ class filterN_v2:
         rebool = [False, True][flgrex in [[], [3], [2], [2, 2]]]
         return rebool
 
-    def mod(self, n: Note, m: int):
-        ''' mod ? m = 2 3 4 5 6'''
-        f = lambda x: x % m
-        s = sorted(n.number, key=f)
-        return itertools.groupby(s, key=f)
 
     def mod3(self, n: Note) -> bool:
         '''mod 3 not in [[6], [5,1],[3,3]]'''
         cts = [[6], [5, 1]]
-        modg = self.mod(n, 3)
-        counts = sorted([len(list(g[1])) for g in modg])
+        counts = sorted(mod(n.number, 3))
         if counts in cts:
             return False
         return True
@@ -185,8 +186,7 @@ class filterN_v2:
     def mod2(self, n: Note) -> bool:
         '''mod 2 not in [[6], [5,1],[3,3]]'''
         cts = [[6], [5, 1]]
-        modg = self.mod(n, 2)
-        counts = sorted([len(list(g[1])) for g in modg])
+        counts = sorted(mod(n.number, 2))
         if counts in cts:
             return False
         return True
@@ -194,8 +194,7 @@ class filterN_v2:
     def mod5(self, n: Note) -> bool:
         '''mod 5 not in [[6], [5,1],[3,3]]'''
         cts = [4, 5, 6]
-        modg = self.mod(n, 5)
-        counts = max([len(list(g[1])) for g in modg])
+        counts = max(mod(n.number, 5))
         if counts in cts:
             return False
         return True
@@ -203,8 +202,7 @@ class filterN_v2:
     def mod6(self, n: Note) -> bool:
         '''mod 5 not in [[6], [5,1],[3,3]]'''
         cts = [4, 5, 3]
-        modg = self.mod(n, 6)
-        counts = [len(list(g[1])) for g in modg].__len__()
+        counts = len(mod(n.number, 6))
         if counts not in cts:
             return False
         return True
@@ -212,8 +210,7 @@ class filterN_v2:
     def mod7(self, n: Note) -> bool:
         '''mod 5 not in [[6], [5,1],[3,3]]'''
         cts = [4, 5, 3, 6]
-        modg = self.mod(n, 7)
-        counts = [len(list(g[1])) for g in modg].__len__()
+        counts = len(mod(n.number, 7))
         if counts not in cts:
             return False
         return True
