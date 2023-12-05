@@ -2,19 +2,29 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-21 21:14:47
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-12-05 16:42:26
+# @Last Modified time: 2023-12-05 21:06:47
 
 from collections import Counter, deque
 import itertools, random, math
 from typing import Any, List
 
-def mod(n: List, m: int):
+def mod_old(n: List, m: int):
     ''' mod ? m = 2 3 4 5 6'''
     f = lambda x: x % m
     s = sorted(n, key=f)
     gby = itertools.groupby(s, key=f)
+    
     # sorted([len(list(g[1])) for g in gby])
-    return [len(list(v)) for g, v in gby]
+    return [list(v).__len__() for g, v in gby]
+
+
+def mod(n: List, m: int):
+    ''' mod ? m = 2 3 4 5 6  group (1, [1,2,3])'''
+    f = [x % m for x in n]
+    s = sorted(f)
+    gby = itertools.groupby(s)
+    return [list(v).__len__() for g, v in gby]
+
 
 def Range_M(M: int = 16) -> List:
     '''
@@ -173,7 +183,6 @@ class filterN_v2:
         flgrex = sorted([len(v) for v in count if len(v) > 1])
         rebool = [False, True][flgrex in [[], [3], [2], [2, 2]]]
         return rebool
-
 
     def mod3(self, n: Note) -> bool:
         '''mod 3 not in [[6], [5,1],[3,3]]'''
