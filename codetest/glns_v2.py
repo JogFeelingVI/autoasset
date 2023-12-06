@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-21 21:14:47
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-12-05 21:06:47
+# @Last Modified time: 2023-12-06 11:56:55
 
 from collections import Counter, deque
 import itertools, random, math
@@ -117,6 +117,7 @@ class filterN_v2:
             'ac': self.acvalue,
             'mod2': self.mod2,
             'mod3': self.mod3,
+            'mod4': self.mod4,
             'mod5': self.mod5,
             'mod6': self.mod6,
             'mod7': self.mod7,
@@ -189,6 +190,12 @@ class filterN_v2:
         cts = [[6], [5, 1]]
         counts = sorted(mod(n.number, 3))
         if counts in cts:
+            return False
+        return True
+    
+    def mod4(self, n:Note) ->bool:
+        counts = mod(n.number, 4)
+        if max(counts) > 4.01:
             return False
         return True
 
