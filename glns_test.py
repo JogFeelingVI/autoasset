@@ -2,19 +2,10 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-22 21:46:48
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-11-30 10:12:06
+# @Last Modified time: 2023-12-10 11:18:00
 import pathlib
 import time
 from Codex import datav, glns_v2, rego_v2, md
-
-
-def Test_main():
-    N = glns_v2.Note([4, 15, 18, 20, 24, 28], T=7)
-    print(f'Note {N}')
-    # _rego = rego.rego()
-    # _rego.debug = True
-    # _rego.parse()
-    # _rego.filtration(N)
 
 
 def main():
@@ -38,7 +29,6 @@ def main():
                 rxfil = False
                 #print(f'key {k} is False')
                 break
-
         for k, f in reeego.items():
             if f['f'](n, f['a']) == False:
                 rxfil = False
