@@ -1,19 +1,20 @@
 # -*- coding: utf-8 -*-
 # @Author: JogFeelingVI
 # @Date:   2023-09-21 21:14:47
-# @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-12-06 11:56:55
-
-from collections import Counter, deque
+# @Last Modified by:   Your name
+# @Last Modified time: 2023-12-23 20:12:33
 import itertools, random, math
+from collections import Counter, deque
+from Codex import groove
 from typing import Any, List
+
 
 def mod_old(n: List, m: int):
     ''' mod ? m = 2 3 4 5 6'''
     f = lambda x: x % m
     s = sorted(n, key=f)
     gby = itertools.groupby(s, key=f)
-    
+
     # sorted([len(list(g[1])) for g in gby])
     return [list(v).__len__() for g, v in gby]
 
@@ -107,11 +108,12 @@ class filterN_v2:
 
     def __init__filters(self) -> None:
         self.filters = {
-            'sixlan': self.sixlan,  #
+            'sixlan': self.sixlan,
+            'onesixdiff': self.onesixdiff,
             'dx16': self.dx16,
             'zhihe': self.zhihe,
-            'duplicates': self.duplicates,  #
-            'linma': self.linma,  #
+            'duplicates': self.duplicates,
+            'linma': self.linma,
             'dzx': self.dzx,
             'lianhao': self.lianhao,
             'ac': self.acvalue,
@@ -121,7 +123,7 @@ class filterN_v2:
             'mod5': self.mod5,
             'mod6': self.mod6,
             'mod7': self.mod7,
-            'denji': self.denji,  #
+            'denji': self.denji,
         }
 
         if self.__debug == False:
@@ -150,15 +152,9 @@ class filterN_v2:
         return [False, True][ac >= 4]
 
     def linma(self, N: Note) -> bool:
-        '''计算临码'''
-        # plus_minus = []
-
-        # for n in N.setnumber_R:
-        #     if n + 1 in self.Last or n - 1 in self.Last:
-        #         plus_minus.append(n)
-        # return [False, True][plus_minus.__len__() in (0, 1, 2, 3)]
+        '''计算邻码'''
         plus_minus = 0
-        for n in N.setnumber_R:
+        for n in N.number:
             if n + 1 in self.Last or n - 1 in self.Last:
                 plus_minus += 1
                 if plus_minus > 3.5:
@@ -177,7 +173,7 @@ class filterN_v2:
 
     def lianhao(self, n: Note) -> bool:
         count = []
-        for v in n.setnumber_R:
+        for v in n.number:
             if not count or v != count[-1][-1] + 1:
                 count.append([])
             count[-1].append(v)
@@ -192,8 +188,8 @@ class filterN_v2:
         if counts in cts:
             return False
         return True
-    
-    def mod4(self, n:Note) ->bool:
+
+    def mod4(self, n: Note) -> bool:
         counts = mod(n.number, 4)
         if max(counts) > 4.01:
             return False
@@ -257,7 +253,7 @@ class filterN_v2:
             return False
         return True
 
-    def denji(self, N: Note) -> bool:
+    def denji(self, n: Note) -> bool:
         '''
         这个方法会造成命中率降低弃用
         [(4, 1), (20, 3), (7, 3), (23, 3), (21, 3), (2, 4), (29, 4), (28, 4), (5, 4), (12, 4), (17, 4)]
@@ -265,8 +261,14 @@ class filterN_v2:
         if self.Lever.keys().__len__() == 0:
             return True
         Levers = map(lambda x: [i[0] for i in x], self.Lever.values())
-        Rexts = map(lambda x: N.setnumber_R.intersection(x).__len__(), Levers)
+        Rexts = map(lambda x: n.setnumber_R.intersection(x).__len__(), Levers)
         if 0 in Rexts:
+            return False
+        return True
+
+    def onesixdiff(self, n: Note) -> bool:
+        '''1 - 6 diff > 15.06'''
+        if abs(n.index(1) - n.index(6)) < 15.09:
             return False
         return True
 
@@ -313,6 +315,51 @@ class formation:
             return self.DuLie.__len__()
         except:
             return -1
+
+
+class random_rb_f:
+    '''根据频率来随机数列'''
+
+    def __init__(self, rb: List, L: int, debug='') -> None:
+        '''
+        pass
+        debug vvvv
+        '''
+        self.debug = debug
+        self.len = L
+        if rb != None:
+            self.__init_frequency(rb=rb)
+
+    @staticmethod
+    def __fixrb(rb: List[int], debug: str = '') -> List[int]:
+        '''
+        rb = [1,2,3,4....]
+        '''
+        sr = Range_M(33) if max(rb) > 16.09 else Range_M(16)
+        srb = set(rb)
+        sr = set(sr)
+        m = sr ^ srb
+        if debug.count('v') >= 1:
+            print(f'[F] {sr} {m}')
+        if m.__len__() != 0:
+            return rb + list(m)
+        return rb
+
+    def __init_frequency(self, rb: List[int]):
+        '''初始化 频率'''
+        counter = Counter(self.__fixrb(rb, self.debug))
+        self.nPool = list(counter.keys())
+        self.weights = list(counter.values())
+        if self.debug.count('v') >= 1:
+            print(f'[v] nPool {self.nPool}')
+            print(f'[v] weights {self.weights}')
+
+    def get_number_v2(self):
+        '''get number v2'''
+        rext = []
+        while set(rext).__len__() != self.len:
+            rext = random.choices(self.nPool, weights=self.weights, k=self.len)
+        return sorted(rext)
 
 
 class random_rb:
@@ -370,7 +417,7 @@ class glnsMpls:
         level3 = counter_list[level_size * 2:]
         return {'I': level1, 'II': level2, 'III': level3}
 
-    def __init__(self, cdic: dict) -> None:
+    def __init__(self, cdic: dict, w: str = 'c') -> None:
         if 'R' in cdic and 'B' in cdic:
             self.R = cdic.get('R', [])
             self.B = cdic.get('B', [])
@@ -378,8 +425,22 @@ class glnsMpls:
                 self.groupby = [
                     self.R[i:i + 6] for i in range(0, len(self.R), 6)
                 ]
-                self.random_r = random_rb(Range_M(M=33), self.rLen)
-                self.random_b = random_rb(Range_M(M=16), self.bLen)
+                match w:
+                    case 's':
+                        self.random_r = random_rb(Range_M(M=33), self.rLen)
+                        self.random_b = random_rb(Range_M(M=16), self.bLen)
+                        print('[s] use sample')
+                    case 'c':
+                        self.random_r = random_rb_f(self.R,self.rLen)
+                        self.random_b = random_rb_f(self.B,self.bLen)
+                        print('[c] use choices')
+                    case 'g':
+                        js_data = groove.bitx_read()
+                        if js_data != None:
+                            self.random_r = groove.random_ex(json_data=js_data, max_length=self.rLen, RBC=groove.RC)
+                            self.random_b = groove.random_ex(json_data=js_data, max_length=self.bLen, RBC=groove.BC)
+                            print('[g] use Groove')
+                    
             # print(f'glns init done')
 
     def creativity(self) -> tuple[list[int], list[int]]:
@@ -388,7 +449,7 @@ class glnsMpls:
         # N = Note()
         while 1:
             r = self.random_r.get_number_v2()
-            if self.cosv(N=r) > 0.9:
+            if self.cosv(N=r) > 0.91:
                 return (r, self.random_b.get_number_v2())
         return ([0] * 6, [0])
 

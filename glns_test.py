@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author: JogFeelingVI
 # @Date:   2023-09-22 21:46:48
-# @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-12-10 11:18:00
+# @Last Modified by:   Your name
+# @Last Modified time: 2023-12-23 20:16:47
 import pathlib
 import time
 from Codex import datav, glns_v2, rego_v2, md
