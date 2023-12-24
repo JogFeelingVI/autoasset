@@ -2,13 +2,14 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-22 21:46:48
 # @Last Modified by:   Your name
-# @Last Modified time: 2023-12-23 20:16:47
+# @Last Modified time: 2023-12-24 09:47:54
 import pathlib
 import time
 from Codex import datav, glns_v2, rego_v2, md
 
 
 def main():
+    # TODO 主程序入口
     print('glns test')
     cdic = datav.LoadJson().toLix
     glns = glns_v2.glnsMpls(cdic=cdic)
