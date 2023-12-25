@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 # @Author: JogFeelingVI
 # @Date:   2023-10-24 19:04:50
-# @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-12-02 17:14:55
+# @Last Modified by:   Your name
+# @Last Modified time: 2023-12-25 22:35:33
 
 import re, time, pathlib
 from typing import List
-
 from Codex.glns_v2 import Note
 
 filenam = 'rego'
-
 
 class rego:
     '''读取rego文件并对列表进行解析'''
@@ -25,7 +23,8 @@ class rego:
         self.__debug = value
         return self.__debug
 
-    def __init__(self) -> None:
+    def __init__(self, debug: bool = False) -> None:
+        self.__debug = debug
         self.parse_v2(self.load_rego_v2())
 
     def load_rego_v2(self) -> str:
