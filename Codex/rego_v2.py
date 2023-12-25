@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-10-24 19:04:50
 # @Last Modified by:   Your name
-# @Last Modified time: 2023-12-25 22:35:33
+# @Last Modified time: 2023-12-25 23:24:18
 
 import re, time, pathlib
 from typing import List
@@ -34,9 +34,13 @@ class rego:
             return go.read()
 
     def p_paichu(self, line: str) -> List | None:
-        '''排除法检测'''
+        '''
+        排除法检测
+        # ? _paichu = re.compile(r'^-[ 0-9]+as (R|B)$', flags=re.M)
+        '''
         temp = []
         _paichu = re.compile(r'^-[ 0-9]+as [R|B]$', flags=re.M)
+        #
         if (_match := _paichu.findall(line)) != None:
             for _m in _match:
                 _n = re.compile('[0-9]{1,2}')
