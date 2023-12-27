@@ -2,12 +2,12 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-15 20:22:04
 # @Last Modified by:   Your name
-# @Last Modified time: 2023-12-27 08:47:55
+# @Last Modified time: 2023-12-27 09:47:32
 
 import re, json
 from datetime import datetime as dtime
 from typing import List
-from Codex import gethtml, pathliab, glns_v2, md, datav, rego_v3
+from Codex import gethtml, pathliab, glns_v2, md, datav, rego_v3, note
 
 
 class assetx:
@@ -103,7 +103,7 @@ class assetx:
             count = 0
             while True:
                 _n, _t = glns.creativity()
-                n = glns_v2.Note(_n, _t)
+                n = note.Note(_n, _t)
 
                 rxfil = True
                 for k, func in filters.filters.items():

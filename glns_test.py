@@ -2,10 +2,10 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-22 21:46:48
 # @Last Modified by:   Your name
-# @Last Modified time: 2023-12-27 08:28:40
+# @Last Modified time: 2023-12-27 09:26:10
 import pathlib
 import time
-from Codex import datav, glns_v2, rego_v2, rego_v3, md
+from Codex import datav, glns_v2, rego_v3, md, note
 
 
 def main():
@@ -22,7 +22,7 @@ def main():
     count = 0
     while True:
         _n, _t = glns.creativity()
-        n = glns_v2.Note(_n, _t)
+        n = note.Note(_n, _t)
 
         rxfil = True
         for k, func in filters.filters.items():
