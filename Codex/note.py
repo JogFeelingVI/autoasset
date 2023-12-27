@@ -2,9 +2,10 @@
 # @Author: Your name
 # @Date:   2023-12-27 09:03:21
 # @Last Modified by:   Your name
-# @Last Modified time: 2023-12-27 09:48:40
+# @Last Modified time: 2023-12-27 10:16:31
 
 import heapq
+
 
 
 class Note:
@@ -18,8 +19,7 @@ class Note:
             T (List[int] | int): 1-16 蓝色号码球
         """
         _T = [T, [T]][isinstance(T, int)]
-        if isinstance(n,
-                      list) and len(set(n)) >= 6 and max(n) <= 33 and min(n) >= 1:
+        if len(n) >= 6 and max(n) <= 33 and min(n) >= 1:
             self.number = list(heapq.merge(n, []))
         else:
             raise ValueError(f'red balls must contain at least 6 integers {n}')
@@ -47,3 +47,6 @@ class Note:
         n = ' '.join([f'{num:02d}' for num in self.number])
         t = ' '.join([f'{num:02d}' for num in self.tiebie])
         return f'{n} + {t}'
+
+
+Example = Note((1, 8, 18, 19, 24, 30), 14)
