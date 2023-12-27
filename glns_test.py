@@ -2,10 +2,10 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-22 21:46:48
 # @Last Modified by:   Your name
-# @Last Modified time: 2023-12-25 22:34:25
+# @Last Modified time: 2023-12-27 08:28:40
 import pathlib
 import time
-from Codex import datav, glns_v2, rego_v2, md
+from Codex import datav, glns_v2, rego_v2, rego_v3, md
 
 
 def main():
@@ -15,7 +15,7 @@ def main():
     glns = glns_v2.glnsMpls(cdic=cdic)
     duLie = glns_v2.formation(max=25)
     filters = glns_v2.filterN_v2()
-    reeego = rego_v2.rego().parse_dict
+    reeego = rego_v3.Lexer().pares(rego_v3.load_rego_v2())
     filters.Lever = glns.getabc
     filters.Last = glns.getlast
 
@@ -31,7 +31,7 @@ def main():
                 #print(f'key {k} is False')
                 break
         for k, f in reeego.items():
-            if f['f'](n, f['a']) == False:
+            if f(n) == False:
                 rxfil = False
                 break
         if rxfil:

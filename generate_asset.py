@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 # @Author: JogFeelingVI
 # @Date:   2023-05-15 20:22:04
-# @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-12-02 17:18:43
+# @Last Modified by:   Your name
+# @Last Modified time: 2023-12-27 08:47:55
 
 import re, json
 from datetime import datetime as dtime
 from typing import List
-from Codex import gethtml, pathliab, glns_v2, md, datav, rego_v2
+from Codex import gethtml, pathliab, glns_v2, md, datav, rego_v3
 
 
 class assetx:
@@ -97,7 +97,7 @@ class assetx:
             glns = glns_v2.glnsMpls(cdic=cdic)
             duLie = glns_v2.formation(max=25)
             filters = glns_v2.filterN_v2()
-            reeego = rego_v2.rego().parse_dict
+            reeego = rego_v3.Lexer().pares(rego_v3.load_rego_v2())
             filters.Lever = glns.getabc
             filters.Last = glns.getlast
             count = 0
@@ -113,7 +113,7 @@ class assetx:
                         break
 
                 for k, f in reeego.items():
-                    if f['f'](n, f['a']) == False:
+                    if f(n) == False:
                         rxfil = False
                         break
                 if rxfil:
