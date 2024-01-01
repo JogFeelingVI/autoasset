@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-15 20:22:04
 # @Last Modified by:   Your name
-# @Last Modified time: 2024-01-01 22:46:00
+# @Last Modified time: 2024-01-01 22:52:07
 
 import re, json
 from datetime import datetime as dtime
@@ -81,7 +81,7 @@ class assetx:
             readme_md = pathliab.ospath.file_path('./README.md')
             if readme_md == '':
                 return
-            markdown.append(_mdf.title('Auto update asasset.json', 2))
+            markdown.append(_mdf.title('Auto update DataFrame.json', 2))
             markdown.append(
                 _mdf.unordered_list(f'update {self.Lix.get("date", "None")}'))
 
