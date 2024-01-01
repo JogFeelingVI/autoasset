@@ -1,7 +1,7 @@
 # @Author: JogFeelingVi
 # @Date: 2023-05-26 18:16:42
-# @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-28 08:28:20
+# @Last Modified by:   Your name
+# @Last Modified time: 2024-01-01 22:44:15
 import pathlib, json
 from typing import List
 from collections import Counter
@@ -115,7 +115,7 @@ class LoadJson:
         return self.toLix
 
     def __init__(self) -> None:
-        asset_json = pathlib.Path('asset.json')
+        asset_json = pathlib.Path('DataFrame.json')
         if asset_json.exists():
             with asset_json.open(mode='r', encoding='utf-8') as jsfile:
                 Lix = json.load(jsfile)

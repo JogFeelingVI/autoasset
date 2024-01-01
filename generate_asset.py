@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-15 20:22:04
 # @Last Modified by:   Your name
-# @Last Modified time: 2023-12-27 09:47:32
+# @Last Modified time: 2024-01-01 22:46:00
 
 import re, json
 from datetime import datetime as dtime
@@ -44,8 +44,9 @@ class assetx:
 
     def getnetdate(self):
         try:
-            asset_json = pathliab.ospath.file_path('./asset.json')
+            asset_json = pathliab.ospath.file_path('./DataFrame.json')
             if asset_json == '':
+                print(f'Asset is not Finder')
                 return
             #nat_dev = 'https://chart.cp.360.cn/kaijiang/ssq'
             nat_dev = 'https://www.cjcp.cn/zoushitu/cjwssq/hqaczhi.html'
@@ -59,7 +60,7 @@ class assetx:
                     'date': dtime.now().__str__()
                 }
 
-                json_str = json.dumps(self.Lix, indent=0)
+                json_str = json.dumps(self.Lix)
                 with open(asset_json, 'w') as datajson:
                     datajson.write(json_str)
                     hszie = json_str.__sizeof__()
