@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-12-20 09:02:19
 # @Last Modified by:   Your name
-# @Last Modified time: 2023-12-22 09:13:13
+# @Last Modified time: 2024-01-02 20:28:39
 import heapq, random, json, pathlib
 from typing import Any, List
 
@@ -40,7 +40,7 @@ class random_ex:
                     raise ValueError(
                         "max_length value exceeds the limit, bit_7 is 1~8")
 
-            if 'bit_4' in RBC:
+            if 'bit_7' not in RBC:
                 if 6 <= max_length >= 19:
                     raise ValueError(
                         "max_length value exceeds the limit, bit_1~6 is 6~19")
@@ -50,32 +50,36 @@ class random_ex:
             self._init_complete = True
         except ValueError as e:
             print(e)
+            
+    def whereiskey(self, key:str) -> list[int]|None:
+        '''
+        根据key来随机数字
+        '''
+        try:
+            value = self.bitx.get(key, list(self.bitx.values())[0])
+            np = [int(x) for x in value.keys()]
+            wp = [value[f'{x}'] for x in np]
+            return random.choices(np, weights=wp, k=3)
+        except:
+            return None
+        
 
     def randbitx(self, sink: int):
-        '''from bitx random'''
-        if self.max_length == 6:
-            name = f'bit_{sink + 1}'
-            key = self.bitx.get(name, {})
-            np = [int(x) for x in key.keys()]
-            wp = [key[f'{x}'] for x in np]
-            random_number = random.choices(np, weights=wp, k=3)
-            return random_number
-        if self.max_length > 6:
-            if 'bitxe' not in vars(self):
-                self.bitxe = {}
-                for item in self.bitx.values():
-                    for k, v in item.items():
-                        kv = self.bitxe.get(int(k), 0) + v
-                        self.bitxe.update({int(k): kv})
-
-            np = [x for x in self.bitxe.keys()]
-            wp = [self.bitxe[x] for x in np]
-            random_number = random.choices(np, weights=wp, k=3)
-            return random_number
-        return [
-            random.randint(1, 33),
-            random.randint(1, 33),
-        ]
+        '''
+        from bitx random 
+        这里有很大的问题
+        #? 1, 2, 3, 4, 5, 6, 7, 8
+        '''
+        keyd = f'bit_{sink+1}'
+        match keyd:
+            case 'bit_7'|'bit_1'|'bit_2'|'bit_3'|'bit_4'|'bit_5'|'bit_6':
+                if (rtn := self.whereiskey(key=keyd)):
+                    return rtn
+            case _:
+                keyr = f'bit_{random.randint(1, 7)}'
+                print(f'this use keyr {keyr}')
+                if (rtn := self.whereiskey(key=keyr)):
+                    return rtn
 
     def creation(self):
         """
@@ -89,11 +93,12 @@ class random_ex:
         # Create a heap of unique random numbers
         random_heap = []
         while len(random_heap) < self.max_length:
-            for n in self.randbitx(len(random_heap)):
-                # random_number = random.randint(1, 33)
-                if n not in random_heap:
-                    heapq.heappush(random_heap, n)
-                    break
+            rdb = self.randbitx(len(random_heap))
+            if rdb != None:
+                for n in rdb:
+                    if n not in random_heap:
+                        heapq.heappush(random_heap, n)
+                        break
 
         # Create a list of random numbers from the heap
         random_array = []
@@ -112,7 +117,7 @@ def main():
     print(f"Hello, World! {RC}")
     ex = bitx_read()
     if ex != None:
-        r = random_ex(ex, 7, BC)
+        r = random_ex(ex, 18, RC)
         print(f'debug {r.creation()}')
 
 
