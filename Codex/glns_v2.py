@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-21 21:14:47
 # @Last Modified by:   Your name
-# @Last Modified time: 2023-12-27 09:24:10
+# @Last Modified time: 2024-01-02 16:12:36
 import itertools, random, math
 from collections import Counter, deque
 from Codex import groove, note
@@ -74,13 +74,13 @@ class filterN_v2:
     def __init__filters(self) -> None:
         self.filters = {
             'sixlan': self.sixlan,
-            'onesixdiff': self.onesixdiff,
+            #'onesixdiff': self.onesixdiff,
             'dx16': self.dx16,
             'zhihe': self.zhihe,
-            'duplicates': self.duplicates,
-            'linma': self.linma,
-            'dzx': self.dzx,
-            'lianhao': self.lianhao,
+            # 'duplicates': self.duplicates,
+            # 'linma': self.linma,
+            # 'dzx': self.dzx,
+            # 'lianhao': self.lianhao,
             'ac': self.acvalue,
             'mod2': self.mod2,
             'mod3': self.mod3,
@@ -88,7 +88,7 @@ class filterN_v2:
             'mod5': self.mod5,
             'mod6': self.mod6,
             'mod7': self.mod7,
-            'coldns': self.coldns,
+            #'coldns': self.coldns,
         }
 
         if self.__debug == False:
