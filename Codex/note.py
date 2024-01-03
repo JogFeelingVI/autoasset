@@ -2,10 +2,9 @@
 # @Author: Your name
 # @Date:   2023-12-27 09:03:21
 # @Last Modified by:   Your name
-# @Last Modified time: 2023-12-27 10:16:31
+# @Last Modified time: 2024-01-03 23:08:55
 
 import heapq
-
 
 
 class Note:
@@ -49,4 +48,5 @@ class Note:
         return f'{n} + {t}'
 
 
-Example = Note((1, 8, 18, 19, 24, 30), 14)
+Example = Note([1, 8, 18, 19, 24, 30], [14])
+

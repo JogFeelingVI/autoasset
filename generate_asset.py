@@ -2,12 +2,12 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-15 20:22:04
 # @Last Modified by:   Your name
-# @Last Modified time: 2024-01-01 22:52:07
+# @Last Modified time: 2024-01-03 23:29:48
 
 import re, json
 from datetime import datetime as dtime
 from typing import List
-from Codex import gethtml, pathliab, glns_v2, md, datav, rego_v3, note
+from codex import gethtml, ospath, glns_v2, md, datav, rego_v3, note
 
 
 class assetx:
@@ -44,7 +44,7 @@ class assetx:
 
     def getnetdate(self):
         try:
-            asset_json = pathliab.ospath.file_path('./DataFrame.json')
+            asset_json = ospath.findAbsp.file_path('./DataFrame.json')
             if asset_json == '':
                 print(f'Asset is not Finder')
                 return
@@ -78,7 +78,7 @@ class assetx:
             _mdf = md.markdown()
             _datav = datav.data_visualization(self.Lix)
             markdown = []
-            readme_md = pathliab.ospath.file_path('./README.md')
+            readme_md = ospath.findAbsp.file_path('./README.md')
             if readme_md == '':
                 return
             markdown.append(_mdf.title('Auto update DataFrame.json', 2))
@@ -95,7 +95,7 @@ class assetx:
                 markdown.append(_mdf.unordered_list(f'{i+1:02}: {row}'))
             markdown.append(_mdf.title('Creativity list', 2))
             cdic = datav.LoadJson().toLix
-            glns = glns_v2.glnsMpls(cdic=cdic)
+            glns = glns_v2.glnsMpls(cdic, 6, 1, 'c')
             duLie = glns_v2.formation(max=25)
             filters = glns_v2.filterN_v2()
             reeego = rego_v3.Lexer().pares(rego_v3.load_rego_v2())
@@ -103,7 +103,8 @@ class assetx:
             filters.Last = glns.getlast
             count = 0
             while True:
-                _n, _t = glns.creativity()
+                _n = glns.producer['r']()
+                _t = glns.producer['b']()
                 n = note.Note(_n, _t)
 
                 rxfil = True
@@ -130,8 +131,8 @@ class assetx:
                     markdown.append(_mdf.Dividing_line())
                 elif x == '+':
                     markdown.append(_mdf.plan(f'{duLie.DuLie.pop()}', 'x'))
-            readme_path = pathliab.Path(readme_md)
-            with readme_path.open(mode='w') as wMd:
+            readme_path = ospath.findAbsp.file_path(readme_md)
+            with open(readme_path, mode='w') as wMd:
                 for line in markdown:
                     wMd.write(f'{line}\n')
         except:

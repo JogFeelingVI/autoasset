@@ -2,17 +2,16 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-22 21:46:48
 # @Last Modified by:   Your name
-# @Last Modified time: 2024-01-02 21:03:27
-import pathlib
+# @Last Modified time: 2024-01-03 23:29:10
 import time
-from Codex import datav, glns_v2, rego_v3, md, note
+from codex import datav, glns_v2, rego_v3, md, note, ospath
 
 
 def main():
     # TODO 主程序入口
     print('glns test')
     cdic = datav.LoadJson().toLix
-    glns = glns_v2.glnsMpls(cdic=cdic, w='c')
+    glns = glns_v2.glnsMpls(cdic, 6, 1, 'c')
     duLie = glns_v2.formation(max=25)
     filters = glns_v2.filterN_v2()
     reeego = rego_v3.Lexer().pares(rego_v3.load_rego_v2())
@@ -21,7 +20,8 @@ def main():
 
     count = 0
     while True:
-        _n, _t = glns.creativity()
+        _n = glns.producer['r']()
+        _t = glns.producer['b']()
         n = note.Note(_n, _t)
 
         rxfil = True
@@ -49,8 +49,8 @@ def main():
             mdx.append(_mdf.Dividing_line())
         elif x == '+':
             mdx.append(_mdf.plan(f'{duLie.DuLie.pop()}', 'x'))
-            readme_path = pathlib.Path('./glns_test.md')
-            with readme_path.open(mode='w') as wMd:
+            readme_path = ospath.findAbsp.file_path('./glns_test.md')
+            with open(readme_path, mode='w') as wMd:
                 for line in mdx:
                     wMd.write(f'{line}\n')
 
