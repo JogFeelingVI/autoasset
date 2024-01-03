@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-22 21:46:48
 # @Last Modified by:   Your name
-# @Last Modified time: 2023-12-31 11:01:44
+# @Last Modified time: 2024-01-02 21:03:27
 import pathlib
 import time
 from Codex import datav, glns_v2, rego_v3, md, note
@@ -12,7 +12,7 @@ def main():
     # TODO 主程序入口
     print('glns test')
     cdic = datav.LoadJson().toLix
-    glns = glns_v2.glnsMpls(cdic=cdic)
+    glns = glns_v2.glnsMpls(cdic=cdic, w='c')
     duLie = glns_v2.formation(max=25)
     filters = glns_v2.filterN_v2()
     reeego = rego_v3.Lexer().pares(rego_v3.load_rego_v2())
