@@ -1,0 +1,38 @@
+<!-- 
+  @Author: Your name
+  @Date:   2024-01-06 21:07:36
+  @Last Modified by:   Your name
+  @Last Modified time: 2024-01-06 21:08:16
+-->
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ComfyUI Draggable</title>
+    <link rel="stylesheet" href="https://unpkg.com/comfyui@latest/dist/comfyui.min.css">
+    <script src="draggable.js"></script>
+</head>
+
+<body>
+    <h1>ComfyUI Draggable</h1>
+    <p>This is a simple example of how to use ComfyUI Draggable in a React application.</p>
+
+    <div class="draggable-container">
+        <div class="draggable-item" data-comfyui-draggable>
+            Draggable Item 1
+        </div>
+        <div class="draggable-item" data-comfyui-draggable>
+            Draggable Item 2
+        </div>
+        <div class="draggable-item" data-comfyui-draggable>
+            Draggable Item 3
+        </div>
+    </div>
+
+    <script>
+        ComfyUI.Draggable.init();
+    </script>
+</body>
+
+</html>
