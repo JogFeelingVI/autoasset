@@ -2,7 +2,7 @@
 # @Author: Your name
 # @Date:   2024-01-06 21:09:15
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-01-13 08:38:16
+# @Last Modified time: 2024-01-13 08:45:36
 from aiohttp import web
 from app_routes import setup_routes
 from app_setting import BASE_DIR
@@ -17,4 +17,4 @@ aiohttp_jinja2.setup(app=app,
 setup_routes(app=app)
 
 if __name__ == '__main__':
-    web.run_app(app)
+    web.run_app(app, host='127.0.0.1', port=8080)
