@@ -2,13 +2,13 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-12 21:03:10
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-01-13 08:31:54
+# @Last Modified time: 2024-01-13 21:34:31
 from codex import glns_v2, datav, note
 from aiohttp import web
 import aiohttp_jinja2, time
 
 
-@aiohttp_jinja2.template('index.j2')
+@aiohttp_jinja2.template('index.html')
 async def index(request):
     cdic = datav.LoadJson().toLix
     glns = glns_v2.glnsMpls(cdic, 6, 1, 'c')
@@ -18,7 +18,6 @@ async def index(request):
         _t = glns.producer['b']()
         n = note.Note(_n, _t)
         navigation.append(n)
-    print('done')
     return {'navigation': navigation}
 
 async def test(request):
