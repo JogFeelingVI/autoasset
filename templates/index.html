@@ -2,17 +2,37 @@
   @Author: JogFeelingVI
   @Date:   2024-01-13 21:34:51
   @Last Modified by:   JogFeelingVI
-  @Last Modified time: 2024-01-13 22:01:53
+  @Last Modified time: 2024-01-14 20:45:24
 -->
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hello Bulma!</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <script type="text/javascript" src="./static/litegraph.js"></script>
+    <title>JogFeelingVI!</title>
+    <link rel="stylesheet" href="./static/litegraph.css">
   </head>
   <body>
+    <canvas id='mycanvas' width='1024' height='720' style='border: 1px solid'></canvas>
+<script>
+var graph = new LGraph();
+
+var canvas = new LGraphCanvas("#mycanvas", graph);
+
+var node_const = LiteGraph.createNode("basic/const");
+node_const.pos = [200,200];
+graph.add(node_const);
+node_const.setValue(4.5);
+
+var node_watch = LiteGraph.createNode("basic/watch");
+node_watch.pos = [700,200];
+graph.add(node_watch);
+
+node_const.connect(0, node_watch, 0 );
+
+graph.start()
+</script>
   <section class="section">
     <div class="container">
         {% for item in navigation %}
