@@ -1,0 +1,15 @@
+/**
+ * @Author: JogFeelingVI
+ * @Date:   2024-01-22 08:13:01
+ * @Last Modified by:   JogFeelingVI
+ * @Last Modified time: 2024-01-22 08:34:51
+ */
+
+#cases
+{
+    display: flex;
+    border-radius: 12px;
+    background-color: blanchedalmond;
+    padding: 20px 35px 20px 25px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
