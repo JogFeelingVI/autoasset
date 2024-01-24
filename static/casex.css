@@ -2,13 +2,24 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-22 08:13:01
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-01-23 23:01:26
+ * @Last Modified time: 2024-01-24 16:58:17
  */
 
 .casex {
-    display: flex;
+    display:flex;
+    flex-wrap: wrap;
+    margin: 0;
+}
+.casex .itemx{
+    margin: 5px;
+    padding: 10px;
+    background-color: azure;
     border-radius: 12px;
-    background-color: blanchedalmond;
-    padding: 20px 35px 20px 25px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    
+}
+.casex .itemx .message{
+    display: flex;
+    flex-direction:row;
+    align-items: center;
 }

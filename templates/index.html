@@ -2,11 +2,12 @@
   @Author: JogFeelingVI
   @Date:   2024-01-13 21:34:51
   @Last Modified by:   JogFeelingVI
-  @Last Modified time: 2024-01-23 23:02:21
+  @Last Modified time: 2024-01-24 17:04:00
 -->
 <!DOCTYPE html>
 <html>
   <head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="/static/casex.css">
@@ -40,22 +41,27 @@
                 </span>
               </div>
               <!-- list casex -->
-              <div class="casex">
-                <div><i></i></div>
-                <div class="message">
-                  <span>01 02 04 12 13 15</span>
-                  <span>15</span>
+              <div class="card-panel red lighten-5">
+                <div id="navigation" class="casex">
+                  <!---->
+                  {% for item in navigation|batch(5) %}
+                    <div class="itemx">
+                      <span class="Tiny material-icons blue-text lighten-4">
+                        list
+                      </span>
+                      {% for column in item %}
+                        <div class="message">
+                          <span class="red-text lighten-3">{{ column.number|join(" ") }}</span>
+                          <span class="blue-text lighten-3">{{ column.tiebie|join(" ") }}</span>
+                        </div>
+                      {% endfor %}
+                      
+                    </div>
+                  {% endfor %}
                 </div>
-                <i>X</i>
-              </div>
+              </div>              
               <!-- end list casex -->
               <div class="divider"></div>
-              <div id="navigation" class="card-panel pink">
-                {% for item in navigation %}
-                <span class="white-text">{{ item.number }}</span>
-                <span class="blue-text">{{ item.tiebie }}</span>
-                {% endfor %}
-              </div>
               
               <!-- end case-->
             </div>
