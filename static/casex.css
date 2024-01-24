@@ -2,11 +2,10 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-22 08:13:01
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-01-22 08:34:51
+ * @Last Modified time: 2024-01-23 23:01:26
  */
 
-#cases
-{
+.casex {
     display: flex;
     border-radius: 12px;
     background-color: blanchedalmond;

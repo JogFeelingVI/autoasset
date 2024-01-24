@@ -2,14 +2,14 @@
   @Author: JogFeelingVI
   @Date:   2024-01-13 21:34:51
   @Last Modified by:   JogFeelingVI
-  @Last Modified time: 2024-01-22 08:28:01
+  @Last Modified time: 2024-01-23 23:02:21
 -->
 <!DOCTYPE html>
 <html>
   <head>
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" href="/static/cases.css">
+    <link rel="stylesheet" href="/static/casex.css">
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
@@ -39,8 +39,8 @@
                 <span class="white-text">I am a very simple card.
                 </span>
               </div>
-              <!-- list cases -->
-              <div id="cases">
+              <!-- list casex -->
+              <div class="casex">
                 <div><i></i></div>
                 <div class="message">
                   <span>01 02 04 12 13 15</span>
@@ -48,6 +48,15 @@
                 </div>
                 <i>X</i>
               </div>
+              <!-- end list casex -->
+              <div class="divider"></div>
+              <div id="navigation" class="card-panel pink">
+                {% for item in navigation %}
+                <span class="white-text">{{ item.number }}</span>
+                <span class="blue-text">{{ item.tiebie }}</span>
+                {% endfor %}
+              </div>
+              
               <!-- end case-->
             </div>
           </div>

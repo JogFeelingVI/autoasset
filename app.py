@@ -2,7 +2,7 @@
 # @Author: Your name
 # @Date:   2024-01-06 21:09:15
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-01-13 15:24:31
+# @Last Modified time: 2024-01-23 20:43:26
 from aiohttp import web
 from app_routes import setup_routes, setup_static_routes
 from app_midd import setup_middleware
@@ -18,7 +18,6 @@ aiohttp_jinja2.setup(app=app,
 setup_static_routes(app=app)
 setup_routes(app=app)
 setup_middleware(app=app)
-
 
 if __name__ == '__main__':
     web.run_app(app, host='127.0.0.1', port=8080)
