@@ -2,7 +2,7 @@
   @Author: JogFeelingVI
   @Date:   2024-01-13 21:34:51
   @Last Modified by:   JogFeelingVI
-  @Last Modified time: 2024-01-24 17:04:00
+  @Last Modified time: 2024-01-25 16:02:58
 -->
 <!DOCTYPE html>
 <html>
@@ -16,6 +16,9 @@
 
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="Cache-Control" content="no-store"/> 
+    <meta http-equiv="Pragma" content="no-cache"/> 
+    <meta http-equiv="Expires" content="0"/>
   </head>
 
   <body>
@@ -41,7 +44,7 @@
                 </span>
               </div>
               <!-- list casex -->
-              <div class="card-panel red lighten-5">
+              <div class="card-panel grey lighten-5">
                 <div id="navigation" class="casex">
                   <!---->
                   {% for item in navigation|batch(5) %}
@@ -51,8 +54,8 @@
                       </span>
                       {% for column in item %}
                         <div class="message">
-                          <span class="red-text lighten-3">{{ column.number|join(" ") }}</span>
-                          <span class="blue-text lighten-3">{{ column.tiebie|join(" ") }}</span>
+                          <span class="grey-text darken-3">{{ column.number|join(" ") }}</span>
+                          <span class="blue-text darken-4">{{ column.tiebie|join(" ") }}</span>
                         </div>
                       {% endfor %}
                       
