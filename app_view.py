@@ -2,10 +2,12 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-12 21:03:10
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-01-23 20:43:57
+# @Last Modified time: 2024-01-25 22:45:56
 from codex import glns_v2, datav, note
 from aiohttp import web
-import aiohttp_jinja2, time
+from app_setting import BASE_DIR
+import aiohttp_jinja2, time, json
+
 
 
 @aiohttp_jinja2.template('index.html')
@@ -20,5 +22,12 @@ async def index(request):
         navigation.append(n)
     return {'navigation': navigation}
 
-async def test(request):
-    return web.Response(text=f'T{time.time()}')
+async def favicon(request):
+    # Content-Type: image/vnd.microsoft.icon
+    headers = {'Content-Type': 'mage/vnd.microsoft.icon'}
+    return web.FileResponse(BASE_DIR / 'static' / 'favicon.ico')
+
+async def handle(request):
+    response_obj = {'time': time.time(), 'status': 'done'}
+    headers = {'Content-Type': 'application/json'}
+    return web.Response(text=json.dumps(response_obj), headers=headers, status=200)
