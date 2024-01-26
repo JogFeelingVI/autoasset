@@ -2,7 +2,7 @@
   @Author: JogFeelingVI
   @Date:   2024-01-13 21:34:51
   @Last Modified by:   JogFeelingVI
-  @Last Modified time: 2024-01-26 15:30:25
+  @Last Modified time: 2024-01-26 18:21:04
 -->
 <!DOCTYPE html>
 <html>
@@ -43,22 +43,12 @@
               <!-- list casex -->
               <div class="card-panel grey lighten-5">
                 <div id="navigation" class="casex">
-                  <!---->
-                  {% for item in navigation|batch(5) %}
-                    <div class="itemx">
-                      <span class="Tiny material-icons blue-text lighten-4">
-                        list
-                      </span>
-                      {% for column in item %}
-                        <div class="message">
-                          <span class="grey-text darken-3">{{ column.number|join(" ") }}</span>
-                          <span class="blue-text darken-4">{{ column.tiebie|join(" ") }}</span>
-                        </div>
-                      {% endfor %}
-                      
+                  {% for item in navigation %}
+                    <div class="message">
+                        <span class="grey-text darken-3">{{ item.number|join(" ") }}</span>
+                        <span class="blue-text darken-4">{{ item.tiebie|join(" ") }}</span>
                     </div>
                   {% endfor %}
-                  <!---->
                 </div>
               </div>              
               <!-- end list casex -->
