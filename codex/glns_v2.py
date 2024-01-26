@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author: JogFeelingVI
 # @Date:   2023-09-21 21:14:47
-# @Last Modified by:   Your name
-# @Last Modified time: 2024-01-03 17:36:07
+# @Last Modified by:   JogFeelingVI
+# @Last Modified time: 2024-01-26 23:44:25
 import itertools, random, math
 from collections import Counter, deque
 from codex import groove, note
@@ -71,6 +71,27 @@ class filterN_v2:
     @Last.setter
     def Last(self, value: List[int]):
         self.__Last = value
+
+    @staticmethod
+    def getfilter():
+        return [
+            'sixlan',
+            'onesixdiff',
+            'dx16',
+            'zhihe',
+            'duplicates',
+            'linma',
+            'dzx',
+            'lianhao',
+            'ac',
+            'mod2',
+            'mod3',
+            'mod4',
+            'mod5',
+            'mod6',
+            'mod7',
+            'coldns',
+        ]
 
     def __init__filters(self) -> None:
         self.filters = {
@@ -373,7 +394,7 @@ class glnsMpls:
         cold = [n for n, f in counter.most_common() if f < 5.01]
         return set(cold)
 
-    def __init__(self, cdic: dict, RL:int, BL:int, w: str = 'c') -> None:
+    def __init__(self, cdic: dict, RL: int, BL: int, w: str = 'c') -> None:
         if 'R' in cdic and 'B' in cdic:
             self.rLen = RL
             self.bLen = BL
@@ -385,31 +406,35 @@ class glnsMpls:
                 ]
                 match w:
                     case 's':
-                        r = partial(random_rb(Range_M(M=33), self.rLen).get_number_v2)
-                        b = partial(random_rb(Range_M(M=16), self.bLen).get_number_v2)
-                        self.producer.update({'r':r})
-                        self.producer.update({'b':b})
+                        r = partial(
+                            random_rb(Range_M(M=33), self.rLen).get_number_v2)
+                        b = partial(
+                            random_rb(Range_M(M=16), self.bLen).get_number_v2)
+                        self.producer.update({'r': r})
+                        self.producer.update({'b': b})
                         print('[s] use sample')
                     case 'c':
-                        r = partial(random_rb_f(self.R, self.rLen).get_number_v2)
-                        b = partial(random_rb_f(self.B, self.bLen).get_number_v2)
-                        self.producer.update({'r':r})
-                        self.producer.update({'b':b})
+                        r = partial(
+                            random_rb_f(self.R, self.rLen).get_number_v2)
+                        b = partial(
+                            random_rb_f(self.B, self.bLen).get_number_v2)
+                        self.producer.update({'r': r})
+                        self.producer.update({'b': b})
                         print('[c] use choices')
                     case 'g':
                         js_data = groove.bitx_read()
-                        
+
                         if js_data != None:
-                            r = partial(groove.random_ex(
-                                json_data=js_data,
-                                max_length=self.rLen,
-                                RBC=groove.RC).creation)
-                            b = partial(groove.random_ex(
-                                json_data=js_data,
-                                max_length=self.bLen,
-                                RBC=groove.BC).creation)
-                            self.producer.update({'r':r})
-                            self.producer.update({'b':b})
+                            r = partial(
+                                groove.random_ex(json_data=js_data,
+                                                 max_length=self.rLen,
+                                                 RBC=groove.RC).creation)
+                            b = partial(
+                                groove.random_ex(json_data=js_data,
+                                                 max_length=self.bLen,
+                                                 RBC=groove.BC).creation)
+                            self.producer.update({'r': r})
+                            self.producer.update({'b': b})
                             print('[g] use Groove')
                         else:
                             print(f'js data is None')
