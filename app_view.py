@@ -2,12 +2,13 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-12 21:03:10
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-01-26 15:26:15
+# @Last Modified time: 2024-01-26 21:30:29
+from datetime import datetime
 from codex import glns_v2, datav, note
 from aiohttp import web
 from app_setting import BASE_DIR
-import aiohttp_jinja2, time, json, random
-
+from codex import gethtml
+import aiohttp_jinja2, json, random
 
 
 @aiohttp_jinja2.template('index.html')
@@ -28,10 +29,24 @@ async def favicon(request):
     return web.FileResponse(BASE_DIR / 'static' / 'favicon.ico')
 
 async def handle(request):
-    response_obj = {'time': time.time(), 'status': 'done'}
-    print(f'handle GET {response_obj}')
-    headers = {'Content-Type': 'application/json'}
-    return web.Response(text=json.dumps(response_obj), headers=headers, status=200)
+    response_obj = {'time': datetime.now().__str__(), 'status': 'done'}
+    try:
+        DataFrame = BASE_DIR / 'DataFrame.json'
+        if DataFrame.exists() == False:
+            response_obj.update({'message':'DataFrame exists is Not'})
+        url= 'https://www.cjcp.cn/zoushitu/cjwssq/hqaczhi.html'
+        data_fr = gethtml.toDict(gethtml.get_html(url).neirong)
+        json_str = json.dumps(data_fr)
+        with open(DataFrame, 'w') as datajson:
+            datajson.write(json_str)
+            hszie = json_str.__sizeof__()
+            response_obj.update({'message':f'The data has been updated, sized {hszie}'})
+    except:
+        response_obj.update({'message':'Network connection failed'})
+    finally:
+        print(f'handle GET {response_obj}')
+        headers = {'Content-Type': 'application/json'}
+        return web.Response(text=json.dumps(response_obj), headers=headers, status=200)
 
 async def handle_post(request):
     request_data = await request.json()

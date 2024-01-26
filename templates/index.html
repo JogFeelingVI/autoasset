@@ -2,7 +2,7 @@
   @Author: JogFeelingVI
   @Date:   2024-01-13 21:34:51
   @Last Modified by:   JogFeelingVI
-  @Last Modified time: 2024-01-26 18:21:04
+  @Last Modified time: 2024-01-26 22:32:18
 -->
 <!DOCTYPE html>
 <html>
@@ -22,42 +22,58 @@
     <div class="container">
       <!-- Page Content goes here -->
       <div class="row">
-        <div class="col s3">
-          <div class="card blue-grey darken-1">
-            <div class="card-content white-text">
-              <span class="card-title">Autoasset</span>
-              <p>autoasset 是一款自定执行rego、glns、filters、Note等python class的ui/ux版工具。旨在快速生成有效的双色球号码。</p>
-            </div>
-          </div>
-          <!-- Grey navigation panel -->
-        </div>
-        <div class="col s9">
+        <div class="col s12">
           <div class="row">
             <div class="col s12 m12">
               <h1 class="header pink-text text-lighten-3">Auto as seting</h1>
               <div class="divider"></div>
-              <div class="card-panel pink" >
-                <span id='data' class="white-text">
-                </span>
+              <div class="section scrollspy">
+                <h5 class="header pink-text text-lighten-3">Upgrade DataFrame</h5>
+                <p id='upgrade'>
+                  Update data frame.
+                </p>
+                <a id="upgrade" onclick="upgradeClicked()" class="waves-effect waves-light btn grey darken-1"><i class="material-icons left">upgrade</i>upgrade</a>
               </div>
-              <!-- list casex -->
-              <div class="card-panel grey lighten-5">
-                <div id="navigation" class="casex">
-                  {% for item in navigation %}
-                    <div class="message">
-                        <span class="grey-text darken-3">{{ item.number|join(" ") }}</span>
-                        <span class="blue-text darken-4">{{ item.tiebie|join(" ") }}</span>
-                    </div>
-                  {% endfor %}
+              <div class="section scrollspy">
+                <div class="divider"></div>
+                <h5 class="header pink-text text-lighten-3">Use a filtration system</h5>
+                <p>Use the rego v3 system for filtering. After opening, the <span class="red-text">insx.rego</span> file will be used.</p>
+                <div class="switch">
+                  <label>
+                    Off
+                    <input type="checkbox">
+                    <span class="lever"></span>
+                    On
+                  </label>
+                </div>
+                <p>Use a wide range filter to filter out unusual combinations of numbers.</p>
+                <p>
+                  <label>
+                    <input type="checkbox" />
+                    <span>Six</span>
+                  </label>
+                  <label>
+                    <input type="checkbox" />
+                    <span>diffide</span>
+                  </label>
+                </p>
+              </div>
+              <div class="section scrollspy">
+                <!-- list casex -->
+                <div class="card-panel grey lighten-5">
+                  <div id="navigation" class="casex">
+                    {% for item in navigation %}
+                      <div class="message">
+                          <span class="red-text darken-3">{{ item.number|join(" ") }}</span>
+                          <span class="blue-text darken-4">{{ item.tiebie|join(" ") }}</span>
+                      </div>
+                    {% endfor %}
+                  </div>
                 </div>
               </div>              
-              <!-- end list casex -->
-              <div class="divider"></div>
-              
-              <!-- end case-->
+                <!-- end list casex -->
             </div>
-          </div>
-          <!-- Teal page content -->
+            <!-- Teal page content -->
         </div>
       </div>
       <!-- Page Content goes here -->

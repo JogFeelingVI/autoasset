@@ -2,10 +2,12 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-15 20:42:54
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-10-11 20:08:10
+# @Last Modified time: 2024-01-26 21:20:11
 
+import re
 import urllib.request
 import ssl, zlib
+from datetime import datetime
 
 
 class get_html:
@@ -76,3 +78,20 @@ class get_html:
     def neirong(self) -> str:
         ''' get text '''
         return self.text
+    
+def anyishtml(text: str) -> list:
+    if text != '':
+        Rx = re.findall(r'>([0-9,]{17})<', text)
+        Bx = re.findall(r'c_bule\">([0-9]{2})<', text)
+        return [Rx, Bx]
+    return []
+    
+def toDict(text:str):
+    Rx, Bx = anyishtml(text)
+    Lix = {
+        'R': [int(x, base=10) for r in Rx for x in r.split(',')],
+        'B': [int(x, base=10) for x in Bx],
+        'date': datetime.now().__str__()
+    }
+    return Lix
+
