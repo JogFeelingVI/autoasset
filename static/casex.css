@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-22 08:13:01
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-01-26 18:18:28
+ * @Last Modified time: 2024-01-26 22:52:48
  */
 
 .casex{
@@ -29,4 +29,8 @@
 .casex .message span{
     display: inline;
     padding: 2px;
+}
+
+.switch{
+    padding: 0 0 5px 5px;
 }
