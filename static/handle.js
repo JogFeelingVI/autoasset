@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-01-27 18:43:29
+ * @Last Modified time: 2024-01-27 20:05:01
  */
 
 window.onload = function () {
@@ -35,17 +35,16 @@ function doneClicked() {
     const rego = document.getElementById('rego')
     const filterv3 = document.getElementById('filterv3');
     const labels = filterv3.getElementsByTagName('label');
-    const onoff  = rego.getElementsByTagName('input')[0]
-    const checkboxStates = {'rego':onoff.checked}
+    const onoff = rego.getElementsByTagName('input')[0]
+    const checkboxStates = { 'rego': onoff.checked }
     for (let i = 0; i < labels.length; i++) {
         ckb = labels[i].getElementsByTagName('input')[0];
         span = labels[i].getElementsByTagName('span')[0];
-        if (ckb.checked){
+        if (ckb.checked) {
             checkboxStates[span.innerHTML] = ckb.checked
         }
     }
     const json = JSON.stringify(checkboxStates);
-    console.log(json);
     PostJson(json)
 };
 
@@ -58,11 +57,13 @@ function PostJson(JSONA) {
     })
         .then(res => res.json())
         .then(data => {
-            console.log(data)
-            for (let i = 0; i < data.list.length; i++) {
+            const jsdata = JSON.parse(data)
+            let item = ''
+            for (var it in jsdata) {
+                let ix = jsdata[it]
+                item += `<div class="message"><span class="red-text darken-3">${ix[0]}</span><span class="blue-text darken-4">${ix[1]}</span></div>`
             }
-            const formattedData = `<p>Service response has been received.${data}</p>`;
-            document.getElementById('navigation').innerHTML = formattedData;
+            document.getElementById('navigation').innerHTML = item;
         })
 };
 
