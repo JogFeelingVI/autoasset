@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-01-27 20:05:01
+ * @Last Modified time: 2024-01-27 20:26:00
  */
 
 window.onload = function () {
@@ -49,8 +49,7 @@ function doneClicked() {
 };
 
 function PostJson(JSONA) {
-    document.getElementById('navigation').innerHTML = `<p>json data has been sent waiting for server response.</p>`
-    fetch('/handle_post', {
+    document.getElementById('navigation').innerHTML = `<p>json data has been sent waiting for server response.</p>`    fetch('/handle_post', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(JSONA)
