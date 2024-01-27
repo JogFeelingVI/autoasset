@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-21 21:14:47
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-01-26 23:44:25
+# @Last Modified time: 2024-01-27 18:08:54
 import itertools, random, math
 from collections import Counter, deque
 from codex import groove, note
@@ -73,44 +73,38 @@ class filterN_v2:
         self.__Last = value
 
     @staticmethod
-    def getfilter():
+    def getchecked():
         return [
             'sixlan',
-            'onesixdiff',
             'dx16',
             'zhihe',
-            'duplicates',
-            'linma',
-            'dzx',
-            'lianhao',
-            'ac',
+            'acvalue',
             'mod2',
             'mod3',
             'mod4',
             'mod5',
             'mod6',
             'mod7',
-            'coldns',
         ]
 
     def __init__filters(self) -> None:
         self.filters = {
             'sixlan': self.sixlan,
-            #'onesixdiff': self.onesixdiff,
+            'onesixdiff': self.onesixdiff,
             'dx16': self.dx16,
             'zhihe': self.zhihe,
-            # 'duplicates': self.duplicates,
-            # 'linma': self.linma,
-            # 'dzx': self.dzx,
-            # 'lianhao': self.lianhao,
-            'ac': self.acvalue,
+            'duplicates': self.duplicates,
+            'linma': self.linma,
+            'dzx': self.dzx,
+            'lianhao': self.lianhao,
+            'acvalue': self.acvalue,
             'mod2': self.mod2,
             'mod3': self.mod3,
             'mod4': self.mod4,
             'mod5': self.mod5,
             'mod6': self.mod6,
             'mod7': self.mod7,
-            #'coldns': self.coldns,
+            'coldns': self.coldns,
         }
 
         if self.__debug == False:

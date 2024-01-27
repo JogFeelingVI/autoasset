@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 # @Author: JogFeelingVI
 # @Date:   2023-09-22 21:46:48
-# @Last Modified by:   Your name
-# @Last Modified time: 2024-01-03 23:29:10
+# @Last Modified by:   JogFeelingVI
+# @Last Modified time: 2024-01-27 18:21:43
 import time
-from codex import datav, glns_v2, rego_v3, md, note, ospath
+from codex import datav, glns_v2, rego_v3, md, note, ospath, postcall
 
 
 def main():
@@ -56,4 +56,10 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    js = '{"rego":true,"acvalue":true,"dx16":true,"mod2":true,"mod3":true,"mod4":true,"mod5":true,"mod6":true,"mod7":true,"sixlan":true,"zhihe":true}'
+    p = postcall.postcallforjson()
+    p.instal_json(js=js)
+    p.instal_length(30)
+    rejs = p.toJson()
+    print(f'debug print json {rejs}')
+    #main()

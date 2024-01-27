@@ -14,3 +14,10 @@
 </div>
 {% endfor %}
 <!---->
+
+{% for item in navigation %}
+    <div class="message">
+        <span class="red-text darken-3">{{ item.number|join(" ") }}</span>
+        <span class="blue-text darken-4">{{ item.tiebie|join(" ") }}</span>
+    </div>
+{% endfor %}

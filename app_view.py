@@ -2,25 +2,17 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-12 21:03:10
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-01-26 23:50:07
-from codex import glns_v2, datav, note
+# @Last Modified time: 2024-01-27 18:39:54
+from codex import glns_v2, datav, note, gethtml, postcall
 from aiohttp import web
 from app_setting import BASE_DIR
-from codex import gethtml, glns_v2
-import aiohttp_jinja2, json, random
+import aiohttp_jinja2, json, random, inspect
 
 
 @aiohttp_jinja2.template('index.html')
 async def index(request):
-    cdic = datav.LoadJson().toLix
-    glns = glns_v2.glnsMpls(cdic, 6, 1, 'c')
-    navigation = []
-    while len(navigation) <= 25:
-        _n = glns.producer['r']()
-        _t = glns.producer['b']()
-        n = note.Note(_n, _t)
-        navigation.append(n)
-    return {'navigation': navigation}
+    
+    return {}
 
 async def favicon(request):
     # Content-Type: image/vnd.microsoft.icon
@@ -50,16 +42,22 @@ async def handle(request):
 
 async def handle_post(request):
     request_data = await request.json()
-    request_data = dict(request_data)
-    request_data.update({'lens':random.randint(1,1000)})
-    request_data.update({'update':'JogFeelingVI'})
     print(f'handle POST {request_data} {type(request_data)}')
+    p = postcall.postcallforjson()
+    p.instal_json(request_data)
+    rejs = p.toJson()
     headers = {'Content-Type': 'application/json'}
-    return web.Response(text=json.dumps(request_data), headers=headers, status=200)
+    return web.Response(text=json.dumps(rejs), headers=headers, status=200)
 
 async def handle_get_filter_name(request):
-    response_obj = {'list': [], 'status': 'done'}
-    filters = glns_v2.filterN_v2.getfilter()
+    response_obj = {'list': [], 'checked':[],'status': 'done'}
+    class_attrs = inspect.classify_class_attrs(glns_v2.filterN_v2)
+    checked = glns_v2.filterN_v2.getchecked()
+    response_obj.update({'checked':checked})
+    filters = []
+    for method in class_attrs:
+        if method.kind == 'method' and not method.name.startswith('_'):
+            filters.append(method.name)
     response_obj.update({'list':filters})
     print(f'handle GET filter_v2 name {filters}')
     headers = {'Content-Type': 'application/json'}

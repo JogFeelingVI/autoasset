@@ -2,7 +2,7 @@
   @Author: JogFeelingVI
   @Date:   2024-01-13 21:34:51
   @Last Modified by:   JogFeelingVI
-  @Last Modified time: 2024-01-27 00:05:12
+  @Last Modified time: 2024-01-27 18:31:17
 -->
 <!DOCTYPE html>
 <html>
@@ -38,7 +38,7 @@
                 <div class="divider"></div>
                 <h5 class="header pink-text text-lighten-3">Use a filtration system</h5>
                 <p>Use the rego v3 system for filtering. After opening, the <span class="red-text">insx.rego</span> file will be used.</p>
-                <div class="switch">
+                <div id="rego" class="switch">
                   <label>
                     Off
                     <input type="checkbox">
@@ -50,18 +50,13 @@
                 <p id="filterv3">
                   Waiting to load data.
                 </p>
-                <a id="done" onclick="" class="waves-effect waves-light btn grey darken-1"><i class="material-icons left">done</i>done</a>
+                <a id="done" onclick="doneClicked()" class="waves-effect waves-light btn grey darken-1"><i class="material-icons left">done</i>done</a>
               </div>
               <div class="section scrollspy">
                 <!-- list casex -->
                 <div class="card-panel grey lighten-5">
                   <div id="navigation" class="casex">
-                    {% for item in navigation %}
-                      <div class="message">
-                          <span class="red-text darken-3">{{ item.number|join(" ") }}</span>
-                          <span class="blue-text darken-4">{{ item.tiebie|join(" ") }}</span>
-                      </div>
-                    {% endfor %}
+                    <p>Wait for the server to return json data.</p>
                   </div>
                 </div>
               </div>              
