@@ -2,8 +2,14 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-01-27 20:26:00
+ * @Last Modified time: 2024-01-28 16:49:08
  */
+
+document.addEventListener("DOMContentLoaded", (event) => {
+    console.log("DOM fully loaded and parsed");
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems, '');
+});
 
 window.onload = function () {
     const filterv3 = document.getElementById('filterv3');
@@ -21,6 +27,7 @@ window.onload = function () {
             filterv3.innerHTML = html
         })
 };
+
 
 function upgradeClicked() {
     fetch('/handle')
@@ -49,7 +56,8 @@ function doneClicked() {
 };
 
 function PostJson(JSONA) {
-    document.getElementById('navigation').innerHTML = `<p>json data has been sent waiting for server response.</p>`    fetch('/handle_post', {
+    document.getElementById('navigation').innerHTML = `<p>json data has been sent waiting for server response.</p>`    
+    fetch('/handle_post', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(JSONA)

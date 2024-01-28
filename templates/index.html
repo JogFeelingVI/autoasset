@@ -2,7 +2,7 @@
   @Author: JogFeelingVI
   @Date:   2024-01-13 21:34:51
   @Last Modified by:   JogFeelingVI
-  @Last Modified time: 2024-01-27 18:31:17
+  @Last Modified time: 2024-01-28 17:10:05
 -->
 <!DOCTYPE html>
 <html>
@@ -37,7 +37,36 @@
               <div class="section scrollspy">
                 <div class="divider"></div>
                 <h5 class="header pink-text text-lighten-3">Use a filtration system</h5>
-                <p>Use the rego v3 system for filtering. After opening, the <span class="red-text">insx.rego</span> file will be used.</p>
+                <p>Use the rego v3 system for filtering. After opening, the <span class="red-text">insx.rego</span> file will be used.<a class="modal-trigger" href="#modal_edit">Open the editing module</a></p>
+                 <!-- Modal Structure -->
+                <div id="modal_edit" class="modal">
+                  <div class="modal-content">
+                    <h5 class="pink-text text-lighten-3">insx.rego edit</h5>
+                    <p class="grey-text lighten-1">
+                      <span class="light-blue-text"># 注释行</span>,
+                      <span class="light-blue-text">- xxx as R|B</span> 从这些待选列表中删除这些数字,
+                      必须包含 + 23 as R 只针对 R.
+                      bit1 需要出现的数字 <span class="light-blue-text">+|- 1 2 3 4 5 6 7 @bit[1-7]</span>,
+                      同一个位置可以指定多条规则 结果将是它们综合结果.
+                    </p>
+                    <div class="row">
+                      <form class="col s12">
+                        <div class="row">
+                          <div class="input-field col s12">
+                            <textarea id="textarea1" class="materialize-textarea"></textarea>
+                            <label for="textarea1">Textarea</label>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                    <!--end over-->
+                  </div>
+                  <div class="modal-footer">
+                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Save rego</a>
+                  </div>
+                </div>
+                <!--EDIT MODAL-->
                 <div id="rego" class="switch">
                   <label>
                     Off
@@ -54,10 +83,8 @@
               </div>
               <div class="section scrollspy">
                 <!-- list casex -->
-                <div class="card-panel grey lighten-5">
-                  <div id="navigation" class="casex">
-                    <p>Wait for the server to return json data.</p>
-                  </div>
+                <div id="navigation" class="casex">
+                  <p>Wait for the server to return json data.</p>
                 </div>
               </div>              
                 <!-- end list casex -->
