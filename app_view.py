@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-12 21:03:10
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-01-31 09:33:55
+# @Last Modified time: 2024-01-31 18:30:44
 from codex import glns_v2, datav, note, gethtml, postcall
 from aiohttp import web
 from app_setting import BASE_DIR
@@ -49,49 +49,70 @@ async def handle(request):
 
 
 async def handle_post(request):
-    request_data = await request.json()
-    print(f'handle POST {request_data} {type(request_data)}')
-    p = postcall.postcallforjson()
-    p.instal_json(request_data)
-    rejs = p.toJson()
-    headers = {'Content-Type': 'application/json'}
-    return web.Response(text=json.dumps(rejs), headers=headers, status=200)
+    try:
+        request_data = await request.json()
+        print(f'handle POST {request_data}')
+        p = postcall.postcallforjson()
+        p.instal_json(request_data)
+        rejs = p.toJson()
+    except:
+        rejs = {'1': ['error', 'ER']}
+    finally:
+        headers = {'Content-Type': 'application/json'}
+        return web.Response(text=json.dumps(rejs), headers=headers, status=200)
 
 
 async def handle_get_filter_name(request):
-    response_obj = {'list': [], 'checked': [], 'status': 'done'}
-    class_attrs = inspect.classify_class_attrs(glns_v2.filterN_v2)
-    checked = glns_v2.filterN_v2.getchecked()
-    response_obj.update({'checked': checked})
     filters = []
-    for method in class_attrs:
-        if method.kind == 'method' and not method.name.startswith('_'):
-            filters.append(method.name)
-    response_obj.update({'list': filters})
-    print(f'handle GET filter_v2 name {filters}')
-    headers = {'Content-Type': 'application/json'}
-    return web.Response(text=json.dumps(response_obj),
-                        headers=headers,
-                        status=200)
+    response_obj = {'list': [], 'checked': [], 'status': 'done'}
+    try:
+        class_attrs = inspect.classify_class_attrs(glns_v2.filterN_v2)
+        checked = glns_v2.filterN_v2.getchecked()
+        response_obj.update({'checked': checked})
+        filters = []
+        for method in class_attrs:
+            if method.kind == 'method' and not method.name.startswith('_'):
+                filters.append(method.name)
+        response_obj.update({'list': filters})
+    except:
+        response_obj.update({'status': 'Error'})
+    finally:
+        print(f'handle GET filter_v2 name {filters.__len__()}')
+        headers = {'Content-Type': 'application/json'}
+        return web.Response(text=json.dumps(response_obj),
+                            headers=headers,
+                            status=200)
 
 
 async def handle_save_insx_rego(request):
+    insx_rego = BASE_DIR / 'insx.rego'
+    response_obj = {'message': '', 'path': insx_rego}
     try:
-        pass
+        with insx_rego.open(mode='w', encoding='utf-8') as L:
+            request_data = await request.json()
+            L.write(request_data['insxd'])
+            print(f'insxd {insx_rego}')
+            response_obj.update({'message': 'insxd File writing completed.'})
     except:
-        pass
+        print(f'insxd File write failed.')
+        response_obj.update({'message': 'insxd File write failed.'})
     finally:
-        pass
+        headers = {'Content-Type': 'application/json'}
+        return web.Response(text=json.dumps({'msg': 'test'}),
+                            headers=headers,
+                            status=200)
 
 
 async def handle_read_insx_rego(request):
+    insx_rego = BASE_DIR / 'insx.rego'
+    response_obj = {'insxd': ''}
     try:
-        insx_rego = BASE_DIR / 'insx.rego'
         with insx_rego.open(mode='r', encoding='utf-8') as L:
             insxd = L.read()
-        response_obj = {'insxd': insxd}
+            response_obj.update({'insxd': insxd})
     except:
         response_obj = {'insxd': 'insx_rego loading failed'}
+        print(f'{response_obj["insxd"]}')
     finally:
         headers = {'Content-Type': 'application/json'}
         return web.Response(text=json.dumps(response_obj),

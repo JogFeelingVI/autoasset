@@ -2,13 +2,28 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-01-31 11:06:43
+ * @Last Modified time: 2024-01-31 21:36:53
  */
-
+'use strict';
 document.addEventListener("DOMContentLoaded", (event) => {
     console.log("DOM fully loaded and parsed");
     var elems = document.querySelectorAll('.modal');
     var instances = M.Modal.init(elems, '');
+    var rangeSlider = document.getElementById('slider');
+
+    noUiSlider.create(rangeSlider, {
+        start: [25],
+        step: 5,
+        range: {
+            'min': [5],
+            'max': [1000]
+        }
+    });
+    var rangeSliderValueElement = document.getElementById('slider-range-value');
+
+    rangeSlider.noUiSlider.on('update', function (values, handle) {
+        rangeSliderValueElement.innerHTML = Math.trunc(values[handle]);
+    });
 });
 
 window.onload = function () {
@@ -29,7 +44,6 @@ window.onload = function () {
 };
 
 function loadInsxRego() {
-    const save = document.getElementById('insxrego')
     fetch('/load_insx_rego')
         .then(res => res.json())
         .then(data => {
@@ -41,7 +55,7 @@ function loadInsxRego() {
 
 function saveInsxRego() {
     const save = document.getElementById('insxrego').value
-    save_json = {"insxd": save}
+    let save_json = {"insxd": save}
     fetch('/save_insx_rego', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -58,7 +72,7 @@ function upgradeClicked() {
         .then(res => res.json())
         .then(data => {
             const formattedData = `${data.message}, ${data.time}.`;
-            document.getElementById('upgrade').innerHTML = formattedData;
+            document.getElementById('upgrade_data').innerHTML = formattedData;
         })
 };
 
@@ -69,8 +83,8 @@ function doneClicked() {
     const onoff = rego.getElementsByTagName('input')[0]
     const checkboxStates = { 'rego': onoff.checked }
     for (let i = 0; i < labels.length; i++) {
-        ckb = labels[i].getElementsByTagName('input')[0];
-        span = labels[i].getElementsByTagName('span')[0];
+        let ckb = labels[i].getElementsByTagName('input')[0];
+        let span = labels[i].getElementsByTagName('span')[0];
         if (ckb.checked) {
             checkboxStates[span.innerHTML] = ckb.checked
         }
@@ -90,7 +104,7 @@ function PostJson(JSONA) {
         .then(data => {
             const jsdata = JSON.parse(data)
             let item = ''
-            for (var it in jsdata) {
+            for (let it in jsdata) {
                 let ix = jsdata[it]
                 item += `<div class="message"><span class="red-text darken-3">${ix[0]}</span><span class="blue-text darken-4">${ix[1]}</span></div>`
             }

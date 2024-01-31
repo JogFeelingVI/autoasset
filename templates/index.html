@@ -2,7 +2,7 @@
   @Author: JogFeelingVI
   @Date:   2024-01-13 21:34:51
   @Last Modified by:   JogFeelingVI
-  @Last Modified time: 2024-01-31 10:35:20
+  @Last Modified time: 2024-01-31 21:38:39
 -->
 <!DOCTYPE html>
 <html>
@@ -10,9 +10,11 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="/static/nouislider.css">
     <link rel="stylesheet" href="/static/casex.css">
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="static/nouislider.js"></script>
 
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -30,7 +32,7 @@
               <div class="divider"></div>
               <div class="section scrollspy">
                 <h5 class="header pink-text text-lighten-3">Upgrade DataFrame</h5>
-                <p id='upgrade'>
+                <p id='upgrade_data'>
                   Update data frame.
                 </p>
                 <a id="upgrade" onclick="upgradeClicked()" class="waves-effect waves-light btn grey darken-1"><i class="material-icons left">upgrade</i>upgrade</a>
@@ -38,8 +40,11 @@
               <div class="section scrollspy">
                 <div class="divider"></div>
                 <h5 class="header pink-text text-lighten-3">Use a filtration system</h5>
+                <p>Set the number of system-generated items. Value:<span id="slider-range-value"  class="red-text">25</span></p>
+                <div id="slider"></div>
+                
                 <p>Use the rego v3 system for filtering. After opening, the <span class="red-text">insx.rego</span> file will be used.<a class="modal-trigger" href="#modal_edit" onclick="loadInsxRego()">Open the editing module</a></p>
-                 <!-- Modal Structure -->
+                <!-- Modal Structure -->
                 <div id="modal_edit" class="modal">
                   <div class="modal-content">
                     <h5 class="pink-text text-lighten-3">insx.rego edit</h5>
@@ -81,6 +86,7 @@
                   Waiting to load data.
                 </p>
                 <a id="done" onclick="doneClicked()" class="waves-effect waves-light btn grey darken-1"><i class="material-icons left">done</i>done</a>
+                
               </div>
               <div class="section scrollspy">
                 <!-- list casex -->
