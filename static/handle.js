@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-01-31 09:58:26
+ * @Last Modified time: 2024-01-31 11:06:43
  */
 
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -35,12 +35,22 @@ function loadInsxRego() {
         .then(data => {
             const save = document.getElementById('insxrego')
             save.value = data.insxd
-        })
+            M.textareaAutoResize(save);
+        })    
 };
 
 function saveInsxRego() {
-    const save = document.getElementById('insxrego')
-    console.log(save.value)
+    const save = document.getElementById('insxrego').value
+    save_json = {"insxd": save}
+    fetch('/save_insx_rego', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(save_json)
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+        })
 };
 
 function upgradeClicked() {
