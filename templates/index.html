@@ -2,7 +2,7 @@
   @Author: JogFeelingVI
   @Date:   2024-01-13 21:34:51
   @Last Modified by:   JogFeelingVI
-  @Last Modified time: 2024-01-28 17:10:05
+  @Last Modified time: 2024-01-31 10:00:06
 -->
 <!DOCTYPE html>
 <html>
@@ -26,6 +26,7 @@
           <div class="row">
             <div class="col s12 m12">
               <h1 class="header pink-text text-lighten-3">Auto as seting</h1>
+              <p>{{ luck }}</p>
               <div class="divider"></div>
               <div class="section scrollspy">
                 <h5 class="header pink-text text-lighten-3">Upgrade DataFrame</h5>
@@ -37,7 +38,7 @@
               <div class="section scrollspy">
                 <div class="divider"></div>
                 <h5 class="header pink-text text-lighten-3">Use a filtration system</h5>
-                <p>Use the rego v3 system for filtering. After opening, the <span class="red-text">insx.rego</span> file will be used.<a class="modal-trigger" href="#modal_edit">Open the editing module</a></p>
+                <p>Use the rego v3 system for filtering. After opening, the <span class="red-text">insx.rego</span> file will be used.<a class="modal-trigger" href="#modal_edit" onclick="loadInsxRego()">Open the editing module</a></p>
                  <!-- Modal Structure -->
                 <div id="modal_edit" class="modal">
                   <div class="modal-content">
@@ -53,8 +54,8 @@
                       <form class="col s12">
                         <div class="row">
                           <div class="input-field col s12">
-                            <textarea id="textarea1" class="materialize-textarea"></textarea>
-                            <label for="textarea1">Textarea</label>
+                            <textarea id="insxrego" rows="20" class="materialize-textarea" type="text"></textarea>
+                            <label for="insxrego">Textarea</label>
                           </div>
                         </div>
                       </form>
@@ -63,7 +64,7 @@
                   </div>
                   <div class="modal-footer">
                     <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
-                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Save rego</a>
+                    <a href="#!" class="modal-close waves-effect waves-green btn-flat" onclick="saveInsxRego()">Save rego</a>
                   </div>
                 </div>
                 <!--EDIT MODAL-->

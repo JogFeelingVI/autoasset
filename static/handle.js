@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-01-28 16:49:08
+ * @Last Modified time: 2024-01-31 09:58:26
  */
 
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -28,6 +28,20 @@ window.onload = function () {
         })
 };
 
+function loadInsxRego() {
+    const save = document.getElementById('insxrego')
+    fetch('/load_insx_rego')
+        .then(res => res.json())
+        .then(data => {
+            const save = document.getElementById('insxrego')
+            save.value = data.insxd
+        })
+};
+
+function saveInsxRego() {
+    const save = document.getElementById('insxrego')
+    console.log(save.value)
+};
 
 function upgradeClicked() {
     fetch('/handle')
