@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-12 21:03:10
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-01-31 18:30:44
+# @Last Modified time: 2024-02-01 08:54:27
 from codex import glns_v2, datav, note, gethtml, postcall
 from aiohttp import web
 from app_setting import BASE_DIR
@@ -49,9 +49,9 @@ async def handle(request):
 
 
 async def handle_post(request):
+    '''js done onclick'''
     try:
         request_data = await request.json()
-        print(f'handle POST {request_data}')
         p = postcall.postcallforjson()
         p.instal_json(request_data)
         rejs = p.toJson()

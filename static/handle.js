@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-01-31 21:36:53
+ * @Last Modified time: 2024-02-01 08:48:59
  */
 'use strict';
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -77,11 +77,12 @@ function upgradeClicked() {
 };
 
 function doneClicked() {
+    const rangeValue = document.getElementById('slider-range-value')
     const rego = document.getElementById('rego')
     const filterv3 = document.getElementById('filterv3');
     const labels = filterv3.getElementsByTagName('label');
     const onoff = rego.getElementsByTagName('input')[0]
-    const checkboxStates = { 'rego': onoff.checked }
+    const checkboxStates = { 'rego': onoff.checked,  'range':Number(rangeValue.innerText)}
     for (let i = 0; i < labels.length; i++) {
         let ckb = labels[i].getElementsByTagName('input')[0];
         let span = labels[i].getElementsByTagName('span')[0];

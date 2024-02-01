@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-27 17:28:57
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-01-27 19:54:14
+# @Last Modified time: 2024-02-01 08:59:44
 from codex import glns_v2, note, rego_v3, datav
 import json
 
@@ -21,6 +21,9 @@ class postcallforjson:
         
     def instal_json(self, js:str):
         self.jsonx = dict(json.loads(js))
+        self.instal_length(self.jsonx['range'])
+        keys = ' '.join([k for k in self.jsonx.keys()][-5:])
+        print(f'install jsonx, keys: {keys}..., range: [{self.jsonx["range"]}].')
         
     def instal_length(self, length:int):
         self.length = length
