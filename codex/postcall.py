@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-27 17:28:57
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-02-01 08:59:44
+# @Last Modified time: 2024-02-02 14:17:12
 from codex import glns_v2, note, rego_v3, datav
 import json
 
@@ -62,7 +62,7 @@ class postcallforjson:
         
     def toJson(self):
         temp = {}
-        f = lambda x: ' '.join(map(str, x))
+        f = lambda x: ' '.join([f"{n:02}" for n in x])
         for i in range(self.length):
             nt = self.create()
             if nt != None:

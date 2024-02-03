@@ -2,27 +2,21 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-01 08:48:59
+ * @Last Modified time: 2024-02-03 21:51:05
  */
 'use strict';
 document.addEventListener("DOMContentLoaded", (event) => {
     console.log("DOM fully loaded and parsed");
-    var elems = document.querySelectorAll('.modal');
-    var instances = M.Modal.init(elems, '');
-    var rangeSlider = document.getElementById('slider');
+    let elems = document.querySelectorAll('.modal');
+    let instances = M.Modal.init(elems, '');
+    const sliderEl = document.querySelector("#slider");
+    const sliderValue = document.querySelector("#slider-range-value");
 
-    noUiSlider.create(rangeSlider, {
-        start: [25],
-        step: 5,
-        range: {
-            'min': [5],
-            'max': [1000]
-        }
-    });
-    var rangeSliderValueElement = document.getElementById('slider-range-value');
-
-    rangeSlider.noUiSlider.on('update', function (values, handle) {
-        rangeSliderValueElement.innerHTML = Math.trunc(values[handle]);
+    sliderEl.addEventListener("input", (event) => {
+        const tempSliderValue = event.target.value;
+        sliderValue.textContent = tempSliderValue;
+        const progress = (tempSliderValue / sliderEl.max) * 100;
+        sliderEl.style.background = `linear-gradient(to right, #d90429ff ${progress}%, #edf2f4ff ${progress}%)`;
     });
 });
 
@@ -34,13 +28,13 @@ window.onload = function () {
             let html = ''
             for (let i = 0; i < data.list.length; i++) {
                 if (data.checked.indexOf(data.list[i]) != -1) {
-                    html += `<label class="switch"><input type="checkbox" checked="checked"/><span>${data.list[i]}</span></label>`
+                    html += `<label class="offon"><input type="checkbox" checked="checked"/><span>${data.list[i]}</span></label>`
                 } else {
-                    html += `<label class="switch"><input type="checkbox"/><span>${data.list[i]}</span></label>`
+                    html += `<label class="offon"><input type="checkbox"/><span>${data.list[i]}</span></label>`
                 }
             }
             filterv3.innerHTML = html
-        })
+        });
 };
 
 function loadInsxRego() {
@@ -50,12 +44,12 @@ function loadInsxRego() {
             const save = document.getElementById('insxrego')
             save.value = data.insxd
             M.textareaAutoResize(save);
-        })    
+        });
 };
 
 function saveInsxRego() {
     const save = document.getElementById('insxrego').value
-    let save_json = {"insxd": save}
+    let save_json = { "insxd": save }
     fetch('/save_insx_rego', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -64,7 +58,7 @@ function saveInsxRego() {
         .then(res => res.json())
         .then(data => {
             console.log(data)
-        })
+        });
 };
 
 function upgradeClicked() {
@@ -73,7 +67,7 @@ function upgradeClicked() {
         .then(data => {
             const formattedData = `${data.message}, ${data.time}.`;
             document.getElementById('upgrade_data').innerHTML = formattedData;
-        })
+        });
 };
 
 function doneClicked() {
@@ -82,7 +76,7 @@ function doneClicked() {
     const filterv3 = document.getElementById('filterv3');
     const labels = filterv3.getElementsByTagName('label');
     const onoff = rego.getElementsByTagName('input')[0]
-    const checkboxStates = { 'rego': onoff.checked,  'range':Number(rangeValue.innerText)}
+    const checkboxStates = { 'rego': onoff.checked, 'range': Number(rangeValue.innerText) }
     for (let i = 0; i < labels.length; i++) {
         let ckb = labels[i].getElementsByTagName('input')[0];
         let span = labels[i].getElementsByTagName('span')[0];
@@ -91,11 +85,11 @@ function doneClicked() {
         }
     }
     const json = JSON.stringify(checkboxStates);
-    PostJson(json)
+    PostJson(json);
 };
 
 function PostJson(JSONA) {
-    document.getElementById('navigation').innerHTML = `<p>json data has been sent waiting for server response.</p>`    
+    document.getElementById('navigation').innerHTML = `<p>json data has been sent waiting for server response.</p>`
     fetch('/handle_post', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -107,10 +101,10 @@ function PostJson(JSONA) {
             let item = ''
             for (let it in jsdata) {
                 let ix = jsdata[it]
-                item += `<div class="message"><span class="red-text darken-3">${ix[0]}</span><span class="blue-text darken-4">${ix[1]}</span></div>`
+                item += `<div class="message"><span class="r-text">${ix[0]}</span><span class="b-text">${ix[1]}</span></div>`
             }
             document.getElementById('navigation').innerHTML = item;
-        })
+        });
 };
 
 

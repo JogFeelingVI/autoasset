@@ -2,6 +2,8 @@
 * https://materializecss.com/getting-started.html
 * https://github.com/aio-libs/aiohttp-demos/tree/master
 * https://unblockit.pages.dev/
+* https://github.com/jagenjo/litegraph.js
+* https://coolors.co/
 * https://unblockninja.com/
 * https://reqres.in/ PUT API
 * kill 8080?python
