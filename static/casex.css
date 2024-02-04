@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-22 08:13:01
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-03 22:09:04
+ * @Last Modified time: 2024-02-04 21:52:42
  */
 /* CSS HEX */
 :root {
@@ -405,6 +405,11 @@ input[type="range"]::-moz-range-thumb {
 }
 
 /* Hover, active & focus Thumb: Webkit */
+textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid var(--red-pantone) !important;
+    -webkit-box-shadow: 0 1px 0 0 var(--red-pantone) !important;
+    box-shadow: 0 1px 0 0 var(--red-pantone) !important;
+}
 
 /* input range */
 
@@ -459,9 +464,11 @@ html {
 .casex .message .r-text {
     color: var(--red-pantone);
 }
+
 .casex .message .b-text {
     color: var(--cool-gray);
 }
+
 .casex .message:hover span {
     opacity: 1;
 }
