@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-22 08:13:01
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-04 21:52:42
+ * @Last Modified time: 2024-02-05 13:53:48
  */
 /* CSS HEX */
 :root {
@@ -11,6 +11,16 @@
     --antiflash-white: #edf2f4ff;
     --red-pantone: #ef233cff;
     --fire-engine-red: #d90429ff;
+}
+
+@keyframes slidein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .space-cadet {
@@ -432,16 +442,22 @@ html {
     font-style: normal;
 }
 
+.anmin{
+    animation-duration: 3s;
+    animation-name: slidein;
+}
+
 .casex {
     display: flex;
     flex-wrap: wrap;
-    margin: 0;
+    margin: 10px auto 10px auto;
+    transition: all 0.5s ease-out;
 }
 
 .casex .message {
     display: flex;
     flex-direction: row;
-    margin: 5px;
+    margin: 5px auto 5px auto;
     padding-left: 5px;
     padding-right: 5px;
     border-radius: 6px;

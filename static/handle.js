@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-03 21:51:05
+ * @Last Modified time: 2024-02-05 13:56:37
  */
 'use strict';
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -89,7 +89,9 @@ function doneClicked() {
 };
 
 function PostJson(JSONA) {
-    document.getElementById('navigation').innerHTML = `<p>json data has been sent waiting for server response.</p>`
+    const navigation = document.getElementById('navigation')
+    navigation.style.animation = 'fade-in 1s'
+    navigation.innerHTML = `<p>json data has been sent waiting for server response.</p>`
     fetch('/handle_post', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -99,11 +101,12 @@ function PostJson(JSONA) {
         .then(data => {
             const jsdata = JSON.parse(data)
             let item = ''
+            navigation.innerHTML = item
             for (let it in jsdata) {
                 let ix = jsdata[it]
-                item += `<div class="message"><span class="r-text">${ix[0]}</span><span class="b-text">${ix[1]}</span></div>`
+                item = `<div class="message anmin"><span class="r-text">${ix[0]}</span><span class="b-text">${ix[1]}</span></div>`
+                navigation.innerHTML += item;
             }
-            document.getElementById('navigation').innerHTML = item;
         });
 };
 
