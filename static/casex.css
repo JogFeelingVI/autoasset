@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-22 08:13:01
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-05 13:53:48
+ * @Last Modified time: 2024-02-05 16:37:09
  */
 /* CSS HEX */
 :root {
@@ -374,7 +374,7 @@ input[type="range"] {
     /*  overflow: hidden;  remove this line*/
 
     /* New additions */
-    height: 6px;
+    height: 1px;
     background: var(--antiflash-white);
 }
 
@@ -461,15 +461,12 @@ html {
     padding-left: 5px;
     padding-right: 5px;
     border-radius: 6px;
-    background-color: var(--antiflash-white);
-    border-left: 3px solid var(--cool-gray);
+    /* background-color: var(--antiflash-white);
+    border-left: 3px solid var(--cool-gray); */
     justify-content: space-between;
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
 }
 
-.casex .message:hover {
-    border-left: 3px solid var(--red-pantone);
-}
 
 .casex .message span {
     display: inline;
