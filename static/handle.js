@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-05 16:22:06
+ * @Last Modified time: 2024-02-06 22:37:04
  */
 'use strict';
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -101,10 +101,30 @@ function PostJson(JSONA) {
             const jsdata = JSON.parse(data)
             let item = ''
             navigation.innerHTML = item
+            /*
             for (let it in jsdata) {
                 let ix = jsdata[it]
                 item = `<div class="message anmin"><span class="r-text">${ix[0]}</span><span class="b-text">${ix[1]}</span></div>`
                 navigation.innerHTML += item;
+            }*/
+            const indexData = [];
+            for (let index in jsdata) {
+                indexData.push(index);
+            }
+            const groupedData = [];
+            for (let i = 0; i < indexData.length; i += 5) {
+                groupedData.push(indexData.slice(i, i + 5));
+            }
+            for (let gd in groupedData) {
+                item = `<div class="listmgs anmin">
+                <h6><span class="a">Group</span> <span class="r">${Number(gd)+1}</span></h6>
+                <div class="spa"></div>`
+                for (let id in groupedData[gd]){
+                    let ix = jsdata[groupedData[gd][id]]
+                    item+=`<div><span class="r">${ix[0]}</span> <span class="b">${ix[1]}</span></div>`
+                }
+                item += `</div><!--end message -->`
+                navigation.innerHTML += item
             }
         });
 };

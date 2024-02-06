@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-22 08:13:01
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-05 16:37:09
+ * @Last Modified time: 2024-02-06 22:40:28
  */
 /* CSS HEX */
 :root {
@@ -19,7 +19,7 @@
     }
 
     to {
-        opacity: 1;
+        opacity: 0.3;
     }
 }
 
@@ -467,25 +467,48 @@ html {
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
 }
 
-
 .casex .message span {
     display: inline;
     padding: 2px;
     opacity: 0.4;
 }
 
-.casex .message .r-text {
-    color: var(--red-pantone);
+.casex .listmgs{
+    opacity: 0.3;
 }
 
-.casex .message .b-text {
-    color: var(--cool-gray);
-}
-
-.casex .message:hover span {
+.casex .listmgs:hover{
     opacity: 1;
 }
 
+
+.casex .listmgs .r,
+.casex .message .r {
+    color: var(--red-pantone);
+}
+
+.casex .listmgs .a,
+.casex .message .a {
+    color: rgb(76, 77, 94);
+}
+
+.casex .listmgs .spa{
+    border-bottom: 1px dashed  rgb(76, 77, 94);
+}
+
+.casex .listmgs .b,
+.casex .message .b {
+    color: var(--cool-gray);
+}
+
+
 .offon {
     padding: 0 0 5px 5px;
+}
+
+.casex .listmgs{
+    flex-direction: column;
+    display: flex;
+    margin: 5px auto 5px auto;
+    padding: 5px;
 }
