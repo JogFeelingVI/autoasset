@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-06 22:37:04
+ * @Last Modified time: 2024-02-07 23:59:27
  */
 'use strict';
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -115,9 +115,12 @@ function PostJson(JSONA) {
             for (let i = 0; i < indexData.length; i += 5) {
                 groupedData.push(indexData.slice(i, i + 5));
             }
+            console.log('GroupSize');
+            const radioInputs = document.querySelectorAll('#GroupSize input[type="radio"]');
+            console.log(radioInputs);
             for (let gd in groupedData) {
                 item = `<div class="listmgs anmin">
-                <h6><span class="a">Group</span> <span class="r">${Number(gd)+1}</span></h6>
+                <div class="haed"><span class="a">Group</span> <span class="r">${Number(gd)+1}</span></div>
                 <div class="spa"></div>`
                 for (let id in groupedData[gd]){
                     let ix = jsdata[groupedData[gd][id]]
