@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-08 17:35:19
+ * @Last Modified time: 2024-02-08 23:01:34
  */
 'use strict';
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -15,8 +15,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
     sliderEl.addEventListener("input", (event) => {
         const tempSliderValue = event.target.value;
         sliderValue.textContent = tempSliderValue;
+        /*
         const progress = (tempSliderValue / sliderEl.max) * 100;
-        sliderEl.style.background = `linear-gradient(to right, #d90429ff ${progress}%, #edf2f4ff ${progress}%)`;
+        sliderEl.style.background = `linear-gradient(to right, #d90429ff ${progress}%, #8d99aeff ${progress}%)`;*/
     });
 });
 
