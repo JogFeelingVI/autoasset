@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-27 17:28:57
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-02-02 14:17:12
+# @Last Modified time: 2024-02-08 20:09:25
 from codex import glns_v2, note, rego_v3, datav
 import json
 
@@ -21,12 +21,14 @@ class postcallforjson:
         
     def instal_json(self, js:str):
         self.jsonx = dict(json.loads(js))
-        self.instal_length(self.jsonx['range'])
+        if 'range' in self.jsonx.keys():
+            self.instal_length(self.jsonx['range'])
         keys = ' '.join([k for k in self.jsonx.keys()][-5:])
-        print(f'install jsonx, keys: {keys}..., range: [{self.jsonx["range"]}].')
+        print(f'install jsonx, keys: {keys}...')
         
     def instal_length(self, length:int):
         self.length = length
+        print(f'install length {self.length}')
         
     def in_key(self, key:str) -> bool:
         if key in self.jsonx.keys():
@@ -69,4 +71,14 @@ class postcallforjson:
                 n, t = nt
                 temp[i] = [f(n), f(t)]
         return json.dumps(temp)
+    
+    def todict(self):
+        temp = {}
+        for i in range(self.length):
+            nt = self.create()
+            if nt != None:
+                n, t = nt
+                temp[i] = [n, t]
+        return temp
+        
         

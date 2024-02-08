@@ -2,11 +2,11 @@
 # @Author: JogFeelingVI
 # @Date:   2023-05-26 09:00:55
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2023-05-27 18:35:50
+# @Last Modified time: 2024-02-08 19:51:58
 
 import pathlib as plib
 from types import MethodType
-from Codex import md, datav
+from codex import md, datav
 
 
 class wikigo:
