@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-22 08:13:01
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-07 23:50:11
+ * @Last Modified time: 2024-02-08 17:34:25
  */
 /* CSS HEX */
 :root {
@@ -217,6 +217,12 @@ html {
 
 .casex .listmgs .spa {
     border-bottom: 1px dashed rgb(76, 77, 94);
+}
+
+.casex .listmgs .spb {
+    display: block;
+    background-color: transparent;
+    height: 5px;
 }
 
 .casex .listmgs .b,

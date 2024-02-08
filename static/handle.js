@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-07 23:59:27
+ * @Last Modified time: 2024-02-08 17:35:19
  */
 'use strict';
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -111,24 +111,33 @@ function PostJson(JSONA) {
             for (let index in jsdata) {
                 indexData.push(index);
             }
-            const groupedData = [];
-            for (let i = 0; i < indexData.length; i += 5) {
-                groupedData.push(indexData.slice(i, i + 5));
-            }
-            console.log('GroupSize');
-            const radioInputs = document.querySelectorAll('#GroupSize input[type="radio"]');
-            console.log(radioInputs);
-            for (let gd in groupedData) {
-                item = `<div class="listmgs anmin">
-                <div class="haed"><span class="a">Group</span> <span class="r">${Number(gd)+1}</span></div>
-                <div class="spa"></div>`
-                for (let id in groupedData[gd]){
-                    let ix = jsdata[groupedData[gd][id]]
-                    item+=`<div><span class="r">${ix[0]}</span> <span class="b">${ix[1]}</span></div>`
+            const labels = document.querySelectorAll('#GroupSize label');
+            let GroupS = 5
+            labels.forEach((label) => {
+                const isChecked = label.querySelector('input').checked;
+                if (isChecked) {
+                    GroupS =  Number(label.querySelector('span').textContent);
+                    return;
                 }
-                item += `</div><!--end message -->`
-                navigation.innerHTML += item
+            });
+            const groupedData = [];
+            for (let i = 0; i < indexData.length; i += GroupS) {
+                groupedData.push(indexData.slice(i, i + GroupS));
             }
+            groupedData.forEach((item, index) => {
+                let htx = `<div class="listmgs anmin">
+                <div class="haed"><span class="a">Group</span> <span class="r">${Number(index) + 1}</span></div>
+                <div class="spa"></div>`
+                item.forEach((it, inx, arr) => {
+                    let ix = jsdata[it]
+                    htx += `<div><span class="r">${ix[0]}</span> <span class="b">${ix[1]}</span></div>`
+                    if ((inx +1 ) % 5 === 0 && inx !== arr.length-1){
+                        htx += `<div class="spb"></div>`
+                    }
+                });
+                htx += `</div><!--end message -->`
+                navigation.innerHTML += htx
+            });            
         });
 };
 

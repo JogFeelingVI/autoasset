@@ -8,3 +8,4 @@
 * https://reqres.in/ PUT API
 * kill 8080?python
 * `netstat -tlnp | grep 8080`
+  * Chrome `CMD` + `Shift` + `R`
