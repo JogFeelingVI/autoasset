@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-22 08:13:01
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-09 08:33:57
+ * @Last Modified time: 2024-02-09 23:31:55
  */
 /* CSS HEX */
 :root {
@@ -263,6 +263,15 @@ div#GroupSize label {
 
 div#GroupSize span {
     color: var(--cool-gray);
+}
+
+.pfs{
+    background-color: var(--space-cadet);
+    filter: brightness(95%) blur(0.5px);
+}
+.pfs:hover{
+    background-color: var(--space-cadet);
+    filter: brightness(95%) blur(0.0px);
 }
 
 
