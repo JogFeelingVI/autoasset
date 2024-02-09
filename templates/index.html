@@ -2,7 +2,7 @@
   @Author: JogFeelingVI
   @Date:   2024-01-13 21:34:51
   @Last Modified by:   JogFeelingVI
-  @Last Modified time: 2024-02-07 23:49:28
+  @Last Modified time: 2024-02-09 22:21:14
 -->
 <!DOCTYPE html>
 <html>
@@ -20,112 +20,152 @@
   </head>
 
   <body class="space-cadet">
-    <div class="container">
-      <!-- Page Content goes here -->
-      <div class="row">
-        <div class="col s12">
-          <div class="row antiflash-white-text">
-            <div class="col s12 m12">
-              <h3 class="header red-pantone-text">Autoasseting</h3>
-              <p>{{ luck }}</p>
-              <div class="divider"></div>
-              <div class="section scrollspy">
-                <h5 class="header red-pantone-text">Upgrade DataFrame</h5>
-                <div class="example">
-                  <p id='upgrade_data'>
-                    Update data frame.
-                  </p>
-                  <a id="upgrade" onclick="upgradeClicked()" class="waves-effect waves-light btn grey darken-1"><i class="material-icons left">upgrade</i>upgrade</a>
-                </div><!--end example-->
-              </div>
-              <div class="section scrollspy">
+    <header></header>
+    <main>
+      <div class="container">
+        <!-- Page Content goes here -->
+        <div class="row">
+          <div class="col s12">
+            <div class="row antiflash-white-text">
+              <div class="col s12 m12">
+                <h3 class="header red-pantone-text">Autoasseting</h3>
+                <p>{{ luck }}</p>
                 <div class="divider"></div>
-                <h5 class="header red-pantone-text">Use a filtration system</h5>
-                <p>Set the number of system-generated items. Value:<span id="slider-range-value"  class="fire-engine-red-text">25</span></p>
-                <div class="example">
-                  <input type="range" id="slider" min="5" max="1000" value="25"/>
-                </div>
-                
-                
-                <p>Use the rego v3 system for filtering. After opening, the <span class="fire-engine-red-text">insx.rego</span> file will be used.<a class="modal-trigger cool-gray-text" href="#modal_edit" onclick="loadInsxRego()">Open the editing module</a></p>
-                <!-- Modal Structure -->
-                <div id="modal_edit" class="modal antiflash-white">
-                  <div class="modal-content">
-                    <h5 class="red-pantone-text">insx.rego edit</h5>
-                    <p class="grey-text lighten-1">* All rules are a comprehensive result.</p>
-                    <div class="row">
-                      <form class="col s12">
-                        <div class="row">
-                          <div class="input-field col s12">
-                            <textarea id="insxrego" class="materialize-textarea space-cadet-text"></textarea>
-                            <label for="insxrego">Textareas</label>
+                <div class="section scrollspy">
+                  <h5 class="header red-pantone-text">Upgrade DataFrame</h5>
+                  <div class="example">
+                    <p id='upgrade_data'>
+                      Update data frame.
+                    </p>
+                  </div><!--end example-->
+                  <h5 class="header red-pantone-text">Use a filtration system</h5>
+                  <p>Set the number of system-generated items. Value:<span id="slider-range-value"  class="fire-engine-red-text">25</span></p>
+                  <div class="example">
+                    <input type="range" id="slider" min="5" max="1000" value="25" step="5"/>
+                  </div>
+                  
+                  
+                  <p>Use the rego v3 system for filtering. After opening, the <span class="fire-engine-red-text">insx.rego</span> file will be used.<a class="modal-trigger cool-gray-text" href="#modal_edit" onclick="loadInsxRego()">Open the editing module</a></p>
+                  <!-- Modal Structure -->
+                  <div id="modal_edit" class="modal antiflash-white">
+                    <div class="modal-content">
+                      <h5 class="red-pantone-text">insx.rego edit</h5>
+                      <p class="grey-text lighten-1">* All rules are a comprehensive result.</p>
+                      <div class="row">
+                        <form class="col s12">
+                          <div class="row">
+                            <div class="input-field col s12">
+                              <textarea id="insxrego" class="materialize-textarea space-cadet-text"></textarea>
+                              <label for="insxrego">Textareas</label>
+                            </div>
                           </div>
-                        </div>
-                      </form>
+                        </form>
+                      </div>
+                      <!--end over-->
                     </div>
-                    <!--end over-->
+                    <div class="modal-footer antiflash-white">
+                      <a href="#!" class="modal-close waves-effect btn-flat">Cancel</a>
+                      <a href="#!" class="modal-close waves-effect btn-flat" onclick="saveInsxRego()">Save rego</a>
+                    </div>
                   </div>
-                  <div class="modal-footer antiflash-white">
-                    <a href="#!" class="modal-close waves-effect btn-flat">Cancel</a>
-                    <a href="#!" class="modal-close waves-effect btn-flat" onclick="saveInsxRego()">Save rego</a>
-                  </div>
-                </div>
-                <!--EDIT MODAL-->
-                <div class="example">
-                  <div id="rego" class="switch">
+                  <!--EDIT MODAL-->
+                  <div class="example">
+                    <div id="rego" class="switch">
+                      <label>
+                        Off
+                        <input type="checkbox">
+                        <span class="lever"></span>
+                        On
+                      </label>
+                    </div>
+                  </div><!-- end example -->
+                  <p>Use a wide range filter to filter out unusual combinations of numbers.</p>
+                  <div class="example">
+                    <p id="filterv3">
+                      Waiting to load data.
+                    </p>
+                  </div><!--end example -->
+                  <div id='GroupSize'>
+                    <span>Group Size </span>
                     <label>
-                      Off
-                      <input type="checkbox">
-                      <span class="lever"></span>
-                      On
+                      <input name="group1" type="radio" checked />
+                      <span>5</span>
                     </label>
+                    <label>
+                      <input name="group1" type="radio" />
+                      <span>10</span>
+                    </label>
+                    <label>
+                      <input name="group1" type="radio" />
+                      <span>15</span>
+                    </label>
+                    <label>
+                      <input name="group1" type="radio" />
+                      <span>20</span>
+                    </label>
+                    <label>
+                      <input name="group1" type="radio" />
+                      <span>25</span>
+                    </label>
+                  </div><!--end GroupSize -->
+                  <div class="divider"></div>
+                  <div id="navigation" class="casex">
+                    <p>Wait for the server to return json data.</p>
                   </div>
-                </div><!-- end example -->
-                <p>Use a wide range filter to filter out unusual combinations of numbers.</p>
-                <div class="example">
-                  <p id="filterv3">
-                    Waiting to load data.
-                  </p>
-                  <a id="done" onclick="doneClicked()" class="waves-effect waves-light btn grey darken-1"><i class="material-icons left">done</i>done</a>
-                </div><!--end example -->
-              </div>
-              <div class="section scrollspy">
-                <!-- list casex -->
-                <div id='GroupSize'>
-                  <span>Group Size </span>
-                  <label>
-                    <input name="group1" type="radio" checked />
-                    <span>5</span>
-                  </label>
-                  <label>
-                    <input name="group1" type="radio" />
-                    <span>10</span>
-                  </label>
-                  <label>
-                    <input name="group1" type="radio" />
-                    <span>15</span>
-                  </label>
-                  <label>
-                    <input name="group1" type="radio" />
-                    <span>20</span>
-                  </label>
-                  <label>
-                    <input name="group1" type="radio" />
-                    <span>25</span>
-                  </label>
-                </div><!--end GroupSize -->
-                <div class="divider"></div>
-                <div id="navigation" class="casex">
-                  <p>Wait for the server to return json data.</p>
                 </div>
-              </div>              
-              <!-- end list casex -->
-            </div><!-- end col s12 m12  -->
-          </div><!-- end row  -->
-        </div><!-- end col s12 -->
-      </div><!-- end row -->
-    </div><!--end container-->
+                <div class="section scrollspy">
+                  <!-- list casex -->
+                  
+                  
+                </div>              
+                <!-- end list casex -->
+              </div><!-- end col s12 m12  -->
+            </div><!-- end row  -->
+          </div><!-- end col s12 -->
+        </div><!-- end row -->
+      </div><!--end container-->
+      <!--button-->
+      
+      <div class="fixed-action-btn">
+        <a class="btn-floating btn-large red">
+          <i class="large material-icons">rocket_launch</i>
+        </a>
+        <ul>
+          <li><a class="btn-floating red" onclick="upgradeClicked()"><i class="material-icons">upgrade</i></a></li>
+          <li><a class="btn-floating yellow darken-1" onclick="doneClicked()"><i class="material-icons">done</i></a></li>
+          <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
+          <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
+        </ul>
+      </div>
+  
+    </main>
+    <footer class="page-footer cool-gray">
+      <div class="container">
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="white-text">Friendly Reminder</h5>
+            <p class="grey-text text-lighten-4">This is a web app based on PYTHON, which aims to provide simple, intuitive, fast and accurate double-colour ball number generation service. But winning the lottery still depends on your own efforts!.</p>
+          </div>
+          <div class="col l4 offset-l2 s12">
+            <h5 class="white-text">Links</h5>
+            <ul>
+              <li><a class="grey-text text-lighten-3" href="https://fonts.google.com/icons">google fonts</a></li>
+              <li><a class="grey-text text-lighten-3" href="https://materializecss.com/getting-started.html">materializecss</a></li>
+              <li><a class="grey-text text-lighten-3" href="https://demos.aiohttp.org/en/latest/preparations.html">aioHttp</a></li>
+              <li><a class="grey-text text-lighten-3" href="https://coolors.co/">coolors</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <div class="container">
+        © 2024 Copyright JogFeelingVI
+        <a class="grey-text text-lighten-4 right" href="https://github.com/jogfeelingvi/">* github</a>
+        </div>
+      </div>
+    </footer>
     <!--JavaScript at end of body for optimized loading-->
     <script src="/static/handle.js"></script>
+
   </body>
 </html>

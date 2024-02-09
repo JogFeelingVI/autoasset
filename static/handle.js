@@ -2,13 +2,17 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-09 17:56:27
+ * @Last Modified time: 2024-02-09 21:45:20
  */
 'use strict';
 document.addEventListener("DOMContentLoaded", (event) => {
     console.log("DOM fully loaded and parsed");
     let elems = document.querySelectorAll('.modal');
-    let instances = M.Modal.init(elems, '');
+    let modal = M.Modal.init(elems, '');
+
+    let acts = document.querySelectorAll('.fixed-action-btn');
+    let action = M.FloatingActionButton.init(acts, '');
+    
     const sliderEl = document.querySelector("#slider");
     const sliderValue = document.querySelector("#slider-range-value");
     sliderValue.innerHTML = sliderEl.value
