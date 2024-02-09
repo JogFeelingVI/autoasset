@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-09 08:31:11
+ * @Last Modified time: 2024-02-09 17:56:27
  */
 'use strict';
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -11,13 +11,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let instances = M.Modal.init(elems, '');
     const sliderEl = document.querySelector("#slider");
     const sliderValue = document.querySelector("#slider-range-value");
-
+    sliderValue.innerHTML = sliderEl.value
+    let progress = (sliderEl.value / sliderEl.max) * 100;
+    sliderEl.style.background = bglinear(progress);
+    
     sliderEl.addEventListener("input", (event) => {
         const tempSliderValue = event.target.value;
         sliderValue.textContent = tempSliderValue;
         
-        const progress = (tempSliderValue / sliderEl.max) * 100;
-        sliderEl.style.background = `linear-gradient(to right, #d90429ff ${progress}%, #8d99aeff ${progress}%)`;
+        progress = (tempSliderValue / sliderEl.max) * 100;
+        sliderEl.style.background = bglinear(progress);
     });
 });
 
@@ -37,6 +40,10 @@ window.onload = function () {
             filterv3.innerHTML = html
         });
 };
+
+function bglinear(p){
+    return `linear-gradient(to right, #d90429ff ${p}%, #8d99aeff ${p}%)`;
+}
 
 function loadInsxRego() {
     fetch('/load_insx_rego')
