@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-22 08:13:01
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-09 23:31:55
+ * @Last Modified time: 2024-02-10 18:08:46
  */
 /* CSS HEX */
 :root {
@@ -138,12 +138,26 @@ input[type="range"]::-moz-range-thumb {
     transition: .2s ease-in-out;
 }
 
+[type="radio"]:checked+span:after,
+[type="radio"].with-gap:checked+span:after {
+    background-color: var(--fire-engine-red);
+    border: 2px solid var(--fire-engine-red);
+}
 
 /* Hover, active & focus Thumb: Webkit */
 textarea.materialize-textarea:focus:not([readonly]) {
+    /*
     border-bottom: 1px solid var(--red-pantone) !important;
     -webkit-box-shadow: 0 1px 0 0 var(--red-pantone) !important;
     box-shadow: 0 1px 0 0 var(--red-pantone) !important;
+    */
+    border-bottom: none !important;
+    box-shadow: none !important;
+}
+
+textarea.materialize-textarea{
+    border-bottom: none !important;
+    box-shadow: none !important;
 }
 
 div.input-field>label:not(.label-icon).active {
@@ -274,9 +288,18 @@ div#GroupSize span {
     filter: brightness(95%) blur(0.0px);
 }
 
+#modal_edit{
+    background-color: var(--space-cadet) !important;
+    opacity: 0.7;
+}
 
-[type="radio"]:checked+span:after,
-[type="radio"].with-gap:checked+span:after {
-    background-color: var(--fire-engine-red);
-    border: 2px solid var(--fire-engine-red);
+#insxrego{
+    color: var(--cool-gray);
+}
+
+.mf-fix{
+    background-color: var(--space-cadet) !important;
+}
+.bt-fix{
+    color: var(--cool-gray);
 }

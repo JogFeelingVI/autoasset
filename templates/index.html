@@ -2,7 +2,7 @@
   @Author: JogFeelingVI
   @Date:   2024-01-13 21:34:51
   @Last Modified by:   JogFeelingVI
-  @Last Modified time: 2024-02-09 23:34:53
+  @Last Modified time: 2024-02-10 18:05:36
 -->
 <!DOCTYPE html>
 <html>
@@ -47,7 +47,7 @@
                   
                   <p>Use the rego v3 system for filtering. After opening, the <span class="fire-engine-red-text">insx.rego</span> file will be used.<a class="modal-trigger cool-gray-text" href="#modal_edit" onclick="loadInsxRego()">Open the editing module</a></p>
                   <!-- Modal Structure -->
-                  <div id="modal_edit" class="modal antiflash-white">
+                  <div id="modal_edit" class="modal modal-fixed-footer">
                     <div class="modal-content">
                       <h5 class="red-pantone-text">insx.rego edit</h5>
                       <p class="grey-text lighten-1">* All rules are a comprehensive result.</p>
@@ -55,7 +55,7 @@
                         <form class="col s12">
                           <div class="row">
                             <div class="input-field col s12">
-                              <textarea id="insxrego" class="materialize-textarea space-cadet-text"></textarea>
+                              <textarea id="insxrego" class="materialize-textarea"></textarea>
                               <label for="insxrego">Textareas</label>
                             </div>
                           </div>
@@ -63,9 +63,9 @@
                       </div>
                       <!--end over-->
                     </div>
-                    <div class="modal-footer antiflash-white">
-                      <a href="#!" class="modal-close waves-effect btn-flat">Cancel</a>
-                      <a href="#!" class="modal-close waves-effect btn-flat" onclick="saveInsxRego()">Save rego</a>
+                    <div class="modal-footer mf-fix">
+                      <a href="#!" class="modal-close waves-effect btn-flat bt-fix">Cancel</a>
+                      <a href="#!" class="modal-close waves-effect btn-flat bt-fix" onclick="saveInsxRego()">Save rego</a>
                     </div>
                   </div>
                   <!--EDIT MODAL-->
