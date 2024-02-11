@@ -2,8 +2,8 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-12 21:03:10
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-02-01 08:54:27
-from codex import glns_v2, datav, note, gethtml, postcall
+# @Last Modified time: 2024-02-10 23:38:39
+from codex import glns_v2, gethtml, postcall
 from aiohttp import web
 from app_setting import BASE_DIR
 import aiohttp_jinja2, json, random, inspect
@@ -14,7 +14,7 @@ async def index(request):
     lock_json = BASE_DIR / 'luck.json'
     with lock_json.open(mode='r', encoding='utf-8') as L:
         jsond = json.loads(L.read())
-    return {'luck': jsond[f'{random.randint(1,6)}']}
+    return {'luck':jsond[f'{random.randint(1,6)}']}
 
 
 async def favicon(request):

@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-09 21:45:20
+ * @Last Modified time: 2024-02-11 23:04:36
  */
 'use strict';
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -12,20 +12,30 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     let acts = document.querySelectorAll('.fixed-action-btn');
     let action = M.FloatingActionButton.init(acts, '');
-    
+
     const sliderEl = document.querySelector("#slider");
     const sliderValue = document.querySelector("#slider-range-value");
     sliderValue.innerHTML = sliderEl.value
     let progress = (sliderEl.value / sliderEl.max) * 100;
     sliderEl.style.background = bglinear(progress);
-    
+
     sliderEl.addEventListener("input", (event) => {
         const tempSliderValue = event.target.value;
         sliderValue.textContent = tempSliderValue;
-        
+
         progress = (tempSliderValue / sliderEl.max) * 100;
         sliderEl.style.background = bglinear(progress);
     });
+
+});
+
+const gsinput = document.querySelector('#GroupSize');
+gsinput.addEventListener('change', function (e) {
+    let jsdata = JSON.parse(sessionStorage.getItem('jsdata'));
+    if (!Object.is(jsdata, null)) {
+        const navigation = document.getElementById('navigation')
+        installGroup(navigation, Number(e.target.value), jsdata)
+    }
 });
 
 window.onload = function () {
@@ -45,7 +55,7 @@ window.onload = function () {
         });
 };
 
-function bglinear(p){
+function bglinear(p) {
     return `linear-gradient(to right, #d90429ff ${p}%, #8d99aeff ${p}%)`;
 }
 
@@ -111,6 +121,7 @@ function PostJson(JSONA) {
         .then(res => res.json())
         .then(data => {
             const jsdata = JSON.parse(data)
+            sessionStorage.setItem('jsdata', data);
             let item = ''
             navigation.innerHTML = item
             /*
@@ -119,38 +130,56 @@ function PostJson(JSONA) {
                 item = `<div class="message anmin"><span class="r-text">${ix[0]}</span><span class="b-text">${ix[1]}</span></div>`
                 navigation.innerHTML += item;
             }*/
-            const indexData = [];
-            for (let index in jsdata) {
-                indexData.push(index);
-            }
+
             const labels = document.querySelectorAll('#GroupSize label');
             let GroupS = 5
             labels.forEach((label) => {
-                const isChecked = label.querySelector('input').checked;
-                if (isChecked) {
-                    GroupS =  Number(label.querySelector('span').textContent);
+                const isChecked = label.querySelector('input');
+                if (isChecked.checked) {
+                    GroupS = Number(isChecked.value);
                     return;
                 }
             });
-            const groupedData = [];
-            for (let i = 0; i < indexData.length; i += GroupS) {
-                groupedData.push(indexData.slice(i, i + GroupS));
-            }
-            groupedData.forEach((item, index) => {
-                let htx = `<div class="listmgs anmin">
-                <div class="haed"><span class="a">Group</span> <span class="r">${Number(index) + 1}</span></div>
-                <div class="spa"></div>`
-                item.forEach((it, inx, arr) => {
-                    let ix = jsdata[it]
-                    htx += `<div><span class="r">${ix[0]}</span> <span class="b">${ix[1]}</span></div>`
-                    if ((inx +1 ) % 5 === 0 && inx !== arr.length-1){
-                        htx += `<div class="spb"></div>`
-                    }
-                });
-                htx += `</div><!--end message -->`
-                navigation.innerHTML += htx
-            });            
+            installGroup(navigation, GroupS, jsdata)
         });
 };
 
+function installGroup(nav, size, data) {
+    const indexData = [];
+    for (let index in data) {
+        indexData.push(index);
+    }
+    const groupedData = [];
+    nav.innerHTML = ''
+    for (let i = 0; i < indexData.length; i += size) {
+        groupedData.push(indexData.slice(i, i + size));
+    }
+    groupedData.forEach((item, index) => {
+        let htx = `<div class="listmgs anmin">
+        <div class="haed"><span class="a">Group</span> <span class="r">${Number(index) + 1}</span></div>
+        <div class="spa"></div>`
+        item.forEach((it, inx, arr) => {
+            let ix = data[it]
+            htx += `<div><span class="r">${ix[0]}</span> <span class="b">${ix[1]}</span></div>`
+            if ((inx + 1) % 5 === 0 && inx !== arr.length - 1) {
+                htx += `<div class="spb"></div>`
+            }
+        });
+        htx += `</div><!--end message -->`
+        nav.innerHTML += htx
+    });
+};
+
+function donwLoadGroup() {
+    /* div.listmgs:nth-child(1) */
+    console.log(`donwload click`);
+    const groups = document.querySelectorAll("div.listmgs");
+    groups.forEach((item, index, array) => {
+        html2canvas(item, {
+            "backgroundColor": "#2b2d42ff",
+        }).then(canvas => {
+            Canvas2Image.saveAsPNG(canvas); 
+        });
+    });
+};
 

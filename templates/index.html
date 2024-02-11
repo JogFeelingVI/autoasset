@@ -2,7 +2,7 @@
   @Author: JogFeelingVI
   @Date:   2024-01-13 21:34:51
   @Last Modified by:   JogFeelingVI
-  @Last Modified time: 2024-02-10 18:05:36
+  @Last Modified time: 2024-02-11 22:59:01
 -->
 <!DOCTYPE html>
 <html>
@@ -14,7 +14,8 @@
     <link rel="stylesheet" href="/static/casex.css">
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas2image@1.0.5/canvas2image.min.js"></script>
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   </head>
@@ -88,23 +89,23 @@
                   <div id='GroupSize'>
                     <span>Group Size </span>
                     <label>
-                      <input name="group1" type="radio" checked />
+                      <input name="gs" type="radio" checked value="5" />
                       <span>5</span>
                     </label>
                     <label>
-                      <input name="group1" type="radio" />
+                      <input name="gs" type="radio" value="10" />
                       <span>10</span>
                     </label>
                     <label>
-                      <input name="group1" type="radio" />
+                      <input name="gs" type="radio" value="15" />
                       <span>15</span>
                     </label>
                     <label>
-                      <input name="group1" type="radio" />
+                      <input name="gs" type="radio" value="20" />
                       <span>20</span>
                     </label>
                     <label>
-                      <input name="group1" type="radio" />
+                      <input name="gs" type="radio" value="25" />
                       <span>25</span>
                     </label>
                   </div><!--end GroupSize -->
@@ -128,7 +129,7 @@
         <ul>
           <li><a class="btn-floating red" onclick="upgradeClicked()"><i class="material-icons">upgrade</i></a></li>
           <li><a class="btn-floating yellow darken-1" onclick="doneClicked()"><i class="material-icons">done</i></a></li>
-          <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
+          <li><a class="btn-floating green" onclick="donwLoadGroup()"><i class="material-icons">download</i></a></li>
           <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
         </ul>
       </div>
