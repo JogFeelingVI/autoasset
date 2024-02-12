@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-22 08:13:01
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-11 23:45:37
+ * @Last Modified time: 2024-02-12 08:43:33
  */
 /* CSS HEX */
 :root {
@@ -241,7 +241,7 @@ html {
 }
 
 .casex .listmgs .spa {
-    border-bottom: 1px dashed rgb(76, 77, 94);
+    border-bottom: 1px dashed var(--red-pantone);
 }
 
 .casex .listmgs .spb {
