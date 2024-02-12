@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-11 23:04:36
+ * @Last Modified time: 2024-02-12 08:17:12
  */
 'use strict';
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -175,9 +175,15 @@ function donwLoadGroup() {
     console.log(`donwload click`);
     const groups = document.querySelectorAll("div.listmgs");
     groups.forEach((item, index, array) => {
+        item.classList.remove("anmin");
         html2canvas(item, {
             "backgroundColor": "#2b2d42ff",
+            "allowTaint": false,
+            "scale": 4,
         }).then(canvas => {
+            /*
+            document.body.appendChild(canvas);
+            */
             Canvas2Image.saveAsPNG(canvas); 
         });
     });

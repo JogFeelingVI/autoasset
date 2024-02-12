@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-22 08:13:01
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-10 18:08:46
+ * @Last Modified time: 2024-02-11 23:45:37
  */
 /* CSS HEX */
 :root {
@@ -19,7 +19,7 @@
     }
 
     to {
-        opacity: 0.3;
+        opacity: 0.7;
     }
 }
 
@@ -217,7 +217,8 @@ html {
 }
 
 .casex .listmgs {
-    opacity: 0.3;
+    opacity: 0.7;
+    filter: contrast(1.75);
 }
 
 .casex .listmgs:hover {
@@ -236,7 +237,7 @@ html {
 
 .casex .listmgs .a,
 .casex .message .a {
-    color: rgb(76, 77, 94);
+    color:var(--cool-gray);
 }
 
 .casex .listmgs .spa {
