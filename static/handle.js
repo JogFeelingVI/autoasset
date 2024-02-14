@@ -2,17 +2,33 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-12 23:47:28
+ * @Last Modified time: 2024-02-14 13:37:46
  */
 'use strict';
-document.addEventListener("DOMContentLoaded", (event) => {
-    console.log("DOM fully loaded and parsed");
-    let elems = document.querySelectorAll('.modal');
-    let modal = M.Modal.init(elems, '');
 
-    let acts = document.querySelectorAll('.fixed-action-btn');
-    let action = M.FloatingActionButton.init(acts, '');
+const formatNumber = (n, x) => {
+    return n.toString().padStart(Number(x), '0');
+};
 
++ function () {
+    console.log('install open edit modal');
+    document.addEventListener("DOMContentLoaded", (event) => {
+        let elems = document.querySelectorAll('.modal');
+        let modal = M.Modal.init(elems, '');
+        /* install modal .modal */
+    });
+}();
+
++ function () {
+    console.log('install fixed-action-btn');
+    document.addEventListener("DOMContentLoaded", (event) => {
+        let acts = document.querySelectorAll('.fixed-action-btn');
+        let action = M.FloatingActionButton.init(acts, '');
+        /* install modal .modal */
+    });
+}();
+
++ function () {
     const sliderEl = document.querySelector("#slider");
     const sliderValue = document.querySelector("#slider-range-value");
     sliderValue.innerHTML = sliderEl.value
@@ -26,7 +42,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
         progress = (tempSliderValue / sliderEl.max) * 100;
         sliderEl.style.background = bglinear(progress);
     });
+}();
 
++ function () {
     let jsdata = JSON.parse(sessionStorage.getItem("jsdata"));
     let gs = sessionStorage.getItem("groupsize");
     if (!Object.is(gs, null)) {
@@ -40,27 +58,27 @@ document.addEventListener("DOMContentLoaded", (event) => {
     #GroupSize > label:nth-child(4) > input[type=radio]
     #GroupSize > label:nth-child(6) > input[type=radio]
      */
-    let cked = document.querySelector(`#GroupSize > label:nth-child(${gs/5+1}) > input[type=radio]`);
+    let cked = document.querySelector(`#GroupSize > label:nth-child(${gs / 5 + 1}) > input[type=radio]`);
     cked.checked = true;
-    console.log(cked);   
     if (!Object.is(jsdata, null)) {
         const navigation = document.getElementById('navigation')
         installGroup(navigation, gs, jsdata)
     }
+}();
 
-});
++ function () {
+    const gsinput = document.querySelector('#GroupSize');
+    gsinput.addEventListener('change', function (e) {
+        let jsdata = JSON.parse(sessionStorage.getItem('jsdata'));
+        sessionStorage.setItem("groupsize", e.target.value);
+        if (!Object.is(jsdata, null)) {
+            const navigation = document.getElementById('navigation')
+            installGroup(navigation, Number(e.target.value), jsdata);
+        }
+    })
+}();
 
-const gsinput = document.querySelector('#GroupSize');
-gsinput.addEventListener('change', function (e) {
-    let jsdata = JSON.parse(sessionStorage.getItem('jsdata'));
-    sessionStorage.setItem("groupsize", e.target.value)
-    if (!Object.is(jsdata, null)) {
-        const navigation = document.getElementById('navigation')
-        installGroup(navigation, Number(e.target.value), jsdata)
-    }
-});
-
-window.onload = function () {
++ function () {
     const filterv3 = document.getElementById('filterv3');
     fetch('/filter_all_name')
         .then(res => res.json())
@@ -75,7 +93,7 @@ window.onload = function () {
             }
             filterv3.innerHTML = html
         });
-};
+}();
 
 function bglinear(p) {
     return `linear-gradient(to right, #d90429ff ${p}%, #8d99aeff ${p}%)`;
@@ -206,7 +224,12 @@ function donwLoadGroup() {
             /*
             document.body.appendChild(canvas);
             */
-            Canvas2Image.saveAsPNG(canvas);
+            const b64image = canvas.toDataURL("image/png");
+            let donwlink = document.createElement("a");
+            donwlink.setAttribute("href", b64image);
+            donwlink.setAttribute("download", `Group_${formatNumber(index+1, 3)}.png`);
+            donwlink.click();
+            donwlink.remove();
         });
     });
 };

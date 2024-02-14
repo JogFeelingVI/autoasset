@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-22 08:13:01
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-12 08:43:33
+ * @Last Modified time: 2024-02-14 11:47:11
  */
 /* CSS HEX */
 :root {
@@ -193,23 +193,21 @@ html {
 .casex {
     display: flex;
     flex-wrap: wrap;
-    margin: 10px auto 10px auto;
+    /* margin: 10px auto 10px auto; */
     transition: all 0.5s ease-out;
-}
-
-.casex .message {
-    display: flex;
     flex-direction: row;
-    margin: 5px auto 5px auto;
-    padding-left: 5px;
-    padding-right: 5px;
-    border-radius: 6px;
-    /* background-color: var(--antiflash-white);
-    border-left: 3px solid var(--cool-gray); */
-    justify-content: space-between;
-    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+    justify-content: space-evenly;
+    align-content: flex-start;
+    align-items: flex-start;
 }
-
+.casex .listmgs {
+    flex-direction: column;
+    display: flex;
+    /* margin: 5px auto 5px auto; */
+    padding: 5px;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
 .casex .message span {
     display: inline;
     padding: 2px;
