@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-14 13:37:46
+ * @Last Modified time: 2024-02-16 15:26:44
  */
 'use strict';
 
@@ -150,9 +150,16 @@ function doneClicked() {
     PostJson(json);
 };
 
+function runing() {
+    let rings = document.getElementById("runing");
+    let value = parseFloat(rings.innerHTML) + 0.1;
+    rings.innerHTML = value.toFixed(1);
+}
+
 function PostJson(JSONA) {
     const navigation = document.getElementById('navigation')
-    /* navigation.innerHTML = `<p>json data has been sent waiting for server response.</p>` */
+    let times = setInterval("runing()",100);
+    navigation.innerHTML = `<div id="runing">0.0</div>`;
     fetch('/handle_post', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -180,6 +187,7 @@ function PostJson(JSONA) {
                     return;
                 }
             });
+            clearInterval(times);
             installGroup(navigation, GroupS, jsdata)
         });
 };
@@ -227,7 +235,7 @@ function donwLoadGroup() {
             const b64image = canvas.toDataURL("image/png");
             let donwlink = document.createElement("a");
             donwlink.setAttribute("href", b64image);
-            donwlink.setAttribute("download", `Group_${formatNumber(index+1, 3)}.png`);
+            donwlink.setAttribute("download", `Group_${formatNumber(index + 1, 3)}.png`);
             donwlink.click();
             donwlink.remove();
         });

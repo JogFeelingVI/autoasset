@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-22 08:13:01
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-14 11:47:11
+ * @Last Modified time: 2024-02-16 15:42:37
  */
 /* CSS HEX */
 :root {
@@ -94,7 +94,7 @@ input[type="range"] {
     cursor: pointer;
     outline: none;
     border: none;
-    height: 3px;
+    height: 1px;
     background-color: var(--cool-gray);
 }
 
@@ -196,7 +196,7 @@ html {
     /* margin: 10px auto 10px auto; */
     transition: all 0.5s ease-out;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: flex-start;
     align-content: flex-start;
     align-items: flex-start;
 }
@@ -296,9 +296,26 @@ div#GroupSize span {
     color: var(--cool-gray);
 }
 
+#rego{
+    line-height: 1.7;
+}
+
 .mf-fix{
     background-color: var(--space-cadet) !important;
 }
 .bt-fix{
     color: var(--cool-gray);
+}
+
+#runing{
+    border: 1px solid var(--red-pantone);
+    border-radius: 15px;
+    padding: 5px 10px 5px 10px;
+    margin: 5px;
+}
+#runing::before{
+    content: 'Runing: ';
+}
+#runing::after{
+    content: 's';
 }
