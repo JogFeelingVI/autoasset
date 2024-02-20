@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-16 15:26:44
+ * @Last Modified time: 2024-02-20 17:21:26
  */
 'use strict';
 
@@ -100,27 +100,38 @@ function bglinear(p) {
 }
 
 function loadInsxRego() {
-    fetch('/load_insx_rego')
-        .then(res => res.json())
-        .then(data => {
-            const save = document.getElementById('insxrego')
-            save.value = data.insxd
-            M.textareaAutoResize(save);
-        });
+    const insxrego = document.getElementById('insxrego');
+    const insxsess = sessionStorage.getItem('insxrego');
+    if (Object.is(insxsess, null)) {
+        fetch('/load_insx_rego')
+            .then(res => res.json())
+            .then(data => {
+                insxrego.value = data.insxd
+                M.textareaAutoResize(insxrego);
+                insxrego.addEventListener('input', () => {
+                    sessionStorage.setItem('insxrego', insxrego.value);
+                });
+            });
+    } else {
+        insxrego.value = insxsess
+    }
 };
 
 function saveInsxRego() {
-    const save = document.getElementById('insxrego').value
-    let save_json = { "insxd": save }
-    fetch('/save_insx_rego', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(save_json)
-    })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data)
-        });
+    const insxsess = sessionStorage.getItem('insxrego');
+    if (!Object.is(insxsess, null)) {
+        let save_json = { "insxd": insxsess }
+        fetch('/save_insx_rego', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(save_json)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(`Save to insx.rego from ${data}`);
+                sessionStorage.removeItem('insxrego');
+            });
+    }
 };
 
 function upgradeClicked() {
@@ -158,7 +169,7 @@ function runing() {
 
 function PostJson(JSONA) {
     const navigation = document.getElementById('navigation')
-    let times = setInterval("runing()",100);
+    let times = setInterval("runing()", 100);
     navigation.innerHTML = `<div id="runing">0.0</div>`;
     fetch('/handle_post', {
         method: 'POST',
