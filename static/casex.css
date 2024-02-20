@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-22 08:13:01
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-16 15:42:37
+ * @Last Modified time: 2024-02-19 15:55:20
  */
 /* CSS HEX */
 :root {
@@ -318,4 +318,13 @@ div#GroupSize span {
 }
 #runing::after{
     content: 's';
+}
+
+.oks{
+    color: var(--red-pantone);
+    border-bottom: 1px solid var(--fire-engine-red);
+}
+
+.oks:hover{
+    text-transform: uppercase;
 }
