@@ -1,0 +1,63 @@
+{
+    "date": "2024-02-20 09:54:15.790923",
+    "Lever": [
+        4,
+        17,
+        19,
+        20,
+        25,
+        32
+    ],
+    "Last": [
+        4,
+        17,
+        19,
+        20,
+        25,
+        32
+    ],
+    "filter": [
+        {
+            "name": "dzx",
+            "Optional":[0,1,2,3,4,5,6],
+            "recommend": [0,1,2,3,4],
+            "checked":false,
+            "Description":"d is 23-33, z is 12-22,x is 1-11."
+        },
+        {
+            "name": "acvalue",
+            "Optional":[0,1,2,3,4,5,6,7,8,9,10],
+            "recommend": [4,5,6,7,8,9,10],
+            "checked":true,
+            "Description":"ac value 0-10."
+        },
+        {
+            "name": "linma",
+            "Optional":[0,1,2,3,4,5,6],
+            "recommend": [1,2,3],
+            "checked":true,
+            "Description":"Refers to the number adjacent to the last lottery number."
+        },
+        {
+            "name": "duplicates",
+            "Optional":[0,1,2,3,4,5,6],
+            "recommend": [1,2,0],
+            "checked":true,
+            "Description":"The same numbers as the previous draw numbers."
+        },
+        {
+            "name": "sixlan",
+            "Optional":[21,183],
+            "recommend": [71,130],
+            "checked":true,
+            "Description":"The value obtained by adding all the numbers together."
+        },
+        {
+            "name": "lianhao",
+            "Optional":[21,183],
+            "recommend": [71,130],
+            "checked":false,
+            "Description":"There are two or more adjacent numbers in the lottery number."
+        }
+    ]
+}

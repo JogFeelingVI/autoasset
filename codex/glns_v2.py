@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-21 21:14:47
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-01-27 18:08:54
+# @Last Modified time: 2024-02-20 21:50:02
 import itertools, random, math
 from collections import Counter, deque
 from codex import groove, note
@@ -121,7 +121,7 @@ class filterN_v2:
         self.__init__filters()
 
     def dzx(self, N: note.Note) -> bool:
-        '''xiao zhong da'''
+        '''xiao zhong da [2,2,2]'''
         g = [range(i, i + 11) for i in range(0, 33, 11)]
         countofg = map(lambda x: N.setnumber_R.intersection(x).__len__(), g)
         return [False, True][5 not in countofg or 6 in countofg]
