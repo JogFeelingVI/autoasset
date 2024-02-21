@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-22 08:13:01
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-19 15:55:20
+ * @Last Modified time: 2024-02-21 13:40:52
  */
 /* CSS HEX */
 :root {
@@ -280,7 +280,7 @@ div#GroupSize span {
 
 .pfs{
     background-color: var(--space-cadet);
-    filter: brightness(95%) blur(0.5px);
+    filter: brightness(95%) blur(1.8px);
 }
 .pfs:hover{
     background-color: var(--space-cadet);

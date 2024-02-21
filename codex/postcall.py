@@ -2,8 +2,8 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-27 17:28:57
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-02-08 20:09:25
-from codex import glns_v2, note, rego_v3, datav
+# @Last Modified time: 2024-02-21 18:46:19
+from codex import glns_v2, note, rego_v3, datav, filters_v3
 import json
 
 class postcallforjson:
@@ -14,19 +14,19 @@ class postcallforjson:
     def __init__(self) -> None:
         cdic = datav.LoadJson().toLix
         self.glns = glns_v2.glnsMpls(cdic, 6, 1, 'c')
-        self.filters = glns_v2.filterN_v2()
         self.rego = rego_v3.Lexer().pares(rego_v3.load_rego_v2())
-        self.filters.Lever = self.glns.getabc
-        self.filters.Last = self.glns.getlast
+        self.fter = filters_v3
+        self.fter.initialization()
+    
         
     def instal_json(self, js:str):
         self.jsonx = dict(json.loads(js))
         if 'range' in self.jsonx.keys():
-            self.instal_length(self.jsonx['range'])
+            self.setting_length(self.jsonx['range'])
         keys = ' '.join([k for k in self.jsonx.keys()][-5:])
         print(f'install jsonx, keys: {keys}...')
         
-    def instal_length(self, length:int):
+    def setting_length(self, length:int):
         self.length = length
         print(f'install length {self.length}')
         
@@ -50,7 +50,7 @@ class postcallforjson:
                     if f(n) == False:
                         rfilter = False
                         break
-            for k, func in self.filters.filters.items():
+            for k, func in self.fter.SyntheticFunction().items():
                 if self.in_key(k) and self.key_val(k):
                     if func(n) == False:
                         rfilter = False

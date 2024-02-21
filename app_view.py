@@ -2,8 +2,8 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-12 21:03:10
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-02-10 23:38:39
-from codex import glns_v2, gethtml, postcall
+# @Last Modified time: 2024-02-21 19:15:42
+from codex import filters_v3, gethtml, postcall
 from aiohttp import web
 from app_setting import BASE_DIR
 import aiohttp_jinja2, json, random, inspect
@@ -37,7 +37,7 @@ async def handle(request):
             datajson.write(json_str)
             hszie = json_str.__sizeof__()
             response_obj.update(
-                {'message': f'The data has been updated, sized {hszie}'})
+                {'message': f'The data has been updated, sized {hszie}kb/s'})
     except:
         response_obj.update({'message': 'Network connection failed'})
     finally:
@@ -66,14 +66,11 @@ async def handle_get_filter_name(request):
     filters = []
     response_obj = {'list': [], 'checked': [], 'status': 'done'}
     try:
-        class_attrs = inspect.classify_class_attrs(glns_v2.filterN_v2)
-        checked = glns_v2.filterN_v2.getchecked()
+        fter = filters_v3
+        fter.initialization()
+        class_attrs, checked = fter.classAttrs()
         response_obj.update({'checked': checked})
-        filters = []
-        for method in class_attrs:
-            if method.kind == 'method' and not method.name.startswith('_'):
-                filters.append(method.name)
-        response_obj.update({'list': filters})
+        response_obj.update({'list': class_attrs})
     except:
         response_obj.update({'status': 'Error'})
     finally:
