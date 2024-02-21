@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-27 17:28:57
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-02-21 18:46:19
+# @Last Modified time: 2024-02-21 22:45:51
 from codex import glns_v2, note, rego_v3, datav, filters_v3
 import json
 
@@ -13,7 +13,7 @@ class postcallforjson:
     
     def __init__(self) -> None:
         cdic = datav.LoadJson().toLix
-        self.glns = glns_v2.glnsMpls(cdic, 6, 1, 'c')
+        self.glns = glns_v2.glnsMpls(cdic, 6, 1, 's')
         self.rego = rego_v3.Lexer().pares(rego_v3.load_rego_v2())
         self.fter = filters_v3
         self.fter.initialization()
