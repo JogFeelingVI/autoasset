@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-12 21:03:10
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-02-21 19:15:42
+# @Last Modified time: 2024-02-21 19:24:44
 from codex import filters_v3, gethtml, postcall
 from aiohttp import web
 from app_setting import BASE_DIR
@@ -74,7 +74,7 @@ async def handle_get_filter_name(request):
     except:
         response_obj.update({'status': 'Error'})
     finally:
-        print(f'handle GET filter_v2 name {filters.__len__()}')
+        print(f'handle GET filter_v3 name {filters.__len__()}')
         headers = {'Content-Type': 'application/json'}
         return web.Response(text=json.dumps(response_obj),
                             headers=headers,
