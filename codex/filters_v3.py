@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-02-21 12:37:31
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-02-21 19:13:10
+# @Last Modified time: 2024-02-21 20:01:23
 from collections import Counter
 from typing import List
 from functools import partial
@@ -59,6 +59,15 @@ def classAttrs():
             check.append(fterItem['name'])
     return [fter, check]
 
+def Checkfunc():
+    global CONF
+    temp =  SyntheticFunction()
+    fter = {}
+    for fterItem in CONF["filter"]:
+        if fterItem['checked']:
+            fter[fterItem['name']] = temp[fterItem['name']]
+    return fter
+
 
 def SyntheticFunction():
     global CONF
@@ -68,8 +77,18 @@ def SyntheticFunction():
             funx.update({method[0]: method[1]})
     for fterItem in CONF["filter"]:
         if fterItem['name'] in funx.keys():
-            func = partial(funx[fterItem['name']],
+            args = [a.name for a in inspect.signature(funx[fterItem['name']]).parameters.values() if a.name not in ['N','n']]
+            match args:
+                case ['recommend']:
+                    func = partial(funx[fterItem['name']],
                            recommend=fterItem['recommend'])
+                case ['recommend', 'Last']:
+                    func = partial(funx[fterItem['name']],
+                           recommend=fterItem['recommend'], Last=CONF['Last'])
+                case ['recommend', 'Lever']:
+                    func = partial(funx[fterItem['name']],
+                           recommend=fterItem['recommend'], Lever=CONF['Lever'])
+            
             funx.update({fterItem['name']: func})
     return funx
 
@@ -91,22 +110,20 @@ class works:
         return [False, True][ac in recommend]
 
     @staticmethod
-    def linma(N: note.Note, recommend: List[int]) -> bool:
+    def linma(N: note.Note, recommend: List[int], Last:List[int]) -> bool:
         '''计算邻码'''
-        global CONF
         plus_minus = 0
         for n in N.number:
-            if n + 1 in CONF['Last'] or n - 1 in CONF['Last']:
+            if n + 1 in Last or n - 1 in Last:
                 plus_minus += 1
                 if plus_minus not in recommend:
                     return False
         return True
 
     @staticmethod
-    def duplicates(N: note.Note, recommend: List[int]) -> bool:
+    def duplicates(N: note.Note, recommend: List[int], Last:List[int]) -> bool:
         '''计算数组是否有重复项目'''
-        global CONF
-        duplic = N.setnumber_R & set(CONF['Last'])
+        duplic = N.setnumber_R & set(Last)
         return [False, True][duplic.__len__() in recommend]
 
     @staticmethod
@@ -217,13 +234,12 @@ class works:
         return True
     
     @staticmethod
-    def coldns(n: note.Note, recommend: int) -> bool:
+    def coldns(n: note.Note, recommend: int, Lever:List[int]) -> bool:
         '''
         这个方法会造成命中率降低弃用
         [(4, 1), (20, 3), (7, 3), (23, 3), (21, 3), (2, 4), (29, 4), (28, 4), (5, 4), (12, 4), (17, 4)]
         '''
-        global CONF
-        ninc = set(CONF['Lever']).intersection(n.number).__len__()
+        ninc = set(Lever).intersection(n.number).__len__()
         if ninc == 0 or ninc <= recommend:
             return False
         return True
