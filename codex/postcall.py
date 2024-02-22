@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-27 17:28:57
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-02-21 22:45:51
+# @Last Modified time: 2024-02-22 10:32:47
 from codex import glns_v2, note, rego_v3, datav, filters_v3
 import json
 
@@ -10,6 +10,7 @@ class postcallforjson:
     '''post call for json'''
     length = 25
     jsonx = {}
+    interimStorage = {}
     
     def __init__(self) -> None:
         cdic = datav.LoadJson().toLix
@@ -61,24 +62,22 @@ class postcallforjson:
             if count >= 3000:
                 break
                     
-        
-    def toJson(self):
-        temp = {}
+    def manufacturingQueue(self):
+        self.interimStorage = {}
         f = lambda x: ' '.join([f"{n:02}" for n in x])
         for i in range(self.length):
             nt = self.create()
             if nt != None:
                 n, t = nt
-                temp[i] = [f(n), f(t)]
-        return json.dumps(temp)
+                self.interimStorage[i] = [f(n), f(t)]
+        
+    def toJson(self):
+        if self.interimStorage.keys().__len__() == 0:
+            self.manufacturingQueue()
+        return json.dumps(self.interimStorage)
     
     def todict(self):
-        temp = {}
-        for i in range(self.length):
-            nt = self.create()
-            if nt != None:
-                n, t = nt
-                temp[i] = [n, t]
-        return temp
-        
+        if self.interimStorage.keys().__len__() == 0:
+            self.manufacturingQueue()
+        return self.interimStorage
         

@@ -2,11 +2,11 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-12 21:03:10
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-02-21 19:24:44
+# @Last Modified time: 2024-02-22 10:38:17
 from codex import filters_v3, gethtml, postcall
 from aiohttp import web
 from app_setting import BASE_DIR
-import aiohttp_jinja2, json, random, inspect
+import aiohttp_jinja2, json, random
 
 
 @aiohttp_jinja2.template('index.html')
@@ -58,12 +58,12 @@ async def handle_post(request):
     except:
         rejs = {'1': ['error', 'ER']}
     finally:
+        print(f'postcall is done! length {p.interimStorage.keys().__len__()}')
         headers = {'Content-Type': 'application/json'}
         return web.Response(text=json.dumps(rejs), headers=headers, status=200)
 
 
 async def handle_get_filter_name(request):
-    filters = []
     response_obj = {'list': [], 'checked': [], 'status': 'done'}
     try:
         fter = filters_v3
@@ -74,7 +74,7 @@ async def handle_get_filter_name(request):
     except:
         response_obj.update({'status': 'Error'})
     finally:
-        print(f'handle GET filter_v3 name {filters.__len__()}')
+        print(f'handle GET filter_v3 name {class_attrs.__len__()}')
         headers = {'Content-Type': 'application/json'}
         return web.Response(text=json.dumps(response_obj),
                             headers=headers,
@@ -88,12 +88,11 @@ async def handle_save_insx_rego(request):
         with insx_rego.open(mode='w', encoding='utf-8') as L:
             request_data = await request.json()
             L.write(request_data['insxd'])
-            print(f'insxd {insx_rego}')
-            response_obj.update({'message': 'insxd File writing completed.'})
+            response_obj.update({'message': 'insx.rego File writing completed.'})
     except:
-        print(f'insxd File write failed.')
-        response_obj.update({'message': 'insxd File write failed.'})
+        response_obj.update({'message': 'insx.rego File write failed.'})
     finally:
+        print(f'message: {response_obj["message"]}')
         headers = {'Content-Type': 'application/json'}
         return web.Response(text=json.dumps({'msg': 'test'}),
                             headers=headers,
@@ -102,15 +101,16 @@ async def handle_save_insx_rego(request):
 
 async def handle_read_insx_rego(request):
     insx_rego = BASE_DIR / 'insx.rego'
-    response_obj = {'insxd': ''}
+    response_obj = {'insxd': '', 'message':''}
     try:
         with insx_rego.open(mode='r', encoding='utf-8') as L:
             insxd = L.read()
             response_obj.update({'insxd': insxd})
+            response_obj.update({'message': 'insx_rego loading completed.'})
     except:
-        response_obj = {'insxd': 'insx_rego loading failed'}
-        print(f'{response_obj["insxd"]}')
+        response_obj = {'message': 'insx_rego loading failed.'}
     finally:
+        print(f'message: {response_obj["message"]}')
         headers = {'Content-Type': 'application/json'}
         return web.Response(text=json.dumps(response_obj),
                             headers=headers,
