@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-22 08:13:01
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-21 13:40:52
+ * @Last Modified time: 2024-02-23 10:13:41
  */
 /* CSS HEX */
 :root {
@@ -155,7 +155,7 @@ textarea.materialize-textarea:focus:not([readonly]) {
     box-shadow: none !important;
 }
 
-textarea.materialize-textarea{
+textarea.materialize-textarea {
     border-bottom: none !important;
     box-shadow: none !important;
 }
@@ -200,6 +200,7 @@ html {
     align-content: flex-start;
     align-items: flex-start;
 }
+
 .casex .listmgs {
     flex-direction: column;
     display: flex;
@@ -208,6 +209,7 @@ html {
     flex-wrap: nowrap;
     justify-content: center;
 }
+
 .casex .message span {
     display: inline;
     padding: 2px;
@@ -235,7 +237,7 @@ html {
 
 .casex .listmgs .a,
 .casex .message .a {
-    color:var(--cool-gray);
+    color: var(--cool-gray);
 }
 
 .casex .listmgs .spa {
@@ -254,9 +256,24 @@ html {
 }
 
 
+
 .offon {
-    padding: 0 0 5px 5px;
+    display: inline-block;
+    padding: 5px 10px 5px 10px;
+    cursor: pointer;
+    user-select: none;
+    text-transform: capitalize;
 }
+
+.offon span {
+    display: block !important;
+}
+
+
+.offon span:active {
+    color: var(--fire-engine-red);
+}
+
 
 .casex .listmgs {
     flex-direction: column;
@@ -278,53 +295,57 @@ div#GroupSize span {
     color: var(--cool-gray);
 }
 
-.pfs{
+.pfs {
     background-color: var(--space-cadet);
     filter: brightness(95%) blur(1.8px);
 }
-.pfs:hover{
+
+.pfs:hover {
     background-color: var(--space-cadet);
     filter: brightness(95%) blur(0.0px);
 }
 
-#modal_edit{
+#modal_edit {
     background-color: var(--space-cadet) !important;
     opacity: 0.7;
 }
 
-#insxrego{
+#insxrego {
     color: var(--cool-gray);
 }
 
-#rego{
+#rego {
     line-height: 1.7;
 }
 
-.mf-fix{
+.mf-fix {
     background-color: var(--space-cadet) !important;
 }
-.bt-fix{
+
+.bt-fix {
     color: var(--cool-gray);
 }
 
-#runing{
+#runing {
     border: 1px solid var(--red-pantone);
     border-radius: 15px;
     padding: 5px 10px 5px 10px;
     margin: 5px;
 }
-#runing::before{
+
+#runing::before {
     content: 'Runing: ';
 }
-#runing::after{
+
+#runing::after {
     content: 's';
 }
 
-.oks{
+.oks {
     color: var(--red-pantone);
     border-bottom: 1px solid var(--fire-engine-red);
 }
 
-.oks:hover{
+.oks:hover {
     text-transform: uppercase;
 }
