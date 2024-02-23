@@ -2,8 +2,8 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-12 21:03:10
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-02-22 10:38:17
-from codex import filters_v3, gethtml, postcall
+# @Last Modified time: 2024-02-23 22:51:46
+from codex import filters_v3, gethtml, postcall, tools
 from aiohttp import web
 from app_setting import BASE_DIR
 import aiohttp_jinja2, json, random
@@ -14,7 +14,15 @@ async def index(request):
     lock_json = BASE_DIR / 'luck.json'
     with lock_json.open(mode='r', encoding='utf-8') as L:
         jsond = json.loads(L.read())
-    return {'luck':jsond[f'{random.randint(1,6)}']}
+        
+    DataFrame = BASE_DIR / 'DataFrame.json'
+    with DataFrame.open(mode='r', encoding='utf-8') as L:
+        df = json.loads(L.read())
+        n = df['R'][-6::]
+        t = df['B'][-1]
+        nt = f'{tools.f(n)} + {tools.dS(t)}'
+        Ltime = tools.diffnow(df['date'])
+    return {'luck':jsond[f'{random.randint(1,6)}'], 'Last':nt, 'Ltime': Ltime}
 
 
 async def favicon(request):
@@ -31,13 +39,15 @@ async def handle(request):
             response_obj.update({'message': 'DataFrame exists is Not'})
         url = 'https://www.cjcp.cn/zoushitu/cjwssq/hqaczhi.html'
         data_fr = gethtml.toDict(gethtml.get_html(url).neirong)
+        Last = f'{tools.f(data_fr["R"][-6::])} + {tools.dS(data_fr["B"][-1])}'
         response_obj.update({'time': data_fr.get('date', '')})
+        response_obj.update({'Last': Last})
         json_str = json.dumps(data_fr)
         with open(DataFrame, 'w') as datajson:
             datajson.write(json_str)
             hszie = json_str.__sizeof__()
             response_obj.update(
-                {'message': f'The data has been updated, sized {hszie}kb/s'})
+                {'message': f'The data has been updated, sized {hszie}'})
     except:
         response_obj.update({'message': 'Network connection failed'})
     finally:

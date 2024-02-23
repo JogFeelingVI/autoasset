@@ -2,7 +2,7 @@
 # @Author: Your name
 # @Date:   2024-01-06 21:09:15
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-02-11 22:40:44
+# @Last Modified time: 2024-02-23 21:25:03
 from aiohttp import web
 from app_routes import setup_routes, setup_static_routes
 from app_midd import setup_middleware
@@ -20,4 +20,4 @@ setup_routes(app=app)
 setup_middleware(app=app)
 
 if __name__ == '__main__':
-    web.run_app(app, host='127.0.0.1', port=8080)
+    web.run_app(app=app, host='127.0.0.1', port=8080)

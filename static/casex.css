@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-22 08:13:01
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-23 14:22:06
+ * @Last Modified time: 2024-02-23 22:37:40
  */
 /* CSS HEX */
 :root {
@@ -369,4 +369,14 @@ div#GroupSize span {
 
 .oks:hover {
     text-transform: uppercase;
+}
+
+#upgrade_data span{
+    color: var(--fire-engine-red);
+    font-weight: 600;
+    border-bottom: 1px solid var(--fire-engine-red);
+}
+
+#upgrade_data lable{
+    color: var(--cool-gray);
 }

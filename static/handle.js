@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-20 17:21:26
+ * @Last Modified time: 2024-02-23 22:52:14
  */
 'use strict';
 
@@ -138,7 +138,7 @@ function upgradeClicked() {
     fetch('/handle')
         .then(res => res.json())
         .then(data => {
-            const formattedData = `${data.message}, ${data.time}.`;
+            const formattedData = `${data.message}, <span>${data.Last}</span>, <lable>${data.time}</lable>.`;
             document.getElementById('upgrade_data').innerHTML = formattedData;
         });
 };
