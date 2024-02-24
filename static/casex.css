@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-22 08:13:01
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-23 22:37:40
+ * @Last Modified time: 2024-02-24 22:04:59
  */
 /* CSS HEX */
 :root {
@@ -333,6 +333,9 @@ div#GroupSize span {
 
 #insxrego {
     color: var(--cool-gray);
+    font-family: "Oxygen Mono", monospace;
+    font-weight: 400;
+    font-style: normal;
 }
 
 #rego {
