@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-23 22:52:14
+ * @Last Modified time: 2024-02-25 10:43:44
  */
 'use strict';
 
@@ -229,6 +229,28 @@ function installGroup(nav, size, data) {
     });
 };
 
+function pickRandomChars(numChars) {
+    // 将字符串转换为数组
+    const arr = 'aBshiuyRfhklMezx1235670'.split('');
+    // 初始化一个空数组来存储随机挑选的字符
+    const pickedChars = [];
+
+    // 随机挑选指定数量的字符
+    for (let i = 0; i < numChars; i++) {
+        // 生成一个随机索引
+        const randomIndex = Math.floor(Math.random() * arr.length);
+
+        // 将随机索引处的字符添加到 pickedChars 数组
+        pickedChars.push(arr[randomIndex]);
+
+        // 从 arr 数组中删除该字符，避免重复选择
+        arr.splice(randomIndex, 1);
+    }
+
+    // 将 pickedChars 数组转换为字符串并返回
+    return pickedChars.join('');
+}
+
 function donwLoadGroup() {
     /* div.listmgs:nth-child(1) */
     console.log(`donwload click`);
@@ -246,7 +268,7 @@ function donwLoadGroup() {
             const b64image = canvas.toDataURL("image/png");
             let donwlink = document.createElement("a");
             donwlink.setAttribute("href", b64image);
-            donwlink.setAttribute("download", `Group_${formatNumber(index + 1, 3)}.png`);
+            donwlink.setAttribute("download", `Group_${formatNumber(index + 1, 3)}_${pickRandomChars(5)}.png`);
             donwlink.click();
             donwlink.remove();
         });
