@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-12 21:03:10
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-02-23 22:51:46
+# @Last Modified time: 2024-02-26 10:23:07
 from codex import filters_v3, gethtml, postcall, tools
 from aiohttp import web
 from app_setting import BASE_DIR
@@ -65,6 +65,8 @@ async def handle_post(request):
         p = postcall.postcallforjson()
         p.instal_json(request_data)
         rejs = p.toJson()
+        #! todo 这是新的方法
+        
     except:
         rejs = {'1': ['error', 'ER']}
     finally:

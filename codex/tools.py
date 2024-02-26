@@ -2,10 +2,10 @@
 # @Author: JogFeelingVI
 # @Date:   2024-02-23 21:29:27
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-02-23 22:51:02
+# @Last Modified time: 2024-02-26 10:28:21
 import datetime
 
-f = lambda x: ' '.join([f"{n:02}" for n in x])
+f = lambda x: ' '.join([f'{n:02}' for n in x])
 dS = lambda x: f'{x:02}'
 
 def diffdatetime(stime:datetime.datetime, etime:datetime.datetime) -> str:
