@@ -2,9 +2,11 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-27 17:28:57
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-02-26 17:12:28
+# @Last Modified time: 2024-02-27 12:48:22
+import multiprocessing
+from typing import List
 from codex import glns_v2, note, rego_v3, datav, filters_v3, tools
-import json, timeit, concurrent.futures, asyncio
+import json, itertools, concurrent.futures, asyncio
 
 
 class postcallforjson:
@@ -65,6 +67,9 @@ class postcallforjson:
     def create_task(self, task: int):
         return [task, self.create()]
 
+    def create_task_pool(self, Kw):
+        index, producer, filte, rego = Kw
+
     def manufacturingQueue(self):
         self.interimStorage = {}
         f = tools.f
@@ -76,27 +81,34 @@ class postcallforjson:
 
     def tasks_submit(self):
         # 创建一个线程池
-        executor = concurrent.futures.ThreadPoolExecutor(max_workers=8)
-        # print(f'executor done')
+        with concurrent.futures.ThreadPoolExecutor() as po_task:
+            self.interimStorage = {}
+            # 等待所有任务完成
+            results = po_task.map(self.create_task, range(self.length))
+            for res in results:
+                if isinstance(res, list):
+                    index, task = res
+                    if task is not None:
+                        n, t = task
+                        self.interimStorage[index] = [tools.f(n), tools.f(t)]
+        return self.interimStorage
 
-        # # 创建一个消息队列
-        # queue = asyncio.Queue(maxsize=self.length)
-        # for i in range(self.length):
-        #     queue.put_nowait(i)
-        # if queue.empty():
-        #     print(f'queue is empty {queue.empty()}')
-
-        self.interimStorage = {}
-        
-
-        # 等待所有任务完成
-        results = executor.map(self.create_task, range(self.length))
-        for res in results:
-            if isinstance(res, list):
-                index, task = res
-                if task is not None:
-                    n, t = task
-                    self.interimStorage[index] = [tools.f(n), tools.f(t)]
+    def tasks_multiprocessing(self):
+        with multiprocessing.Pool() as mp:
+            Kw = itertools.product(range(self.length), [self.glns.producer],
+                                   [self.fter.SyntheticFunction()],
+                                   [self.rego])
+            self.interimStorage = {}
+            chunksize = int(self.length * 0.083)
+            results = mp.map(self.create_task_pool, Kw, chunksize=chunksize)
+            print(f'results {results}')
+            # for res in results:
+            #     print(f'res {res}')
+            #     if isinstance(res, list):
+            #         index, task = res
+            #         if task is not None:
+            #             n, t = task
+            #             self.interimStorage[index] = [tools.f(n), tools.f(t)]
         return self.interimStorage
 
     def toJson(self):
