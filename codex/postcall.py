@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-27 17:28:57
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-02-28 21:02:43
+# @Last Modified time: 2024-02-28 23:39:35
 import multiprocessing, json, itertools, concurrent.futures
 from typing import List
 from codex import glns_v2, note, rego_v3, datav, filters_v3, tools
@@ -82,19 +82,23 @@ def create_task(iq):
     task, pcall_data, jsond = iq
     return [task, create(pcall_data, jsond)]
 
-
-def manufacturingQueue():
+def initTaskQueue():
     global_vars = globals()
     length = global_vars['postcall_length']
     data = global_vars['postcall_data']
     jsond = global_vars['postcall_json']
+    return itertools.product(range(length), [data], [jsond])
+
+def tasks_Queue():
+    global_vars = globals()
     iStorage = {}
     f = tools.f
-    for i in range(length):
-        nt = create(data, jsond)
+    for iq in initTaskQueue():
+        rex = create_task(iq)
+        task, nt = rex
         if nt != None:
             n, t = nt
-            iStorage[i] = [f(n), f(t)]
+            iStorage[task] = [f(n), f(t)]
     global_vars['interimStorage'] = iStorage 
 
 
@@ -102,7 +106,7 @@ def toJson():
     global_vars = globals()
     iStorage = global_vars['interimStorage']
     if iStorage.keys().__len__() == 0:
-        manufacturingQueue()
+        tasks_Queue()
     return json.dumps(iStorage)
 
 
@@ -110,15 +114,9 @@ def todict():
     global_vars = globals()
     iStorage = global_vars['interimStorage']
     if iStorage.keys().__len__() == 0:
-        manufacturingQueue()
+        tasks_Queue()
     return iStorage
 
-def initTaskQueue():
-    global_vars = globals()
-    length = global_vars['postcall_length']
-    data = global_vars['postcall_data']
-    jsond = global_vars['postcall_json']
-    return itertools.product(range(length), [data], [jsond])
     
 
 def tasks_futures():
