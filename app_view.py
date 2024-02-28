@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-12 21:03:10
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-02-28 09:22:01
+# @Last Modified time: 2024-02-28 20:55:28
 from codex import filters_v3, gethtml, postcall, tools
 from aiohttp import web
 from app_setting import BASE_DIR
@@ -65,7 +65,7 @@ async def handle_post(request):
         p = postcall
         p.initPostCall()
         p.instal_json(js=request_data)
-        await p.tasks_multiprocessing()
+        p.tasks_futures()
         rejs = p.toJson()
         #! todo 这是新的方法
         

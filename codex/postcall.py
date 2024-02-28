@@ -2,8 +2,8 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-27 17:28:57
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-02-28 09:21:05
-import multiprocessing, json, itertools
+# @Last Modified time: 2024-02-28 21:02:43
+import multiprocessing, json, itertools, concurrent.futures
 from typing import List
 from codex import glns_v2, note, rego_v3, datav, filters_v3, tools
 
@@ -120,14 +120,13 @@ def initTaskQueue():
     jsond = global_vars['postcall_json']
     return itertools.product(range(length), [data], [jsond])
     
-async def tasks_multiprocessing():
-    global_vars = globals()
-    length = global_vars['postcall_length']
-    iStorage = global_vars['interimStorage']
-    with multiprocessing.Pool() as p:
-        chunksize = int(length * 0.083)
-        results = p.map(create_task, initTaskQueue(), chunksize=chunksize)
+
+def tasks_futures():
+    with concurrent.futures.ProcessPoolExecutor() as cfp:
+        global_vars = globals()
+        iStorage = global_vars['interimStorage']
         iStorage = {}
+        results = cfp.map(create_task, initTaskQueue())
         for res in results:
             if isinstance(res, list):
                 index, task = res
