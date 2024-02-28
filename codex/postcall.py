@@ -2,11 +2,10 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-27 17:28:57
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-02-27 23:14:12
-import multiprocessing
+# @Last Modified time: 2024-02-28 09:21:05
+import multiprocessing, json, itertools
 from typing import List
 from codex import glns_v2, note, rego_v3, datav, filters_v3, tools
-import json
 
 postcall_length = 25
 postcall_json = {}
@@ -15,58 +14,60 @@ interimStorage = {}
 
 
 def initPostCall():
-    global postcall_data
+    global_vars = globals()
+    data = {}
     cdic = datav.LoadJson().toLix
     fite = filters_v3
     fite.initialization()
-    postcall_data['glns'] = glns_v2.glnsMpls(cdic, 6, 1, 's')
-    postcall_data['rego'] = rego_v3.Lexer().pares(rego_v3.load_rego_v2())
-    postcall_data['filter'] = fite.SyntheticFunction()
+    data['glns'] = glns_v2.glnsMpls(cdic, 6, 1, 's').producer
+    data['rego'] = rego_v3.Lexer().pares(rego_v3.load_rego_v2())
+    data['filter'] = fite.SyntheticFunction()
+    global_vars['postcall_data'] = data
 
 
 def setting_length(length: int):
-    global postcall_length
-    postcall_length = length
+    global_vars = globals()
+    global_vars['postcall_length'] = length
     print(f'setting length {length}')
 
 
 def instal_json(js: str):
-    global postcall_json
-    postcall_json = dict(json.loads(js))
-    if 'range' in postcall_json.keys():
-        setting_length(postcall_json['range'])
-    keys = ' '.join([k for k in postcall_json.keys()][-5:])
+    global_vars = globals()
+    jsond = dict(json.loads(js))
+    if 'range' in jsond.keys():
+        setting_length(jsond['range'])
+    keys = ' '.join([k for k in jsond.keys()][-5:])
+    global_vars['postcall_json'] = jsond
     print(f'install jsonx, keys: {keys}...')
 
 
-def in_key(key: str) -> bool:
-    global postcall_json
-    if key in postcall_json.keys():
+def in_key(key: str, jsond:dict) -> bool:
+    if key in jsond.keys():
         return True
     return False
 
 
-def key_val(key: str) -> bool:
-    global postcall_json
-    return bool(postcall_json[key])
+def key_val(key: str, jsond:dict) -> bool:
+    return bool(jsond[key])
 
 
-def create():
-    global postcall_data
-
+def create(pcall_data:dict, jsond:dict):# -> list[Any] | None:
+    if not pcall_data:
+        print(f'Not Find PostCall Data!')
+        return
     count = 0
     while 1:
-        _n = postcall_data['glns'].producer['r']()
-        _t = postcall_data['glns'].producer['b']()
+        _n = pcall_data['glns']['r']()
+        _t = pcall_data['glns']['b']()
         n = note.Note(_n, _t)
         rfilter = True
-        if in_key('rego') and key_val('rego'):
-            for _, f in postcall_data['rego'].items():
+        if in_key('rego', jsond) and key_val('rego', jsond):
+            for _, f in pcall_data['rego'].items():
                 if f(n) == False:
                     rfilter = False
                     break
-        for k, func in postcall_data['filter'].items():
-            if in_key(k) and key_val(k):
+        for k, func in pcall_data['filter'].items():
+            if in_key(k, jsond) and key_val(k, jsond):
                 if func(n) == False:
                     rfilter = False
                     break
@@ -77,48 +78,61 @@ def create():
             break
 
 
-def create_task(task: int):
-    return [task, create()]
+def create_task(iq):
+    task, pcall_data, jsond = iq
+    return [task, create(pcall_data, jsond)]
 
 
 def manufacturingQueue():
-    global interimStorage
-    global postcall_length
-    interimStorage = {}
+    global_vars = globals()
+    length = global_vars['postcall_length']
+    data = global_vars['postcall_data']
+    jsond = global_vars['postcall_json']
+    iStorage = {}
     f = tools.f
-    for i in range(postcall_length):
-        nt = create()
+    for i in range(length):
+        nt = create(data, jsond)
         if nt != None:
             n, t = nt
-            interimStorage[i] = [f(n), f(t)]
+            iStorage[i] = [f(n), f(t)]
+    global_vars['interimStorage'] = iStorage 
 
 
 def toJson():
-    global interimStorage
-    if interimStorage.keys().__len__() == 0:
+    global_vars = globals()
+    iStorage = global_vars['interimStorage']
+    if iStorage.keys().__len__() == 0:
         manufacturingQueue()
-    return json.dumps(interimStorage)
+    return json.dumps(iStorage)
 
 
 def todict():
-    global interimStorage
-    if interimStorage.keys().__len__() == 0:
+    global_vars = globals()
+    iStorage = global_vars['interimStorage']
+    if iStorage.keys().__len__() == 0:
         manufacturingQueue()
-    return interimStorage
+    return iStorage
 
-
+def initTaskQueue():
+    global_vars = globals()
+    length = global_vars['postcall_length']
+    data = global_vars['postcall_data']
+    jsond = global_vars['postcall_json']
+    return itertools.product(range(length), [data], [jsond])
+    
 async def tasks_multiprocessing():
-    global interimStorage, postcall_data, postcall_length
+    global_vars = globals()
+    length = global_vars['postcall_length']
+    iStorage = global_vars['interimStorage']
     with multiprocessing.Pool() as p:
-        from functools import partial
-        indexs = [x for x in range(postcall_length)]
-        chunksize = int(postcall_length * 0.083)
-        results = p.map(create_task, indexs, chunksize=chunksize)
-        interimStorage = {}
+        chunksize = int(length * 0.083)
+        results = p.map(create_task, initTaskQueue(), chunksize=chunksize)
+        iStorage = {}
         for res in results:
             if isinstance(res, list):
                 index, task = res
                 if task is not None:
                     n, t = task
-                    interimStorage[index] = [tools.f(n), tools.f(t)]
-    return results
+                    iStorage[index] = [tools.f(n), tools.f(t)]
+    global_vars['interimStorage'] = iStorage
+    return iStorage

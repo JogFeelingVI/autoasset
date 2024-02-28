@@ -2,7 +2,7 @@
 # @Author: Your name
 # @Date:   2024-01-06 21:09:15
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-02-23 21:25:03
+# @Last Modified time: 2024-02-28 09:22:46
 from aiohttp import web
 from app_routes import setup_routes, setup_static_routes
 from app_midd import setup_middleware
@@ -10,7 +10,7 @@ from app_setting import BASE_DIR
 import aiohttp_jinja2, jinja2
 
 app = web.Application()
-print(f'BASE_DIR {BASE_DIR}')
+#print(f'BASE_DIR {BASE_DIR}')
 
 aiohttp_jinja2.setup(app=app,
                      loader=jinja2.FileSystemLoader(str(BASE_DIR /
