@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-25 10:43:44
+ * @Last Modified time: 2024-03-01 21:55:22
  */
 'use strict';
 
@@ -42,6 +42,23 @@ const formatNumber = (n, x) => {
         progress = (tempSliderValue / sliderEl.max) * 100;
         sliderEl.style.background = bglinear(progress);
     });
+}();
+
++ function () {
+    let slider = document.getElementById('rangeslider');
+    noUiSlider.cssClasses.target = "fix_target";
+    noUiSlider.cssClasses.connect +=" fix_connect";
+    noUiSlider.cssClasses.handle += " fix_handle";
+    noUiSlider.create(slider, {
+        start: [25],
+        connect: 'lower',
+        range: {
+            'min': 5,
+            'max': 1000
+        },
+        cssPrefix: ""
+    });
+    
 }();
 
 + function () {

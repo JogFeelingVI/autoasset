@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-22 21:46:48
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-02-28 20:54:48
+# @Last Modified time: 2024-03-01 18:06:47
 import time, asyncio
 from codex import postcall, tools
 
@@ -14,7 +14,7 @@ def main():
     p = postcall
     p.initPostCall()
     p.instal_json(js=js)
-    p.manufacturingQueue()
+    p.tasks_Queue()
     for k, v in p.todict().items():
         n, t = v
         print(f'[{k:>3}] {n} + {t}')

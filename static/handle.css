@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-22 08:13:01
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-02-24 22:04:59
+ * @Last Modified time: 2024-03-01 21:53:56
  */
 /* CSS HEX */
 :root {
@@ -267,32 +267,32 @@ html {
 
 .offon [type="checkbox"]+span:not(.lever):before,
 [type="checkbox"]:not(.filled-in)+span:not(.lever):after {
-    top:2px;
+    top: 2px;
     width: 15px;
     height: 15px;
-	border: 2px solid var(--cool-gray);
+    border: 2px solid var(--cool-gray);
     background-color: var(--space-cadet);
     border-radius: 50%;
     opacity: 0.3;
 }
 
-.offon [type="checkbox"]:checked + span:not(.lever)::before {
+.offon [type="checkbox"]:checked+span:not(.lever)::before {
     opacity: 1;
     top: 2px;
     left: 0px;
-	width: 15px;
-	height: 15px;
-	border-top: 2px solid transparent;
-	border-left: 2px solid transparent;
-	border-right: 2px solid var(--fire-engine-red);
-	border-bottom: 2px solid var(--fire-engine-red);
+    width: 15px;
+    height: 15px;
+    border-top: 2px solid transparent;
+    border-left: 2px solid transparent;
+    border-right: 2px solid var(--fire-engine-red);
+    border-bottom: 2px solid var(--fire-engine-red);
     background-color: var(--red-pantone);
-	-webkit-transform: rotate(0deg);
-	transform: rotate(0deg);
-	-webkit-backface-visibility: hidden;
-	backface-visibility: hidden;
-	-webkit-transform-origin: 100% 100%;
-	transform-origin: 100% 100%;
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform-origin: 100% 100%;
+    transform-origin: 100% 100%;
     border-radius: 50%;
 }
 
@@ -374,12 +374,54 @@ div#GroupSize span {
     text-transform: uppercase;
 }
 
-#upgrade_data span{
+#upgrade_data span {
     color: var(--fire-engine-red);
     font-weight: 600;
     border-bottom: 1px solid var(--fire-engine-red);
 }
 
-#upgrade_data lable{
+#upgrade_data span:before {
+    content: "";
+    display: inline-block;
+    height: 14px;
+    width: 14px;
+    margin-right: 5px;
+    background: yellow;
+    border-radius: 50%;
+}
+
+#upgrade_data lable {
     color: var(--cool-gray);
+}
+
+.noUi-fix_target {
+    border-radius: 5px;
+    background: var(--cool-gray);
+}
+/*
+.noUi-fix_target:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 40px;
+    height: 1px;
+    width: 60%;
+    background: var(--fire-engine-red);
+}
+.noUi-fix_target::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 40px;
+    height: 1px;
+    width: 60%;
+    background: var(--fire-engine-red);
+}
+*/
+.fix_connect {
+    background: var(--fire-engine-red);
+}
+
+.noUi-fix_handle{
+    background: var(--space-cadet)
 }
