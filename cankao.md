@@ -5,6 +5,7 @@
 * https://github.com/jagenjo/litegraph.js
 * https://coolors.co/
 * https://unblockninja.com/
+* https://www.cjcp.cn/zoushitu/cjwssq/
 * https://reqres.in/ PUT API
 * kill 8080?python
 * `netstat -tlnp | grep 8080`
