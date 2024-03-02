@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-22 08:13:01
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-01 21:53:56
+ * @Last Modified time: 2024-03-02 09:27:25
  */
 /* CSS HEX */
 :root {
@@ -377,17 +377,14 @@ div#GroupSize span {
 #upgrade_data span {
     color: var(--fire-engine-red);
     font-weight: 600;
-    border-bottom: 1px solid var(--fire-engine-red);
+    
 }
 
 #upgrade_data span:before {
-    content: "";
+    content: "↪";
     display: inline-block;
-    height: 14px;
-    width: 14px;
-    margin-right: 5px;
-    background: yellow;
-    border-radius: 50%;
+    margin: auto 5px auto auto;
+    box-sizing: border-box;
 }
 
 #upgrade_data lable {
