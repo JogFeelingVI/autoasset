@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-02 09:46:32
+ * @Last Modified time: 2024-03-03 17:36:12
  */
 'use strict';
 
@@ -44,22 +44,18 @@ const formatNumber = (n, x) => {
     });
 }();
 
-+ function () {
-    let slider = document.getElementById('rangeslider');
-    noUiSlider.cssClasses.target = "fix_target";
-    noUiSlider.cssClasses.connect +=" fix_connect";
-    noUiSlider.cssClasses.handle += " fix_handle";
-    noUiSlider.create(slider, {
-        start: [25],
-        connect: 'lower',
-        range: {
-            'min': 5,
-            'max': 1000
-        },
-        cssPrefix: ""
-    });
+// + function () {
+//     let slider = document.getElementById('rangeslider');
+//     noUiSlider.create(slider, {
+//         start: [25],
+//         connect: 'lower',
+//         range: {
+//             'min': 5,
+//             'max': 1000
+//         },
+//     });
     
-}();
+// }();
 
 + function () {
     let jsdata = JSON.parse(sessionStorage.getItem("jsdata"));

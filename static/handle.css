@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-22 08:13:01
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-02 09:27:25
+ * @Last Modified time: 2024-03-03 20:35:25
  */
 /* CSS HEX */
 :root {
@@ -377,7 +377,7 @@ div#GroupSize span {
 #upgrade_data span {
     color: var(--fire-engine-red);
     font-weight: 600;
-    
+
 }
 
 #upgrade_data span:before {
@@ -391,34 +391,53 @@ div#GroupSize span {
     color: var(--cool-gray);
 }
 
-.noUi-fix_target {
-    border-radius: 5px;
-    background: var(--cool-gray);
-}
-/*
-.noUi-fix_target:before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 40px;
-    height: 1px;
-    width: 60%;
-    background: var(--fire-engine-red);
-}
-.noUi-fix_target::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: 40px;
-    height: 1px;
-    width: 60%;
-    background: var(--fire-engine-red);
-}
-*/
-.fix_connect {
-    background: var(--fire-engine-red);
+.meRange {
+    display: inline-block;
+    box-sizing: content-box;
+    width: 100%;
+    background: transparent;
+    transform: rotate(0);
 }
 
-.noUi-fix_handle{
-    background: var(--space-cadet)
+.meRange .huagui_bg {
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    top:50%;
+    -webkit-transform: translate(0, 50%);
+    transform:translate(0,-50%);
+    background: var(--cool-gray);
+}
+
+.meRange .huagui_bg>* {
+    /* min max setp hide */
+    display:none;
+}
+
+.meRange .huagui {
+    width: 100%;
+}
+
+.meRange .huagui .shoubing {
+    display: block;
+    position: relative;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    -webkit-transform: translate(600px, 0);
+    transform:translate(600px,0);
+    background-color: var(--fire-engine-red);
+}
+
+.meRange .huagui .shoubing:before{
+    content: "";
+    position: absolute;
+    top:50%;
+    -webkit-transform: translate(0, 50%);
+    transform:translate(0,-50%);
+    width: 600px;
+    left: -600px;
+    /* -left = width = shoubing.width */
+    height: 3px;
+    background-color:aqua;
 }
