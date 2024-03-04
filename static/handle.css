@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-22 08:13:01
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-03 20:35:25
+ * @Last Modified time: 2024-03-04 23:38:45
  */
 /* CSS HEX */
 :root {
@@ -424,8 +424,8 @@ div#GroupSize span {
     height: 16px;
     width: 16px;
     border-radius: 50%;
-    -webkit-transform: translate(600px, 0);
-    transform:translate(600px,0);
+    -webkit-transform: translate(0px, 0);
+    transform:translate(0px,0);
     background-color: var(--fire-engine-red);
 }
 
@@ -435,8 +435,8 @@ div#GroupSize span {
     top:50%;
     -webkit-transform: translate(0, 50%);
     transform:translate(0,-50%);
-    width: 600px;
-    left: -600px;
+    width: var(--oks,0);
+    left: var(--okb,0);
     /* -left = width = shoubing.width */
     height: 3px;
     background-color:aqua;

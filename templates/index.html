@@ -2,7 +2,7 @@
   @Author: JogFeelingVI
   @Date:   2024-01-13 21:34:51
   @Last Modified by:   JogFeelingVI
-  @Last Modified time: 2024-03-03 20:35:49
+  @Last Modified time: 2024-03-03 23:17:28
 -->
 <!DOCTYPE html>
 <html>
@@ -12,12 +12,10 @@
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="/static/handle.css">
-    <link rel="stylesheet" href="/static/nouislider.css">
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas2image@1.0.5/canvas2image.min.js"></script>
-    <script src="/static/nouislider.js"></script>
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   </head>
@@ -49,10 +47,7 @@
                   <div class="example">
                     <div id="rangeslider" class="meRange">
                       <div class="huagui_bg">
-                        <min>5</min>
-                        <min>1000</min>
-                        <step>5</step>
-                        <value>25</value>
+                        <Attributes min="5", max="1000", value="25", step="5">
                       </div>
                       <div class="huagui">
                         <div class="shoubing"></div>

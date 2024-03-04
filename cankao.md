@@ -6,6 +6,8 @@
 * https://coolors.co/
 * https://unblockninja.com/
 * https://www.cjcp.cn/zoushitu/cjwssq/
+* https://www.enablegeek.com/tutorial/javascript-move-element/
+* https://css-irl.info/quick-tip-style-pseudo-elements-with-javascript-using-custom-properties/
 * https://reqres.in/ PUT API
 * kill 8080?python
 * `netstat -tlnp | grep 8080`

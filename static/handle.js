@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-03 17:36:12
+ * @Last Modified time: 2024-03-04 23:40:40
  */
 'use strict';
 
@@ -44,18 +44,47 @@ const formatNumber = (n, x) => {
     });
 }();
 
-// + function () {
-//     let slider = document.getElementById('rangeslider');
-//     noUiSlider.create(slider, {
-//         start: [25],
-//         connect: 'lower',
-//         range: {
-//             'min': 5,
-//             'max': 1000
-//         },
-//     });
++ function () {
+    let slider = document.getElementById('rangeslider');
+    let slider_width = slider.getBoundingClientRect().width;
+    let shoubing = slider.getElementsByClassName("shoubing")[0]
+    let showbing_width = shoubing.getBoundingClientRect().width
+    // .meRange .huagui .shoubing:before
+    let Attributes = slider.getElementsByTagName("Attributes")[0]
+    let max = Attributes.getAttribute("max")
+    let min = Attributes.getAttribute("min")
+    let step = Attributes.getAttribute("step")
+    let value = Attributes.getAttribute("value")
+    // 需要用到的变量
     
-// }();
+
+    shoubing.addEventListener("mousedown", function (event) {
+        let initialX = event.clientX;
+        function moveElement(event) {
+            let currentX = event.clientX;
+            let deltaX = currentX - initialX;
+            let dangqian = shoubing.offsetLeft + deltaX
+            let max_left = slider_width - showbing_width
+            if (dangqian >= 0 && dangqian<=max_left) {
+                shoubing.style.left = dangqian + 'px';
+                shoubing.style.setProperty('--oks', dangqian + 'px')
+                shoubing.style.setProperty('--okb', -dangqian + 'px')
+                initialX = currentX;
+                console.log(`jingdu $`)
+            }
+        }
+
+        function stopElement(event) {
+            document.removeEventListener('mousemove', moveElement);
+            document.removeEventListener('mouseup', stopElement);
+        }
+
+        document.addEventListener('mousemove', moveElement);
+        document.addEventListener('mouseup', stopElement);
+    });
+}();
+
+
 
 + function () {
     let jsdata = JSON.parse(sessionStorage.getItem("jsdata"));
