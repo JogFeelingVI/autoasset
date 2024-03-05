@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-04 23:40:40
+ * @Last Modified time: 2024-03-05 09:06:30
  */
 'use strict';
 
@@ -28,35 +28,45 @@ const formatNumber = (n, x) => {
     });
 }();
 
+// + function () {
+//     const sliderEl = document.querySelector("#slider");
+//     const sliderValue = document.querySelector("#slider-range-value");
+//     sliderValue.innerHTML = sliderEl.value
+//     let progress = (sliderEl.value / sliderEl.max) * 100;
+//     sliderEl.style.background = bglinear(progress);
+
+//     sliderEl.addEventListener("input", (event) => {
+//         const tempSliderValue = event.target.value;
+//         sliderValue.textContent = tempSliderValue;
+
+//         progress = (tempSliderValue / sliderEl.max) * 100;
+//         sliderEl.style.background = bglinear(progress);
+//     });
+// }();
+
 + function () {
-    const sliderEl = document.querySelector("#slider");
-    const sliderValue = document.querySelector("#slider-range-value");
-    sliderValue.innerHTML = sliderEl.value
-    let progress = (sliderEl.value / sliderEl.max) * 100;
-    sliderEl.style.background = bglinear(progress);
-
-    sliderEl.addEventListener("input", (event) => {
-        const tempSliderValue = event.target.value;
-        sliderValue.textContent = tempSliderValue;
-
-        progress = (tempSliderValue / sliderEl.max) * 100;
-        sliderEl.style.background = bglinear(progress);
-    });
-}();
-
-+ function () {
+    let sliderValue = document.querySelector("#slider-range-value");
     let slider = document.getElementById('rangeslider');
     let slider_width = slider.getBoundingClientRect().width;
     let shoubing = slider.getElementsByClassName("shoubing")[0]
     let showbing_width = shoubing.getBoundingClientRect().width
     // .meRange .huagui .shoubing:before
     let Attributes = slider.getElementsByTagName("Attributes")[0]
-    let max = Attributes.getAttribute("max")
-    let min = Attributes.getAttribute("min")
-    let step = Attributes.getAttribute("step")
-    let value = Attributes.getAttribute("value")
+    let max = Number(Attributes.getAttribute("max"))
+    let min = Number(Attributes.getAttribute("min"))
+    let step = Number(Attributes.getAttribute("step"))
+    let value = Number(Attributes.getAttribute("value"))
     // 需要用到的变量
     
+    function setValue(number){
+        // dangqian /(max-min)*slider_wider
+        let left = number / (max-min) * slider_width
+        shoubing.style.left = left + 'px';
+        shoubing.style.setProperty('--oks', left + 'px')
+        shoubing.style.setProperty('--okb', -left + 'px')
+        sliderValue.innerHTML = number
+    }
+
 
     shoubing.addEventListener("mousedown", function (event) {
         let initialX = event.clientX;
@@ -65,23 +75,37 @@ const formatNumber = (n, x) => {
             let deltaX = currentX - initialX;
             let dangqian = shoubing.offsetLeft + deltaX
             let max_left = slider_width - showbing_width
-            if (dangqian >= 0 && dangqian<=max_left) {
+            if (dangqian >= 0 && dangqian <= max_left) {
                 shoubing.style.left = dangqian + 'px';
+                // 设置进度条背景
                 shoubing.style.setProperty('--oks', dangqian + 'px')
                 shoubing.style.setProperty('--okb', -dangqian + 'px')
+                let bili = dangqian / max_left * (max - min) + min
+                bili = roundToStep(bili, step)
                 initialX = currentX;
-                console.log(`jingdu $`)
+                Attributes.setAttribute("value", bili);
+                sliderValue.innerHTML = bili
+            };
+        };
+
+        function roundToStep(number, step) {
+            // 将数字格式化成 step的倍数
+            if (number % step === 0) {
+                return number;
+            } else {
+                return Math.ceil(number / step) * step;
             }
-        }
+        };
 
         function stopElement(event) {
             document.removeEventListener('mousemove', moveElement);
             document.removeEventListener('mouseup', stopElement);
-        }
+        };
 
         document.addEventListener('mousemove', moveElement);
         document.addEventListener('mouseup', stopElement);
     });
+    setValue(value);
 }();
 
 
