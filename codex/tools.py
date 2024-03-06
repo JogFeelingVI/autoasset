@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-02-23 21:29:27
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-02-26 10:28:21
+# @Last Modified time: 2024-03-06 15:23:03
 import datetime
 
 f = lambda x: ' '.join([f'{n:02}' for n in x])
@@ -36,4 +36,7 @@ def diffnow(strtime:str) -> str:
     '''
     stime = datetime.datetime.strptime(strtime, '%Y-%m-%d %H:%M:%S.%f')
     return diffdatetime(stime, datetime.datetime.now())
+
+def nowstr() -> str:
+    return f'{datetime.datetime.now()}'
 

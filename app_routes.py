@@ -2,14 +2,15 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-12 21:15:24
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-01-31 11:07:14
+# @Last Modified time: 2024-03-06 15:24:23
 from aiohttp import web
-from app_view import index, handle, favicon, handle_post, handle_get_filter_name, handle_read_insx_rego, handle_save_insx_rego
+from app_view import index, science, handle, favicon, handle_post, handle_get_filter_name, handle_read_insx_rego, handle_save_insx_rego
 from app_setting import BASE_DIR
 
 
 def setup_routes(app: web.Application):
     app.router.add_get('/', handler=index)
+    app.router.add_get('/science', handler=science)
     app.router.add_get('/favicon.ico', handler=favicon)
     app.router.add_get('/handle', handler=handle)
     app.router.add_post('/handle_post', handler=handle_post)

@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-12 21:03:10
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-02-28 20:55:28
+# @Last Modified time: 2024-03-06 15:23:17
 from codex import filters_v3, gethtml, postcall, tools
 from aiohttp import web
 from app_setting import BASE_DIR
@@ -23,6 +23,11 @@ async def index(request):
         nt = f'{tools.f(n)} + {tools.dS(t)}'
         Ltime = tools.diffnow(df['date'])
     return {'luck':jsond[f'{random.randint(1,6)}'], 'Last':nt, 'Ltime': Ltime}
+
+@aiohttp_jinja2.template('science.html')
+async def science(request):
+    Ltime = tools.nowstr()
+    return {'Ltime': Ltime}
 
 
 async def favicon(request):

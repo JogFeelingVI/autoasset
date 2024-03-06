@@ -1,0 +1,91 @@
+/**
+ * @Author: JogFeelingVI
+ * @Date:   2024-03-06 15:27:45
+ * @Last Modified by:   JogFeelingVI
+ * @Last Modified time: 2024-03-06 15:31:32
+ */
+ :root {
+    --space-cadet: #2b2d42ff;
+    --cool-gray: #8d99aeff;
+    --antiflash-white: #edf2f4ff;
+    --red-pantone: #ef233cff;
+    --fire-engine-red: #d90429ff;
+}
+
+@keyframes slidein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 0.7;
+    }
+}
+
+.space-cadet {
+    background-color: var(--space-cadet) !important;
+}
+
+.space-cadet-text {
+    color: var(--space-cadet) !important;
+}
+
+.cool-gray {
+    background-color: var(--cool-gray) !important;
+}
+
+.cool-gray-text {
+    color: var(--cool-gray) !important;
+}
+
+.antiflash-white {
+    background-color: var(--antiflash-white) !important;
+}
+
+.antiflash-white-text {
+    color: var(--antiflash-white) !important;
+}
+
+.red-pantone {
+    background-color: var(--red-pantone) !important;
+}
+
+.red-pantone-text {
+    color: var(--red-pantone) !important;
+}
+
+.fire-engine-red {
+    background-color: var(--fire-engine-red) !important;
+}
+
+.fire-engine-red-text {
+    color: var(--fire-engine-red) !important;
+}
+.example {
+    position: relative;
+    padding: 0 40px;
+    margin: 20px 0;
+    overflow: hidden;
+}
+
+.example.overflow {
+    overflow: visible;
+}
+
+/* example css */
+
+html {
+    font-family: "Oxygen Mono", monospace;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.pfs {
+    background-color: var(--space-cadet);
+    filter: brightness(95%) blur(1.8px);
+}
+
+.pfs:hover {
+    background-color: var(--space-cadet);
+    filter: brightness(95%) blur(0.0px);
+}
