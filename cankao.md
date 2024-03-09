@@ -13,4 +13,5 @@
 * kill 8080?python
 * `netstat -tlnp | grep 8080`
 * `lsof -i :8080`
+* `kill -9 $(lsof -ti tcp:8080)`
 * Chrome `CMD` + `Shift` + `R`
