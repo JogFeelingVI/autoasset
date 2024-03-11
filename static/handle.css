@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-22 08:13:01
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-05 09:13:51
+ * @Last Modified time: 2024-03-11 21:24:22
  */
 /* CSS HEX */
 :root {
@@ -330,53 +330,3 @@ div#GroupSize span {
     color: var(--cool-gray);
 }
 
-.meRange {
-    display: inline-block;
-    box-sizing: content-box;
-    width: 100%;
-    background: transparent;
-    transform: rotate(0);
-}
-
-.meRange .huagui_bg {
-    position: absolute;
-    width: 100%;
-    height: 1px;
-    top: 50%;
-    -webkit-transform: translate(0, 50%);
-    transform: translate(0, -50%);
-    background: var(--cool-gray);
-}
-
-.meRange .huagui_bg>* {
-    /* min max setp hide */
-    display: none
-}
-
-.meRange .huagui {
-    width: 100%;
-}
-
-.meRange .huagui .shoubing {
-    display: block;
-    position: relative;
-    height: 16px;
-    width: 16px;
-    border-radius: 50%;
-    -webkit-transform: translate(0px, 0);
-    transform: translate(0px, 0);
-    background-color: var(--fire-engine-red);
-}
-
-.meRange .huagui .shoubing:before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    -webkit-transform: translate(0, 50%);
-    transform: translate(0, -50%);
-    width: var(--oks, 0);
-    left: var(--okb, 0);
-    /* -left = width = shoubing.width */
-    height: 3px;
-    background-color: aqua;
-}

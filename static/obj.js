@@ -1,6 +1,12 @@
+/**
+ * @Author: JogFeelingVI
+ * @Date:   2024-03-10 20:50:31
+ * @Last Modified by:   JogFeelingVI
+ * @Last Modified time: 2024-03-12 01:07:00
+ */
 'use strict';
 
-export function pickRandomChars(numChars) {
+export function pickRandomChars(numChars = 5) {
     // 将字符串转换为数组
     const arr = 'aBshiuyRfhklMezx1235670'.split('');
     // 初始化一个空数组来存储随机挑选的字符
@@ -23,7 +29,7 @@ export function pickRandomChars(numChars) {
 };
 
 export class swclass {
-    constructor(idx, qs, hs, check) {
+    constructor(idx = 'id', qs = 'yes', hs = 'no', check = false) {
         this.input_id = `swclass_${pickRandomChars(5)}`
         let divid = document.getElementById(idx)
         divid.classList.add("sw")
@@ -68,4 +74,59 @@ export class swclass {
         return this.input_check.checked
     }
 }
+
+export class radioList {
+    constructor(idx = 'id', Comment = 'radioList', items = [10, 20, 50, 100, 200]) {
+        this.radioListEL = document.getElementById(idx)
+        this.radioListEL.classList.add('radioList')
+        if (!Object.is(this.radioListEL, null)) {
+            if (!Object.is(Comment, null)) {
+                this.radioListEL.append(this.init_Comment(Comment))
+                this.name = pickRandomChars(5)
+                this.items_inx = 0
+                items.forEach((v, i) => {
+                    let EL = this.init_items(v, i)
+                    this.radioListEL.append(EL)
+                })
+            }
+        }
+    }
+
+    get checkItem() {
+        let inputs = this.radioListEL.getElementsByTagName('input')
+        Array.from(inputs).forEach((v, i)=>{
+            if (v.checked){
+                return v
+            }
+        })
+    }
+
+    init_Comment(c = 'info') {
+        // c = Comment 注释说明
+        let comEL = document.createElement('span')
+        comEL.innerHTML = c
+        return comEL
+    }
+
+    init_items(i = 5, index = 10) {
+        // i shuzhi 5 6 8 9 10 deng
+        // <label>
+        //     <input name="gs" type="radio" value="15" />
+        //     <span>15</span>
+        // </label>
+        let labelEL = document.createElement('label')
+        let input = document.createElement('input')
+        let span = document.createElement('span')
+        input.setAttribute('name', this.name)
+        input.setAttribute('type', 'radio')
+        input.setAttribute('value', i)
+        if (index === this.items_inx) {
+            input.setAttribute('checked', '')
+        }
+        span.innerHTML = i
+        labelEL.append(input, span)
+        return labelEL
+    }
+}
+
 
