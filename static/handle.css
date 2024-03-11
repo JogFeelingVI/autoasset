@@ -63,15 +63,6 @@
     color: var(--fire-engine-red) !important;
 }
 
-/* color end */
-.switch label input[type=checkbox]:checked+.lever:after {
-    background-color: var(--fire-engine-red);
-}
-
-.switch label input[type=checkbox]:checked+.lever {
-    background-color: var(--red-pantone);
-}
-
 
 
 [type="radio"]:checked+span:after,
@@ -345,7 +336,6 @@ div#GroupSize span {
     width: 100%;
     background: transparent;
     transform: rotate(0);
-    user-select: none;
 }
 
 .meRange .huagui_bg {

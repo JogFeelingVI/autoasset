@@ -5,6 +5,8 @@
  * @Last Modified time: 2024-03-05 09:06:30
  */
 'use strict';
+import * as objJs from './obj.js';
+let regov2 = new objJs.swclass('rego_v2', 'off', 'on', false);
 
 const formatNumber = (n, x) => {
     return n.toString().padStart(Number(x), '0');
@@ -28,22 +30,6 @@ const formatNumber = (n, x) => {
     });
 }();
 
-// + function () {
-//     const sliderEl = document.querySelector("#slider");
-//     const sliderValue = document.querySelector("#slider-range-value");
-//     sliderValue.innerHTML = sliderEl.value
-//     let progress = (sliderEl.value / sliderEl.max) * 100;
-//     sliderEl.style.background = bglinear(progress);
-
-//     sliderEl.addEventListener("input", (event) => {
-//         const tempSliderValue = event.target.value;
-//         sliderValue.textContent = tempSliderValue;
-
-//         progress = (tempSliderValue / sliderEl.max) * 100;
-//         sliderEl.style.background = bglinear(progress);
-//     });
-// }();
-
 + function () {
     let sliderValue = document.querySelector("#slider-range-value");
     let slider = document.getElementById('rangeslider');
@@ -57,10 +43,10 @@ const formatNumber = (n, x) => {
     let step = Number(Attributes.getAttribute("step"))
     let value = Number(Attributes.getAttribute("value"))
     // 需要用到的变量
-    
-    function setValue(number){
+
+    function setValue(number) {
         // dangqian /(max-min)*slider_wider
-        let left = number / (max-min) * slider_width
+        let left = number / (max - min) * slider_width
         shoubing.style.left = left + 'px';
         shoubing.style.setProperty('--oks', left + 'px')
         shoubing.style.setProperty('--okb', -left + 'px')
@@ -163,7 +149,7 @@ const formatNumber = (n, x) => {
 
 function bglinear(p) {
     return `linear-gradient(to right, #d90429ff ${p}%, #8d99aeff ${p}%)`;
-}
+};
 
 function loadInsxRego() {
     const insxrego = document.getElementById('insxrego');
@@ -210,12 +196,10 @@ function upgradeClicked() {
 };
 
 function doneClicked() {
-    const rangeValue = document.getElementById('slider-range-value')
-    const rego = document.getElementById('rego')
+    const rangeValue = document.getElementById('slider-range-value');
     const filterv3 = document.getElementById('filterv3');
     const labels = filterv3.getElementsByTagName('label');
-    const onoff = rego.getElementsByTagName('input')[0]
-    const checkboxStates = { 'rego': onoff.checked, 'range': Number(rangeValue.innerText) }
+    const checkboxStates = { 'rego': regov2.checked, 'range': Number(rangeValue.innerText) }
     for (let i = 0; i < labels.length; i++) {
         let ckb = labels[i].getElementsByTagName('input')[0];
         let span = labels[i].getElementsByTagName('span')[0];
@@ -231,7 +215,7 @@ function runing() {
     let rings = document.getElementById("runing");
     let value = parseFloat(rings.innerHTML) + 0.1;
     rings.innerHTML = value.toFixed(1);
-}
+};
 
 function PostJson(JSONA) {
     const navigation = document.getElementById('navigation')
@@ -295,27 +279,6 @@ function installGroup(nav, size, data) {
     });
 };
 
-function pickRandomChars(numChars) {
-    // 将字符串转换为数组
-    const arr = 'aBshiuyRfhklMezx1235670'.split('');
-    // 初始化一个空数组来存储随机挑选的字符
-    const pickedChars = [];
-
-    // 随机挑选指定数量的字符
-    for (let i = 0; i < numChars; i++) {
-        // 生成一个随机索引
-        const randomIndex = Math.floor(Math.random() * arr.length);
-
-        // 将随机索引处的字符添加到 pickedChars 数组
-        pickedChars.push(arr[randomIndex]);
-
-        // 从 arr 数组中删除该字符，避免重复选择
-        arr.splice(randomIndex, 1);
-    }
-
-    // 将 pickedChars 数组转换为字符串并返回
-    return pickedChars.join('');
-}
 
 function donwLoadGroup() {
     /* div.listmgs:nth-child(1) */
@@ -334,10 +297,18 @@ function donwLoadGroup() {
             const b64image = canvas.toDataURL("image/png");
             let donwlink = document.createElement("a");
             donwlink.setAttribute("href", b64image);
-            donwlink.setAttribute("download", `Group_${formatNumber(index + 1, 3)}_${pickRandomChars(5)}.png`);
+            donwlink.setAttribute("download", `Group_${formatNumber(index + 1, 3)}_${objJs.pickRandomChars(5)}.png`);
             donwlink.click();
             donwlink.remove();
         });
     });
 };
+
+window.doneClicked = doneClicked
+window.donwLoadGroup = donwLoadGroup
+window.upgradeClicked = upgradeClicked
+window.runing = runing
+window.saveInsxRego = saveInsxRego
+window.bglinear = bglinear
+window.loadInsxRego = loadInsxRego
 

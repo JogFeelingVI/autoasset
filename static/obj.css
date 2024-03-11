@@ -1,0 +1,73 @@
+.sw {
+    display: inline-block;
+    padding: 5px 10px 5px 10px;
+    text-transform: capitalize;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+.sw>label {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+
+.sw>label>.qian,
+.sw>label>.hou,
+.sw>label>.see {
+    display: block;
+}
+
+.sw>label>.see {
+    width: 36px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.sw>label>.see>* {
+    display: block;
+}
+
+
+.sw>label>.see>input {
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translate(0%, -50%);
+    transform: translate(0%, -50%);
+}
+
+.sw>label>.see>.bg {
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translate(0%, -50%);
+    transform: translate(0%, -50%);
+    width: 36px;
+    height: 12px;
+    border-radius: 5px;
+    background-color: var(--cool-gray);
+}
+
+.sw>label>.see>.shou {
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translate(0%, -50%);
+    transform: translate(0%, -50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: var(--antiflash-white);
+    transition: transform 0.3s ease, background-color .3s ease;
+}
+
+.sw>label>.see>input:checked~.shou {
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translate(90%, -50%);
+    transform: translate(90%, -50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: var(--fire-engine-red);
+    transition: transform 0.3s ease, background-color .3s ease;
+}
