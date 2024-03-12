@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-03-10 20:50:31
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-12 01:07:00
+ * @Last Modified time: 2024-03-12 15:15:23
  */
 'use strict';
 
@@ -79,6 +79,7 @@ export class radioList {
     constructor(idx = 'id', Comment = 'radioList', items = [10, 20, 50, 100, 200]) {
         this.radioListEL = document.getElementById(idx)
         this.radioListEL.classList.add('radioList')
+        this.values = items
         if (!Object.is(this.radioListEL, null)) {
             if (!Object.is(Comment, null)) {
                 this.radioListEL.append(this.init_Comment(Comment))
@@ -94,8 +95,21 @@ export class radioList {
 
     get checkItem() {
         let inputs = this.radioListEL.getElementsByTagName('input')
-        Array.from(inputs).forEach((v, i)=>{
-            if (v.checked){
+        Array.from(inputs).forEach((v, i) => {
+            if (v.checked) {
+                return v
+            }
+        })
+    }
+
+    set setChecked(value = 5) {
+        if (!this.values.includes(value)){
+            value = this.values[0]
+        }
+        let inputs = this.radioListEL.getElementsByTagName('input')
+        Array.from(inputs).forEach((v, i) => {
+            if (v.getAttribute('value') === `${value}`) {
+                v.checked = true
                 return v
             }
         })
@@ -126,6 +140,20 @@ export class radioList {
         span.innerHTML = i
         labelEL.append(input, span)
         return labelEL
+    }
+}
+
+export class meRange{
+    // <div id="rangeslider" class="meRange">
+    //     <div class="huagui_bg">
+    //     <Attributes min="5", max="1000", value="25", step="5">
+    //     </div>
+    //     <div class="huagui">
+    //     <div class="shoubing"></div>
+    //     </div>
+    // </div>
+    constructor(idx='id',){
+        
     }
 }
 

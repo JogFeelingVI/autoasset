@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-22 08:13:01
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-11 21:24:22
+ * @Last Modified time: 2024-03-12 09:46:19
  */
 /* CSS HEX */
 :root {
@@ -240,19 +240,6 @@ html {
     display: flex;
     margin: 5px auto 5px auto;
     padding: 5px;
-}
-
-div#GroupSize {
-    display: flex;
-    flex-direction: row;
-}
-
-div#GroupSize label {
-    margin: 0 5px 0 5px;
-}
-
-div#GroupSize span {
-    color: var(--cool-gray);
 }
 
 .pfs {

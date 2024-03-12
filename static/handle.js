@@ -2,11 +2,12 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-05 09:06:30
+ * @Last Modified time: 2024-03-12 10:00:30
  */
 'use strict';
 import * as objJs from './obj.js';
 let regov2 = new objJs.swclass('rego_v2', 'off', 'on', false);
+let group_size = new objJs.radioList('GroupSize', 'Group Size', [10,20,30,50,100,200]);
 
 const formatNumber = (n, x) => {
     return n.toString().padStart(Number(x), '0');
@@ -103,15 +104,14 @@ const formatNumber = (n, x) => {
         gs = Number(gs)
     }
     else {
-        gs = 5
+        gs = group_size.values[0]
     }
     /* 
     document.querySelector("#GroupSize > label:nth-child(4) > input[type=radio]")
     #GroupSize > label:nth-child(4) > input[type=radio]
     #GroupSize > label:nth-child(6) > input[type=radio]
      */
-    let cked = document.querySelector(`#GroupSize > label:nth-child(${gs / 5 + 1}) > input[type=radio]`);
-    cked.checked = true;
+    group_size.setChecked = gs
     if (!Object.is(jsdata, null)) {
         const navigation = document.getElementById('navigation')
         installGroup(navigation, gs, jsdata)
@@ -119,7 +119,7 @@ const formatNumber = (n, x) => {
 }();
 
 + function () {
-    const gsinput = document.querySelector('#GroupSize');
+    const gsinput = group_size.radioListEL;
     gsinput.addEventListener('change', function (e) {
         let jsdata = JSON.parse(sessionStorage.getItem('jsdata'));
         sessionStorage.setItem("groupsize", e.target.value);
@@ -239,17 +239,9 @@ function PostJson(JSONA) {
                 navigation.innerHTML += item;
             }*/
 
-            const labels = document.querySelectorAll('#GroupSize label');
-            let GroupS = 5
-            labels.forEach((label) => {
-                const isChecked = label.querySelector('input');
-                if (isChecked.checked) {
-                    GroupS = Number(isChecked.value);
-                    return;
-                }
-            });
+            let GroupS = sessionStorage.getItem("groupsize");
             clearInterval(times);
-            installGroup(navigation, GroupS, jsdata)
+            installGroup(navigation, Number(GroupS), jsdata)
         });
 };
 

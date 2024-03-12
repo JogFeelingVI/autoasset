@@ -2,12 +2,13 @@
  * @Author: JogFeelingVI
  * @Date:   2024-03-06 15:32:30
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-12 01:08:08
+ * @Last Modified time: 2024-03-12 15:09:11
  */
 'use strict';
 import * as objJs from './obj.js';
 let rego_user = new objJs.swclass("yesno", "yes", "nx", true);
-let group_size = new objJs.radioList('GroupSize', 'Group Size', [10,20,30,50,100,200]);
+let rego_v2 = new objJs.swclass("okye", "A", "B", true);
+let group_size = new objJs.radioList('GroupSizes', 'Group Size', [10,20,30,50,100,200]);
 
 + function () {
     console.log('install fixed-action-btn');
@@ -19,6 +20,5 @@ let group_size = new objJs.radioList('GroupSize', 'Group Size', [10,20,30,50,100
 }();
 
 + function () {
-    let v = group_size.checkItem
-    console.log(`outlist ${v}`)
+    group_size.setChecked = 300
 }();

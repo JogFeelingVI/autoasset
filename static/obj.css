@@ -2,13 +2,13 @@
  * @Author: JogFeelingVI
  * @Date:   2024-03-11 09:13:30
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-12 00:39:12
+ * @Last Modified time: 2024-03-12 15:10:29
  */
 .sw {
     display: inline-block;
     padding: 5px 10px 5px 10px;
     text-transform: capitalize;
-    box-sizing: border-box;
+    box-sizing: content-box;
     user-select: none;
 }
 
@@ -26,24 +26,17 @@
 
 .sw>label>.see {
     width: 36px;
-    margin-left: 5px;
-    margin-right: 5px;
-}
-
-.sw>label>.see>* {
-    display: block;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 
 .sw>label>.see>input {
-    opacity: 0;
-    position: absolute;
-    top: 50%;
-    -webkit-transform: translate(0%, -50%);
-    transform: translate(0%, -50%);
+    display:none;
 }
 
 .sw>label>.see>.bg {
+    display:block;
     position: absolute;
     top: 50%;
     -webkit-transform: translate(0%, -50%);
@@ -55,10 +48,10 @@
 }
 
 .sw>label>.see>.shou {
-    position: absolute;
-    top: 50%;
-    -webkit-transform: translate(0%, -50%);
-    transform: translate(0%, -50%);
+    display: block;
+    position: relative;
+    -webkit-transform: translate(0px, 0);
+    transform: translate(0px, 0);
     width: 20px;
     height: 20px;
     border-radius: 50%;
@@ -67,10 +60,10 @@
 }
 
 .sw>label>.see>input:checked~.shou {
-    position: absolute;
-    top: 50%;
-    -webkit-transform: translate(90%, -50%);
-    transform: translate(90%, -50%);
+    display: block;
+    position: relative;
+    -webkit-transform: translate(16px, 0);
+    transform: translate(16px, 0);
     width: 20px;
     height: 20px;
     border-radius: 50%;
@@ -93,7 +86,7 @@
     width: 100%;
     height: 1px;
     top: 50%;
-    -webkit-transform: translate(0, 50%);
+    -webkit-transform: translate(0, -50%);
     transform: translate(0, -50%);
     background: var(--cool-gray);
 }
