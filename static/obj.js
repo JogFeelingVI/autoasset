@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-03-10 20:50:31
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-12 15:15:23
+ * @Last Modified time: 2024-03-12 23:04:45
  */
 'use strict';
 
@@ -103,7 +103,7 @@ export class radioList {
     }
 
     set setChecked(value = 5) {
-        if (!this.values.includes(value)){
+        if (!this.values.includes(value)) {
             value = this.values[0]
         }
         let inputs = this.radioListEL.getElementsByTagName('input')
@@ -143,17 +143,118 @@ export class radioList {
     }
 }
 
-export class meRange{
+export class meRange {
     // <div id="rangeslider" class="meRange">
     //     <div class="huagui_bg">
     //     <Attributes min="5", max="1000", value="25", step="5">
     //     </div>
     //     <div class="huagui">
-    //     <div class="shoubing"></div>
+    //          <div class="shoubing"></div>
     //     </div>
     // </div>
-    constructor(idx='id',){
+    constructor(idx = 'id', min = 5, max = 1000, step = 5) {
+        this.range = document.getElementById(idx)
+        this.range.classList.add('meRange')
+        this.range_width = this.range.getBoundingClientRect().width
+        this.sb_width = 0
+        let cls_name = ['huagui_bg', 'huagui']
+        if (!Object.is(this.range, null)) {
+            cls_name.forEach((v, i, arr) => {
+                let temp = this.init_div(v)
+                if (v === 'huagui_bg') {
+                    this.attr = this.init_Attributes(min, max, step)
+                    temp.append(this.attr)
+                }
+                if (v === 'huagui') {
+                    this.shoubing = this.init_div('shoubing')
+                    this.shoubing.addEventListener('mousedown', this.mousedown)
+                    temp.append(this.shoubing)
+                    this.sb_width = this.shoubing.getBoundingClientRect().width
+                }
+                this.range.append(temp)
+            })
+        }
+    }
+
+    set setValue(val = 25) {
+        this.attr.setAttribute('value', val)
+        let left = val / (this.max - this.min) * this.range_width
+        this.shoubing_left(left)
+        return val
+    }
+
+
+    get min() {
+        return Number(this.attr.getAttribute('min'))
+    }
+
+    get max() {
+        return Number(this.attr.getAttribute('max'))
+    }
+
+    get value() {
+        return Number(this.attr.getAttribute('value'))
+    }
+
+    get step() {
+        return Number(this.attr.getAttribute('step'))
+    }
+
+    shoubing_left(left = 65) {
+        this.shoubing.style.left = left + 'px';
+        this.shoubing.style.setProperty('--oks', left + 'px')
+        this.shoubing.style.setProperty('--okb', -left + 'px')
+    }
+
+    roundToStep(number = 5, step = 5) {
+        // 将数字格式化成 step的倍数
+        if (number % step === 0) {
+            return number;
+        } else {
+            return Math.ceil(number / step) * step;
+        }
+    }
+
+    init_Attributes(min = 5, max = 1000, step = 5) {
+        let attr = document.createElement('attributes')
+        attr.setAttribute('min', min)
+        attr.setAttribute('max', max)
+        attr.setAttribute('value', min)
+        attr.setAttribute('step', step)
+        return attr
+    }
+
+    init_div(cls = 'huagui_bg') {
+        let div = document.createElement('div')
+        div.classList.add(cls)
+        return div
+    }
+
+    mousedown(event) {
+        this.initialX = event.clientX;
+        document.addEventListener('mousemove', this.moveElement);
+        document.addEventListener('mouseup', this.stopElement);
+        console.log(`mousedown ${this.initialX}`)
+    }
+
+    moveElement(event) {
         
+        let dangqian = this.shoubing.offsetLeft + (event.clientX - this.initialX)
+        let max_left = this.range_width - this.sb_width
+        if (dangqian >= 0 && dangqian <= max_left) {
+            this.shoubing_left(dangqian)
+            let bili = dangqian / max_left * (this.max - this.min) + this.min
+            bili = this.roundToStep(bili, step)
+            this.initialX = event.clientX;
+            this.setValue = bili
+            // sliderValue.innerHTML = bili
+        };
+        console.log(`moveElement ${dangqian}`)
+    }
+
+    stopElement(event) {
+        document.removeEventListener('mousemove', this.moveElement);
+        document.removeEventListener('mouseup', this.stopElement);
     }
 }
 
