@@ -2,12 +2,12 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-12 10:00:30
+ * @Last Modified time: 2024-03-13 16:35:22
  */
 'use strict';
 import * as objJs from './obj.js';
 let regov2 = new objJs.swclass('rego_v2', 'off', 'on', false);
-let group_size = new objJs.radioList('GroupSize', 'Group Size', [10,20,30,50,100,200]);
+let group_size = new objJs.radioList('GroupSize', 'Group Size', [10, 20, 30, 50, 100, 200]);
 
 const formatNumber = (n, x) => {
     return n.toString().padStart(Number(x), '0');
@@ -62,6 +62,7 @@ const formatNumber = (n, x) => {
             let deltaX = currentX - initialX;
             let dangqian = shoubing.offsetLeft + deltaX
             let max_left = slider_width - showbing_width
+            console.log(`moveDrag ${dangqian} = ${shoubing.offsetLeft} + (${currentX} - ${initialX})`)
             if (dangqian >= 0 && dangqian <= max_left) {
                 shoubing.style.left = dangqian + 'px';
                 // 设置进度条背景
@@ -72,6 +73,7 @@ const formatNumber = (n, x) => {
                 initialX = currentX;
                 Attributes.setAttribute("value", bili);
                 sliderValue.innerHTML = bili
+
             };
         };
 

@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-03-10 20:50:31
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-12 23:04:45
+ * @Last Modified time: 2024-03-13 17:07:31
  */
 'use strict';
 
@@ -156,7 +156,6 @@ export class meRange {
         this.range = document.getElementById(idx)
         this.range.classList.add('meRange')
         this.range_width = this.range.getBoundingClientRect().width
-        this.sb_width = 0
         let cls_name = ['huagui_bg', 'huagui']
         if (!Object.is(this.range, null)) {
             cls_name.forEach((v, i, arr) => {
@@ -167,13 +166,17 @@ export class meRange {
                 }
                 if (v === 'huagui') {
                     this.shoubing = this.init_div('shoubing')
-                    this.shoubing.addEventListener('mousedown', this.mousedown)
                     temp.append(this.shoubing)
-                    this.sb_width = this.shoubing.getBoundingClientRect().width
                 }
                 this.range.append(temp)
             })
         }
+        this.sb_width = this.shoubing.getBoundingClientRect().width
+        this.doStart = e => {return this.startDrag(e)}
+        this.doMove = e => {return this.moveDrag(e)}
+        this.doEnd = e => {return this.endDrag(e)}
+        this.goffsetL = _ => {return this.shoubing_offsetL()}
+        this.shoubing.addEventListener('mousedown', this.doStart)
     }
 
     set setValue(val = 25) {
@@ -200,10 +203,14 @@ export class meRange {
         return Number(this.attr.getAttribute('step'))
     }
 
+    shoubing_offsetL(){
+        return this.shoubing.offsetLeft
+    }
+
     shoubing_left(left = 65) {
-        this.shoubing.style.left = left + 'px';
-        this.shoubing.style.setProperty('--oks', left + 'px')
-        this.shoubing.style.setProperty('--okb', -left + 'px')
+        this.shoubing.style.left = `${left}px`;
+        this.shoubing.style.setProperty('--oks', `${left}px`)
+        this.shoubing.style.setProperty('--okb', `-${left}px`)
     }
 
     roundToStep(number = 5, step = 5) {
@@ -230,31 +237,32 @@ export class meRange {
         return div
     }
 
-    mousedown(event) {
-        this.initialX = event.clientX;
-        document.addEventListener('mousemove', this.moveElement);
-        document.addEventListener('mouseup', this.stopElement);
-        console.log(`mousedown ${this.initialX}`)
+    startDrag(event) {
+        this.startX = event.clientX;
+        document.addEventListener('mousemove', this.doMove);
+        document.addEventListener('mouseup', this.doEnd);
+        console.log(`mousedown ${this.startX}`)
     }
 
-    moveElement(event) {
-        
-        let dangqian = this.shoubing.offsetLeft + (event.clientX - this.initialX)
-        let max_left = this.range_width - this.sb_width
-        if (dangqian >= 0 && dangqian <= max_left) {
+    moveDrag(event) {
+        let currentX = event.clientX;
+        let deltaX = currentX - this.startX;
+        let dangqian = this.goffsetL() //+ deltaX
+        console.log(`moveDrag ${dangqian} = ${this.goffsetL()} + (${currentX} - ${this.startX})`)
+        if (dangqian >= 0 && dangqian <= this.range_width) {
             this.shoubing_left(dangqian)
-            let bili = dangqian / max_left * (this.max - this.min) + this.min
-            bili = this.roundToStep(bili, step)
-            this.initialX = event.clientX;
+            let bili = dangqian / this.range_width * (this.max - this.min) + this.min
+            bili = this.roundToStep(bili, this.step)
+            this.startX = currentX;
             this.setValue = bili
             // sliderValue.innerHTML = bili
         };
-        console.log(`moveElement ${dangqian}`)
     }
 
-    stopElement(event) {
-        document.removeEventListener('mousemove', this.moveElement);
-        document.removeEventListener('mouseup', this.stopElement);
+    endDrag(event) {
+        console.log(`endDrag ${event}`)
+        document.removeEventListener('mousemove', this.doMove);
+        document.removeEventListener('mouseup', this.doEnd);
     }
 }
 
