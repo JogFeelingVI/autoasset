@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-03-06 15:32:30
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-13 15:25:46
+ * @Last Modified time: 2024-03-13 23:04:06
  */
 'use strict';
 import * as objJs from './obj.js';
@@ -22,5 +22,6 @@ let ranges = new objJs.meRange('ranges', 5, 1000, 5);
 
 + function () {
     group_size.setChecked = 300
-    ranges.setValue = 25
+    ranges.setSRV('range_value')
+    ranges.setValue(35)
 }();

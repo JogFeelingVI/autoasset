@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-03-10 20:50:31
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-13 17:07:31
+ * @Last Modified time: 2024-03-14 00:23:41
  */
 'use strict';
 
@@ -93,11 +93,11 @@ export class radioList {
         }
     }
 
-    get checkItem() {
+    checkItem() {
         let inputs = this.radioListEL.getElementsByTagName('input')
         Array.from(inputs).forEach((v, i) => {
             if (v.checked) {
-                return v
+                return Number(v.getAttribute('value'))
             }
         })
     }
@@ -153,6 +153,7 @@ export class meRange {
     //     </div>
     // </div>
     constructor(idx = 'id', min = 5, max = 1000, step = 5) {
+        this.sliderValue = null
         this.range = document.getElementById(idx)
         this.range.classList.add('meRange')
         this.range_width = this.range.getBoundingClientRect().width
@@ -171,18 +172,38 @@ export class meRange {
                 this.range.append(temp)
             })
         }
-        this.sb_width = this.shoubing.getBoundingClientRect().width
-        this.doStart = e => {return this.startDrag(e)}
-        this.doMove = e => {return this.moveDrag(e)}
-        this.doEnd = e => {return this.endDrag(e)}
-        this.goffsetL = _ => {return this.shoubing_offsetL()}
+        this.range_max_width = this.range_width - this.shoubing.getBoundingClientRect().width
+        this.doStart = e => { return this.startDrag(e) }
+        this.doMove = e => { return this.moveDrag(e) }
+        this.doEnd = e => { return this.endDrag(e) }
         this.shoubing.addEventListener('mousedown', this.doStart)
     }
 
-    set setValue(val = 25) {
+    setSRV(idx = 'slider-range-value') {
+        // 在web app 上显示当前数值
+        let srv = document.getElementById(idx)
+        if (!Object.is(srv, null)) {
+            this.sliderValue = srv
+        } else {
+            console.log(`setting SRV done.`)
+        }
+    }
+
+    echo(val = 25) {
+        // 社会元素sliderValue为输出元素
+        if (!Object.is(this.sliderValue, null)) {
+            this.sliderValue.innerText = val
+        }
+    }
+
+    setValue(val = 25) {
+        // 启动的时候使用
         this.attr.setAttribute('value', val)
-        let left = val / (this.max - this.min) * this.range_width
-        this.shoubing_left(left)
+        let left = val / (this.max - this.min) * this.range_max_width
+        this.shoubing.style.left = `${left}px`;
+        this.shoubing.style.setProperty('--oks', `${left}px`)
+        this.shoubing.style.setProperty('--okb', `-${left}px`)
+        this.echo(val)
         return val
     }
 
@@ -203,14 +224,15 @@ export class meRange {
         return Number(this.attr.getAttribute('step'))
     }
 
-    shoubing_offsetL(){
-        return this.shoubing.offsetLeft
-    }
 
     shoubing_left(left = 65) {
         this.shoubing.style.left = `${left}px`;
         this.shoubing.style.setProperty('--oks', `${left}px`)
         this.shoubing.style.setProperty('--okb', `-${left}px`)
+        let bili = left / this.range_max_width * (this.max - this.min) + this.min
+        bili = this.roundToStep(bili, this.step)
+        this.attr.setAttribute('value', bili)
+        this.echo(bili)
     }
 
     roundToStep(number = 5, step = 5) {
@@ -238,29 +260,25 @@ export class meRange {
     }
 
     startDrag(event) {
-        this.startX = event.clientX;
+        this.startX = event.clientX
+        // console.log(`startDrag ${event.clientX}`)
         document.addEventListener('mousemove', this.doMove);
         document.addEventListener('mouseup', this.doEnd);
-        console.log(`mousedown ${this.startX}`)
     }
 
     moveDrag(event) {
-        let currentX = event.clientX;
-        let deltaX = currentX - this.startX;
-        let dangqian = this.goffsetL() //+ deltaX
-        console.log(`moveDrag ${dangqian} = ${this.goffsetL()} + (${currentX} - ${this.startX})`)
-        if (dangqian >= 0 && dangqian <= this.range_width) {
-            this.shoubing_left(dangqian)
-            let bili = dangqian / this.range_width * (this.max - this.min) + this.min
-            bili = this.roundToStep(bili, this.step)
-            this.startX = currentX;
-            this.setValue = bili
-            // sliderValue.innerHTML = bili
+        // let getStyle = window.getComputedStyle(this.shoubing);
+        // let leftVal = parseInt(getStyle.left) + (event.clientX - this.startX);
+        let leftVal = this.shoubing.offsetLeft + (event.clientX - this.startX);
+        // console.log(`moveDrag ${leftVal}`)
+        if (leftVal >= 0 && leftVal <= this.range_max_width) {
+            this.shoubing_left(leftVal)
         };
+        this.startX = event.clientX
     }
 
     endDrag(event) {
-        console.log(`endDrag ${event}`)
+        // console.log(`endDrag ${event}`)
         document.removeEventListener('mousemove', this.doMove);
         document.removeEventListener('mouseup', this.doEnd);
     }

@@ -2,12 +2,13 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-13 16:35:22
+ * @Last Modified time: 2024-03-14 00:38:33
  */
 'use strict';
 import * as objJs from './obj.js';
 let regov2 = new objJs.swclass('rego_v2', 'off', 'on', false);
 let group_size = new objJs.radioList('GroupSize', 'Group Size', [10, 20, 30, 50, 100, 200]);
+let range_s = new objJs.meRange('rangeslider', 5, 1000, 5);
 
 const formatNumber = (n, x) => {
     return n.toString().padStart(Number(x), '0');
@@ -32,87 +33,21 @@ const formatNumber = (n, x) => {
 }();
 
 + function () {
-    let sliderValue = document.querySelector("#slider-range-value");
-    let slider = document.getElementById('rangeslider');
-    let slider_width = slider.getBoundingClientRect().width;
-    let shoubing = slider.getElementsByClassName("shoubing")[0]
-    let showbing_width = shoubing.getBoundingClientRect().width
-    // .meRange .huagui .shoubing:before
-    let Attributes = slider.getElementsByTagName("Attributes")[0]
-    let max = Number(Attributes.getAttribute("max"))
-    let min = Number(Attributes.getAttribute("min"))
-    let step = Number(Attributes.getAttribute("step"))
-    let value = Number(Attributes.getAttribute("value"))
-    // 需要用到的变量
-
-    function setValue(number) {
-        // dangqian /(max-min)*slider_wider
-        let left = number / (max - min) * slider_width
-        shoubing.style.left = left + 'px';
-        shoubing.style.setProperty('--oks', left + 'px')
-        shoubing.style.setProperty('--okb', -left + 'px')
-        sliderValue.innerHTML = number
-    }
-
-
-    shoubing.addEventListener("mousedown", function (event) {
-        let initialX = event.clientX;
-        function moveElement(event) {
-            let currentX = event.clientX;
-            let deltaX = currentX - initialX;
-            let dangqian = shoubing.offsetLeft + deltaX
-            let max_left = slider_width - showbing_width
-            console.log(`moveDrag ${dangqian} = ${shoubing.offsetLeft} + (${currentX} - ${initialX})`)
-            if (dangqian >= 0 && dangqian <= max_left) {
-                shoubing.style.left = dangqian + 'px';
-                // 设置进度条背景
-                shoubing.style.setProperty('--oks', dangqian + 'px')
-                shoubing.style.setProperty('--okb', -dangqian + 'px')
-                let bili = dangqian / max_left * (max - min) + min
-                bili = roundToStep(bili, step)
-                initialX = currentX;
-                Attributes.setAttribute("value", bili);
-                sliderValue.innerHTML = bili
-
-            };
-        };
-
-        function roundToStep(number, step) {
-            // 将数字格式化成 step的倍数
-            if (number % step === 0) {
-                return number;
-            } else {
-                return Math.ceil(number / step) * step;
-            }
-        };
-
-        function stopElement(event) {
-            document.removeEventListener('mousemove', moveElement);
-            document.removeEventListener('mouseup', stopElement);
-        };
-
-        document.addEventListener('mousemove', moveElement);
-        document.addEventListener('mouseup', stopElement);
-    });
-    setValue(value);
+    range_s.setSRV('slider-range-value')
+    range_s.setValue(25)
 }();
-
 
 
 + function () {
     let jsdata = JSON.parse(sessionStorage.getItem("jsdata"));
-    let gs = sessionStorage.getItem("groupsize");
-    if (!Object.is(gs, null)) {
-        gs = Number(gs)
+    let gs = group_size.values[0];
+    if (sessionStorage.getItem('groupsize')) {
+        gs = sessionStorage.getItem('groupsize')
     }
-    else {
-        gs = group_size.values[0]
+    else{
+        sessionStorage.setItem('groupsize', gs)
+        console.log(`groupsize is not, gs ${gs}`)
     }
-    /* 
-    document.querySelector("#GroupSize > label:nth-child(4) > input[type=radio]")
-    #GroupSize > label:nth-child(4) > input[type=radio]
-    #GroupSize > label:nth-child(6) > input[type=radio]
-     */
     group_size.setChecked = gs
     if (!Object.is(jsdata, null)) {
         const navigation = document.getElementById('navigation')
@@ -198,10 +133,9 @@ function upgradeClicked() {
 };
 
 function doneClicked() {
-    const rangeValue = document.getElementById('slider-range-value');
     const filterv3 = document.getElementById('filterv3');
     const labels = filterv3.getElementsByTagName('label');
-    const checkboxStates = { 'rego': regov2.checked, 'range': Number(rangeValue.innerText) }
+    const checkboxStates = { 'rego': regov2.checked, 'range': range_s.value}
     for (let i = 0; i < labels.length; i++) {
         let ckb = labels[i].getElementsByTagName('input')[0];
         let span = labels[i].getElementsByTagName('span')[0];
@@ -231,16 +165,10 @@ function PostJson(JSONA) {
         .then(res => res.json())
         .then(data => {
             const jsdata = JSON.parse(data)
+            
             sessionStorage.setItem('jsdata', data);
             let item = ''
             navigation.innerHTML = item
-            /*
-            for (let it in jsdata) {
-                let ix = jsdata[it]
-                item = `<div class="message anmin"><span class="r-text">${ix[0]}</span><span class="b-text">${ix[1]}</span></div>`
-                navigation.innerHTML += item;
-            }*/
-
             let GroupS = sessionStorage.getItem("groupsize");
             clearInterval(times);
             installGroup(navigation, Number(GroupS), jsdata)
@@ -257,6 +185,7 @@ function installGroup(nav, size, data) {
     for (let i = 0; i < indexData.length; i += size) {
         groupedData.push(indexData.slice(i, i + size));
     }
+    
     groupedData.forEach((item, index) => {
         let htx = `<div class="listmgs anmin">
         <div class="haed"><span class="a">Group</span> <span class="r">${Number(index) + 1}</span></div>
@@ -268,7 +197,7 @@ function installGroup(nav, size, data) {
                 htx += `<div class="spb"></div>`
             }
         });
-        htx += `</div><!--end message -->`
+        htx += `</div>`
         nav.innerHTML += htx
     });
 };
