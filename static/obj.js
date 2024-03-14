@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-03-10 20:50:31
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-14 00:23:41
+ * @Last Modified time: 2024-03-14 15:11:49
  */
 'use strict';
 
@@ -284,4 +284,23 @@ export class meRange {
     }
 }
 
+
+export class groupmanage {
+    // <div class="listmgs anmin">
+    //     <div class="haed"><span class="a">Group</span> <span class="r">7</span></div>
+    //     <div class="spa"></div>
+    //     <div><span class="r">07 12 14 19 23 32</span> <span class="b">14</span></div>
+    //     <div><span class="r">07 14 16 19 22 32</span> <span class="b">16</span></div>
+    //     <div><span class="r">05 14 17 19 22 28</span> <span class="b">14</span></div>
+    //     <div><span class="r">07 10 12 13 23 29</span> <span class="b">12</span></div>
+    //     <div><span class="r">07 11 14 19 24 28</span> <span class="b">14</span></div>
+    //     <div class="spb"></div>
+    //     <div><span class="r">05 10 12 19 21 28</span> <span class="b">14</span></div>
+    //     <div><span class="r">05 13 16 19 24 32</span> <span class="b">16</span></div>
+    // </div>
+}
+
+export class gitem{
+    // <div><span class="r">07 14 16 19 22 32</span> <span class="b">16</span></div>
+}
 
