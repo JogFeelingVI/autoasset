@@ -2,11 +2,11 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-14 16:06:42
+ * @Last Modified time: 2024-03-14 22:24:02
  */
 'use strict';
 import * as objJs from './obj.js';
-let regov2 = new objJs.swclass('rego_v2', 'off', 'on', false);
+let regov2 = new objJs.swclassforjson('rego_v2', 'off', 'on', false);
 let group_size = new objJs.radioList('GroupSize', 'Group Size', [5, 10, 20, 30, 50, 100, 200]);
 let range_s = new objJs.meRange('rangeslider', 5, 1000, 5);
 

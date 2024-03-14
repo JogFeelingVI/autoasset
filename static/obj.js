@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-03-10 20:50:31
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-14 15:11:49
+ * @Last Modified time: 2024-03-14 22:37:09
  */
 'use strict';
 
@@ -28,52 +28,114 @@ export function pickRandomChars(numChars = 5) {
     return pickedChars.join('');
 };
 
-export class swclass {
-    constructor(idx = 'id', qs = 'yes', hs = 'no', check = false) {
-        this.input_id = `swclass_${pickRandomChars(5)}`
-        let divid = document.getElementById(idx)
-        divid.classList.add("sw")
-        let label = document.createElement("label")
-        label.setAttribute("for", this.input_id)
-
-        let qian = document.createElement("div")
-        qian.classList.add('qian')
-        qian.append(qs)
-
-        let see = document.createElement("div")
-        see.classList.add('see')
-
-        this.input_check = document.createElement("input")
-        this.input_check.setAttribute("id", this.input_id)
-        this.input_check.setAttribute("type", "checkbox")
-        if (check) {
-            this.input_check.setAttribute("checked", "")
-        }
-
-        let div_bg = document.createElement("div")
-        div_bg.classList.add("bg")
-        let div_shou = document.createElement("div")
-        div_shou.classList.add("shou")
-        see.append(this.input_check, div_bg, div_shou)
-
-
-        let hou = document.createElement('div')
-        hou.classList.add('hou')
-        hou.append(hs)
-
-        label.append(qian, see, hou)
-        divid.append(label)
-        console.log(`Object id ${this.input_id} Creation completed.`)
+export class swclassforjson {
+    // 根据map信息生产新的元素结构体
+    constructor(idx = 'idx', before = '', after = '', check = false) {
+        this.inputidx = `swclass_${pickRandomChars(5)}`
+        this.main = document.getElementById(idx)
+        this.before = before
+        this.after = after
+        this.check = check
+        this.makeupEL()
     }
 
-    get id() {
-        return this.input_id
+    makeupEL() {
+        // 按照图纸制造结构体
+        //document.createElement
+        let Jsmap = this.makeup_Obj()
+        Jsmap.forEach((items) => {
+            let reitem = this.makeuped(items)
+            if (!Object.is(reitem, null)) {
+                this.main.append(reitem)
+            }
+        })
+        console.log(`swclass obg makeup done ${this.inputidx}`)
     }
 
     get checked() {
-        return this.input_check.checked
+        let check = document.getElementById(this.inputidx).checked
+        return check
     }
+
+    
+
+    makeup_Obj() {
+        let objmap = [
+            {
+                'tag': 'main', 'class': 'sw', 'child': [
+                    {
+                        'tag': 'label', 'for': 'id', 'child': [
+                            { 'tag': 'div', 'class': 'qian', 'append': 'before' },
+                            {
+                                'tag': 'div', 'class': 'see', 'child': [
+                                    { 'tag': 'input', 'type': 'checkbox', 'id': 'id', 'checked': false },
+                                    { 'tag': 'div', 'class': 'bg' },
+                                    { 'tag': 'div', 'class': 'shou' }
+                                ]
+                            },
+                            { 'tag': 'div', 'class': 'hou', 'append': 'after' },
+                        ]
+                    },
+                ]
+            }
+        ]
+        return objmap
+    }
+
+    makeuped(item = { 'tag': 'div', 'class': 'sw' }) {
+        let keys = Object.keys(item)
+        if (keys.includes('tag')) {
+
+            if (item['tag'] === 'main') {
+                this.main.classList.add('sw')
+                let itemm = item['child']
+                itemm.forEach((item) => {
+                    this.main.append(this.makeuped(item))
+                })
+                return null
+            }
+
+            let el = document.createElement(item['tag'])
+
+            if (keys.includes('class')) {
+                el.classList.add(item['class'])
+            }
+            if (keys.includes('for')) {
+                el.setAttribute('for', this.inputidx)
+            }
+            if (keys.includes('id')) {
+                el.setAttribute('id', this.inputidx)
+            }
+            if (keys.includes('append')) {
+                let flg = item['append']
+                if (flg === 'before') {
+                    el.innerHTML = this.before
+                }
+                if (flg === 'after') {
+                    el.innerHTML = this.after
+                }
+            }
+            if (keys.includes('type')) {
+                el.setAttribute('type', item['type'])
+            }
+            if (keys.includes('checked')) {
+                if (this.check === true) {
+                    el.setAttribute('checked', '')
+                }
+            }
+            if (keys.includes('child')) {
+                let child = item['child']
+                child.forEach((item_child) => {
+                    el.append(this.makeuped(item_child))
+                })
+            }
+            return el
+        }
+        return null
+    }
+    // 生成机构体需要的图纸 json
 }
+
 
 export class radioList {
     constructor(idx = 'id', Comment = 'radioList', items = [10, 20, 50, 100, 200]) {
@@ -300,7 +362,7 @@ export class groupmanage {
     // </div>
 }
 
-export class gitem{
+export class gitem {
     // <div><span class="r">07 14 16 19 22 32</span> <span class="b">16</span></div>
 }
 
