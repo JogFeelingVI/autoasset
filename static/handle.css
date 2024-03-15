@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-22 08:13:01
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-12 09:46:19
+ * @Last Modified time: 2024-03-15 15:46:09
  */
 /* CSS HEX */
 :root {
@@ -115,71 +115,6 @@ html {
 .anmin {
     animation-duration: 1s;
     animation-name: slidein;
-}
-
-.casex {
-    display: flex;
-    flex-wrap: wrap;
-    /* margin: 10px auto 10px auto; */
-    transition: all 0.5s ease-out;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-content: flex-start;
-    align-items: flex-start;
-}
-
-.casex .listmgs {
-    flex-direction: column;
-    display: flex;
-    /* margin: 5px auto 5px auto; */
-    padding: 5px;
-    flex-wrap: nowrap;
-    justify-content: center;
-}
-
-.casex .message span {
-    display: inline;
-    padding: 2px;
-    opacity: 0.4;
-}
-
-.casex .listmgs {
-    opacity: 0.7;
-    filter: contrast(1.75);
-}
-
-.casex .listmgs:hover {
-    opacity: 1;
-}
-
-.casex .listmgs .haed {
-    font-size: 18px;
-    text-align: right;
-}
-
-.casex .listmgs .r,
-.casex .message .r {
-    color: var(--red-pantone);
-}
-
-.casex .listmgs .a,
-.casex .message .a {
-    color: var(--cool-gray);
-}
-
-.casex .listmgs .spa {
-    border-bottom: 1px dashed var(--red-pantone);
-}
-
-.casex .listmgs .spb {
-    display: block;
-    background-color: transparent;
-    height: 5px;
-}
-
-.casex .listmgs .b,
-.casex .message .b {
-    color: var(--cool-gray);
 }
 
 .offon {

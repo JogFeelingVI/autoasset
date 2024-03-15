@@ -2,13 +2,14 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-14 22:24:02
+ * @Last Modified time: 2024-03-15 16:23:20
  */
 'use strict';
 import * as objJs from './obj.js';
 let regov2 = new objJs.swclassforjson('rego_v2', 'off', 'on', false);
 let group_size = new objJs.radioList('GroupSize', 'Group Size', [5, 10, 20, 30, 50, 100, 200]);
 let range_s = new objJs.meRange('rangeslider', 5, 1000, 5);
+let groupman = new objJs.groupmanage('navigation', 10)
 
 const formatNumber = (n, x) => {
     return n.toString().padStart(Number(x), '0');
@@ -42,7 +43,7 @@ const formatNumber = (n, x) => {
     let jsdata = JSON.parse(sessionStorage.getItem("jsdata"));
     let gs = group_size.values[0];
     if (sessionStorage.getItem('groupsize')) {
-        gs = sessionStorage.getItem('groupsize')
+        gs = Number(sessionStorage.getItem('groupsize'))
     }
     else{
         sessionStorage.setItem('groupsize', gs)
@@ -50,8 +51,9 @@ const formatNumber = (n, x) => {
     }
     group_size.setChecked = gs
     if (!Object.is(jsdata, null)) {
-        const navigation = document.getElementById('navigation')
-        installGroup(navigation, gs, jsdata)
+        //const navigation = document.getElementById('navigation')
+        groupman.datasilce(jsdata, gs)
+        //installGroup(navigation, gs, jsdata)
     }
 }();
 
@@ -61,8 +63,9 @@ const formatNumber = (n, x) => {
         let jsdata = JSON.parse(sessionStorage.getItem('jsdata'));
         sessionStorage.setItem("groupsize", e.target.value);
         if (!Object.is(jsdata, null)) {
-            const navigation = document.getElementById('navigation')
-            installGroup(navigation, Number(e.target.value), jsdata);
+            //const navigation = document.getElementById('navigation')
+            //installGroup(navigation, Number(e.target.value), jsdata);
+            groupman.datasilce(jsdata, Number(e.target.value))
         }
     })
 }();
@@ -171,42 +174,16 @@ function PostJson(JSONA) {
             navigation.innerHTML = item
             let GroupS = sessionStorage.getItem("groupsize");
             clearInterval(times);
-            installGroup(navigation, Number(GroupS), jsdata)
+            //installGroup(navigation, Number(GroupS), jsdata)
+            groupman.datasilce(jsdata, Number(GroupS))
         });
-};
-
-function installGroup(nav, size, data) {
-    const indexData = [];
-    for (let index in data) {
-        indexData.push(index);
-    }
-    const groupedData = [];
-    nav.innerHTML = ''
-    for (let i = 0; i < indexData.length; i += size) {
-        groupedData.push(indexData.slice(i, i + size));
-    }
-    
-    groupedData.forEach((item, index) => {
-        let htx = `<div class="listmgs anmin">
-        <div class="haed"><span class="a">Group</span> <span class="r">${Number(index) + 1}</span></div>
-        <div class="spa"></div>`
-        item.forEach((it, inx, arr) => {
-            let ix = data[it]
-            htx += `<div><span class="r">${ix[0]}</span> <span class="b">${ix[1]}</span></div>`
-            if ((inx + 1) % 5 === 0 && inx !== arr.length - 1) {
-                htx += `<div class="spb"></div>`
-            }
-        });
-        htx += `</div>`
-        nav.innerHTML += htx
-    });
 };
 
 
 function donwLoadGroup() {
     /* div.listmgs:nth-child(1) */
     console.log(`donwload click`);
-    const groups = document.querySelectorAll("div.listmgs");
+    const groups = document.querySelectorAll("div.group");
     groups.forEach((item, index, array) => {
         item.classList.remove("anmin");
         html2canvas(item, {

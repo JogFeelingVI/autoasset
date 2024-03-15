@@ -2,9 +2,10 @@
  * @Author: JogFeelingVI
  * @Date:   2024-03-10 20:50:31
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-14 22:37:09
+ * @Last Modified time: 2024-03-15 16:17:50
  */
 'use strict';
+import * as obj_funx from './obj_function.js';
 
 export function pickRandomChars(numChars = 5) {
     // 将字符串转换为数组
@@ -57,7 +58,7 @@ export class swclassforjson {
         return check
     }
 
-    
+
 
     makeup_Obj() {
         let objmap = [
@@ -360,9 +361,75 @@ export class groupmanage {
     //     <div><span class="r">05 10 12 19 21 28</span> <span class="b">14</span></div>
     //     <div><span class="r">05 13 16 19 24 32</span> <span class="b">16</span></div>
     // </div>
+    constructor(idx = 'idx', size = 5) {
+        // init manage
+        this.manage = document.getElementById(idx)
+        this.manage.classList.add('manage')
+        this.group_size = size
+    }
+
+    datasilce(data = {}, size = -1) {
+        let _data = {
+            "1": ["03 04 20 27 28 29", "05"],
+            "2": ["03 06 20 23 27 29", "05"],
+            "3": ["03 08 20 25 28 31", "05"],
+            "4": ["03 19 20 24 27 28", "05"],
+            "5": ["03 10 19 22 24 29", "05"],
+            "6": ["03 12 20 22 23 26", "05"],
+            "9": ["03 11 20 22 23 32", "05"],
+            "10": ["03 05 08 26 30 33", "05"],
+            "11": ["03 06 19 21 22 31", "05"],
+            "13": ["03 10 19 20 29 33", "05"],
+            "15": ["03 13 20 24 29 32", "05"],
+            "16": ["03 05 19 26 30 31", "05"],
+            "17": ["03 05 11 26 27 32", "05"],
+            "18": ["03 08 11 21 23 26", "05"],
+            "20": ["03 19 22 25 29 30", "05"],
+            "22": ["03 19 22 24 28 32", "05"],
+            "24": ["03 05 25 26 30 33", "05"]
+        }
+        if (Object.entries(data).length != 0) {
+            _data = data
+            console.log(`use groupmanage _data.`)
+        } else {
+            console.log(`use groupmanage _data is Test.`)
+        }
+        if (size == -1) {
+            size = this.group_size
+        }
+        console.log(`setting group size ${size}`)
+        this.manage.innerHTML = ''
+        let group_index = []
+        for (let i = 0; i < Object.entries(_data).length; i += size) {
+            group_index.push(Object.entries(_data).slice(i, i + size))
+        }
+        console.log(`group slice ${group_index.length}`)
+        group_index.forEach((item, index) => {
+            this.manage.append(this.maker_group(item, index))
+        })
+    }
+
+    maker_group(item = [], index = 0) {
+        // id = _item[0]
+        // 红色号码 = _item[1][0]
+        // 蓝色号码 = _item[1][1]
+        let group = document.createElement('div')
+        let [bgs, fcs] = obj_funx.default.autopicker()
+        group.style.setProperty('--bgs', bgs)
+        group.style.setProperty('--fcs', fcs)
+        group.classList.add('group', 'anmin')
+        group.innerHTML = `<div class="haed"><span class="a">Group</span> <span class="a">${index}</span></div>`
+        item.forEach((_item, _index, _arr) => {
+            let child = `<div><span class="r">${_item[1][0]}</span> <span class="b">${_item[1][1]}</span></div>`
+            if ((_index + 1) % 5 === 0 && _index !== _arr.length - 1) {
+                child += `<div class="spb"></div>`
+            }
+            group.innerHTML += child
+
+        })
+        return group
+    }
 }
 
-export class gitem {
-    // <div><span class="r">07 14 16 19 22 32</span> <span class="b">16</span></div>
-}
+
 
