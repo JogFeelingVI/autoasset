@@ -2,14 +2,14 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-15 16:23:20
+ * @Last Modified time: 2024-03-16 00:33:44
  */
 'use strict';
 import * as objJs from './obj.js';
 let regov2 = new objJs.swclassforjson('rego_v2', 'off', 'on', false);
 let group_size = new objJs.radioList('GroupSize', 'Group Size', [5, 10, 20, 30, 50, 100, 200]);
 let range_s = new objJs.meRange('rangeslider', 5, 1000, 5);
-let groupman = new objJs.groupmanage('navigation', 10)
+let groupman = new objJs.groupmanage('navigation', 10);
 
 const formatNumber = (n, x) => {
     return n.toString().padStart(Number(x), '0');
