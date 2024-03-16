@@ -49,6 +49,8 @@
 </div>
 ```
 * `let ranges = new objJs.meRange('rangeslider', 5, 1000, 5);`
+* `ranges.setSRV('slider-range-value')` 指示当前`ranges`值的id
+* `ranges.setValue(25)`
 ###### CSS
 ```css
 
