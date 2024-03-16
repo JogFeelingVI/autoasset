@@ -114,17 +114,10 @@ input[type="range"]::-moz-range-thumb {
 ###### html
 ```html
  <div class="example">
-    <div id="rangeslider" class="meRange">
-        <div class="huagui_bg">
-        <Attributes min="5", max="1000", value="25", step="5">
-        </div>
-        <div class="huagui">
-        <div class="shoubing"></div>
-        </div>
-
-    </div>
+    <div id="rangeslider"></div>
 </div>
 ```
+* `let ranges = new objJs.meRange('rangeslider', 5, 1000, 5);`
 ###### CSS
 ```css
 
@@ -182,67 +175,144 @@ input[type="range"]::-moz-range-thumb {
 ```
 ###### javascript
 ```javascript
-+ function () {
-    let sliderValue = document.querySelector("#slider-range-value");
-    let slider = document.getElementById('rangeslider');
-    let slider_width = slider.getBoundingClientRect().width;
-    let shoubing = slider.getElementsByClassName("shoubing")[0]
-    let showbing_width = shoubing.getBoundingClientRect().width
-    // .meRange .huagui .shoubing:before
-    let Attributes = slider.getElementsByTagName("Attributes")[0]
-    let max = Number(Attributes.getAttribute("max"))
-    let min = Number(Attributes.getAttribute("min"))
-    let step = Number(Attributes.getAttribute("step"))
-    let value = Number(Attributes.getAttribute("value"))
-    // 需要用到的变量
-    
-    function setValue(number){
-        // dangqian /(max-min)*slider_wider
-        let left = number / (max-min) * slider_width
-        shoubing.style.left = left + 'px';
-        shoubing.style.setProperty('--oks', left + 'px')
-        shoubing.style.setProperty('--okb', -left + 'px')
-        sliderValue.innerHTML = number
+export class meRange {
+    // <div id="rangeslider" class="meRange">
+    //     <div class="huagui_bg">
+    //     <Attributes min="5", max="1000", value="25", step="5">
+    //     </div>
+    //     <div class="huagui">
+    //          <div class="shoubing"></div>
+    //     </div>
+    // </div>
+    constructor(idx = 'id', min = 5, max = 1000, step = 5) {
+        this.sliderValue = null
+        this.range = document.getElementById(idx)
+        this.range.classList.add('meRange')
+        this.range_width = this.range.getBoundingClientRect().width
+        let cls_name = ['huagui_bg', 'huagui']
+        if (!Object.is(this.range, null)) {
+            cls_name.forEach((v, i, arr) => {
+                let temp = this.init_div(v)
+                if (v === 'huagui_bg') {
+                    this.attr = this.init_Attributes(min, max, step)
+                    temp.append(this.attr)
+                }
+                if (v === 'huagui') {
+                    this.shoubing = this.init_div('shoubing')
+                    temp.append(this.shoubing)
+                }
+                this.range.append(temp)
+            })
+        }
+        this.range_max_width = this.range_width - this.shoubing.getBoundingClientRect().width
+        this.doStart = e => { return this.startDrag(e) }
+        this.doMove = e => { return this.moveDrag(e) }
+        this.doEnd = e => { return this.endDrag(e) }
+        this.shoubing.addEventListener('mousedown', this.doStart)
+    }
+
+    setSRV(idx = 'slider-range-value') {
+        // 在web app 上显示当前数值
+        let srv = document.getElementById(idx)
+        if (!Object.is(srv, null)) {
+            this.sliderValue = srv
+        } else {
+            console.log(`setting SRV done.`)
+        }
+    }
+
+    echo(val = 25) {
+        // 社会元素sliderValue为输出元素
+        if (!Object.is(this.sliderValue, null)) {
+            this.sliderValue.innerText = val
+        }
+    }
+
+    setValue(val = 25) {
+        // 启动的时候使用
+        this.attr.setAttribute('value', val)
+        let left = val / (this.max - this.min) * this.range_max_width
+        this.shoubing.style.left = `${left}px`;
+        this.shoubing.style.setProperty('--oks', `${left}px`)
+        this.shoubing.style.setProperty('--okb', `-${left}px`)
+        this.echo(val)
+        return val
     }
 
 
-    shoubing.addEventListener("mousedown", function (event) {
-        let initialX = event.clientX;
-        function moveElement(event) {
-            let currentX = event.clientX;
-            let deltaX = currentX - initialX;
-            let dangqian = shoubing.offsetLeft + deltaX
-            let max_left = slider_width - showbing_width
-            if (dangqian >= 0 && dangqian <= max_left) {
-                shoubing.style.left = dangqian + 'px';
-                // 设置进度条背景
-                shoubing.style.setProperty('--oks', dangqian + 'px')
-                shoubing.style.setProperty('--okb', -dangqian + 'px')
-                let bili = dangqian / max_left * (max - min) + min
-                bili = roundToStep(bili, step)
-                initialX = currentX;
-                Attributes.setAttribute("value", bili);
-                sliderValue.innerHTML = bili
-            };
-        };
+    get min() {
+        return Number(this.attr.getAttribute('min'))
+    }
 
-        function roundToStep(number, step) {
-            // 将数字格式化成 step的倍数
-            if (number % step === 0) {
-                return number;
-            } else {
-                return Math.ceil(number / step) * step;
-            }
-        };
+    get max() {
+        return Number(this.attr.getAttribute('max'))
+    }
 
-        function stopElement(event) {
-            document.removeEventListener('mousemove', moveElement);
-            document.removeEventListener('mouseup', stopElement);
-        };
+    get value() {
+        return Number(this.attr.getAttribute('value'))
+    }
 
-        document.addEventListener('mousemove', moveElement);
-        document.addEventListener('mouseup', stopElement);
-    });
-    setValue(value);
-}();
+    get step() {
+        return Number(this.attr.getAttribute('step'))
+    }
+
+
+    shoubing_left(left = 65) {
+        this.shoubing.style.left = `${left}px`;
+        this.shoubing.style.setProperty('--oks', `${left}px`)
+        this.shoubing.style.setProperty('--okb', `-${left}px`)
+        let bili = left / this.range_max_width * (this.max - this.min) + this.min
+        bili = this.roundToStep(bili, this.step)
+        this.attr.setAttribute('value', bili)
+        this.echo(bili)
+    }
+
+    roundToStep(number = 5, step = 5) {
+        // 将数字格式化成 step的倍数
+        if (number % step === 0) {
+            return number;
+        } else {
+            return Math.ceil(number / step) * step;
+        }
+    }
+
+    init_Attributes(min = 5, max = 1000, step = 5) {
+        let attr = document.createElement('attributes')
+        attr.setAttribute('min', min)
+        attr.setAttribute('max', max)
+        attr.setAttribute('value', min)
+        attr.setAttribute('step', step)
+        return attr
+    }
+
+    init_div(cls = 'huagui_bg') {
+        let div = document.createElement('div')
+        div.classList.add(cls)
+        return div
+    }
+
+    startDrag(event) {
+        this.startX = event.clientX
+        // console.log(`startDrag ${event.clientX}`)
+        document.addEventListener('mousemove', this.doMove);
+        document.addEventListener('mouseup', this.doEnd);
+    }
+
+    moveDrag(event) {
+        // let getStyle = window.getComputedStyle(this.shoubing);
+        // let leftVal = parseInt(getStyle.left) + (event.clientX - this.startX);
+        let leftVal = this.shoubing.offsetLeft + (event.clientX - this.startX);
+        // console.log(`moveDrag ${leftVal}`)
+        if (leftVal >= 0 && leftVal <= this.range_max_width) {
+            this.shoubing_left(leftVal)
+        };
+        this.startX = event.clientX
+    }
+
+    endDrag(event) {
+        // console.log(`endDrag ${event}`)
+        document.removeEventListener('mousemove', this.doMove);
+        document.removeEventListener('mouseup', this.doEnd);
+    }
+}
 ```
