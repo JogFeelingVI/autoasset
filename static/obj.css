@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-03-11 09:13:30
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-16 01:16:43
+ * @Last Modified time: 2024-03-16 15:23:29
  */
 .sw {
     display: inline-block;
@@ -213,4 +213,48 @@
 .manage .group .a {
     font-size: 18px;
     color: var(--cool-gray);
+}
+
+/* filterswitch */
+.filterswitch {
+    display: inline;
+    text-transform: capitalize;
+    margin-left: 8px;
+    padding: 5px 5px 5px 45px;
+    user-select: none;
+}
+
+.filterswitch>input[type='checkbox'] {
+    display: none;
+}
+
+.filterswitch>label {
+    position: relative;
+    color: var(--cool-gray);
+    font-size: 15px;
+}
+
+.filterswitch>label:hover {
+    color: var(--fire-engine-red);
+    transition: transform 0.3s ease, color .3s ease
+}
+
+.filterswitch>label::before {
+    content: '';
+    opacity: 0.5;
+    display: block;
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    left: -35px;
+    top: 0px;
+    border-radius: 50%;
+    border: 2px solid var(--cool-gray);
+}
+
+.filterswitch>input[type='checkbox']:checked+label::before {
+    background-color: var(--red-pantone);
+    border: 2px solid var(----fire-engine-red);
+    opacity: 1;
+    transition: transform 0.3s ease, background-color .3s ease, border .1s ease, opacity 0.2s ease;
 }
