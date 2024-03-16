@@ -38,76 +38,7 @@
 
 #### Custom range input
 ```html
-<div class="example">
-    <div id="rangeslider" class="noUi-target noUi-ltr noUi-horizontal noUi-txt-dir-ltr">
-        <div class="noUi-base">
-            <div class="noUi-connects"></div>
-            <div class="noUi-origin" style="transform: translate(-80.9868%, 0px); z-index: 4;">
-                <div class="noUi-handle noUi-handle-lower" data-handle="0" tabindex="0" role="slider" aria-orientation="horizontal" aria-valuemin="5.0" aria-valuemax="1000.0" aria-valuenow="194.2" aria-valuetext="194.18">
-                    <div class="noUi-touch-area"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-```
-#### Style CSS
-* `transform` 
-  > transform: translate(0%, 0px); z-index: 4;
-```css
-/* html root color*/
-input[type="range"] {
-    /* removing default appearance */
-    -webkit-appearance: none;
-    appearance: none;
-    /* creating a custom design */
-    width: 100%;
-    cursor: pointer;
-    outline: none;
-    border: none;
-    height: 1px;
-    background-color: var(--cool-gray);
-}
-
-input[type="range"]::-webkit-slider-runnable-track {
-    width: 100%;
-    height: 3px;
-    cursor: pointer;
-    background: transparent;
-}
-
-input[type="range"]::-moz-range-track {
-    width: 100%;
-    height: 3px;
-    cursor: pointer;
-    background: transparent;
-}
-
-/* Thumb: webkit */
-input[type="range"]::-webkit-slider-thumb {
-    /* removing default appearance */
-    -webkit-appearance: none;
-    appearance: none;
-    /* creating a custom design */
-    height: 15px;
-    width: 15px;
-    background-color: var(--red-pantone);
-    border-radius: 50%;
-    border: none;
-    /* box-shadow: -407px 0 0 400px #f50; emove this line */
-    transition: .2s ease-in-out;
-}
-
-/* Thumb: Firefox */
-input[type="range"]::-moz-range-thumb {
-    height: 15px;
-    width: 15px;
-    background-color: var(--red-pantone);
-    border-radius: 50%;
-    border: none;
-    /* box-shadow: -407px 0 0 400px #f50; emove this line */
-    transition: .2s ease-in-out;
-}
+已经不再需要 nouislider 直接跳跃到 Use custom range
 ```
 ##### Use custom range
 ![运行时效果图](248ob-nplil.gif "Use custom range")
