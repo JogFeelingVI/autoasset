@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-03-10 20:50:31
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-15 16:17:50
+ * @Last Modified time: 2024-03-18 00:12:32
  */
 'use strict';
 import * as obj_funx from './obj_function.js';
@@ -193,14 +193,17 @@ export class radioList {
         // </label>
         let labelEL = document.createElement('label')
         let input = document.createElement('input')
-        let span = document.createElement('span')
+        let span = document.createElement('show')
+        input.classList.add('none')
         input.setAttribute('name', this.name)
         input.setAttribute('type', 'radio')
         input.setAttribute('value', i)
         if (index === this.items_inx) {
             input.setAttribute('checked', '')
         }
+        span.classList.add('sp')
         span.innerHTML = i
+        labelEL.classList.add('item')
         labelEL.append(input, span)
         return labelEL
     }
@@ -431,5 +434,68 @@ export class groupmanage {
     }
 }
 
+// {'list': ['dzx', 'acvalue', 'linma', 'duplicates', 'sixlan', 'lianhao', 'mod2', 'mod3', 'mod4', 'mod5', 'mod6', 'mod7', 'dx16', 'zhihe', 'coldns', 'onesixdiff'], 'checked': ['acvalue', 'linma', 'duplicates', 'sixlan', 'mod2', 'mod3', 'mod4', 'mod5', 'mod6', 'mod7', 'dx16', 'zhihe'], 'status': 'done'}
 
+export class filterList {
+    constructor(idx = 'filter_group') {
+        this.group = document.getElementById(idx)
+    }
+
+    initForJson(str = '') {
+        if (typeof str != 'string' || str.trim() === '') {
+            return null
+        } else {
+            try {
+                let _data = JSON.parse(str)
+                this.initForData(_data)
+            } catch (error) {
+                console.log(`JSON.parse Error`)
+            }
+        }
+    }
+
+    initForData(data = { 'list': [], 'checked': [] }) {
+        if (data.hasOwnProperty('list') && data.hasOwnProperty('checked')) {
+            this.group.innerHTML = ''
+            data.list.forEach((item, index, arr) => {
+                let check = data.checked.includes(item)
+                this.group.append(this.installItem(item, check))
+            })
+        }
+    }
+
+    installItem(name = 'xiten', checked = false) {
+        let id = pickRandomChars(5)
+        let item = document.createElement('div')
+        let input = document.createElement('input')
+        let label = document.createElement('label')
+        input.setAttribute('id', id)
+        input.setAttribute('type', 'checkbox')
+        input.setAttribute('label_name', name)
+        if (checked === true) {
+            input.setAttribute('checked', '')
+        }
+        label.setAttribute('for', id)
+        label.innerHTML = name
+        item.append(input, label)
+        item.classList.add('filterswitch')
+        return item
+    }
+
+    getCheckedAll() {
+        let data = {}
+        const inputs = this.group.getElementsByTagName('input')
+        Object.entries(inputs).forEach(([i, item]) => {
+            if (item.checked) {
+                let name = item.getAttribute('label_name')
+                data[name] = true
+            }
+        })
+        return data
+    }
+    // <div class="filterswitch">
+    //     <input type="checkbox" id="xd" />
+    //     <label for="xd">Adobe XD</label>
+    // </div>
+}
 

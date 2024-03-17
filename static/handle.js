@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-16 00:33:44
+ * @Last Modified time: 2024-03-18 00:07:15
  */
 'use strict';
 import * as objJs from './obj.js';
@@ -10,6 +10,7 @@ let regov2 = new objJs.swclassforjson('rego_v2', 'off', 'on', false);
 let group_size = new objJs.radioList('GroupSize', 'Group Size', [5, 10, 20, 30, 50, 100, 200]);
 let range_s = new objJs.meRange('rangeslider', 5, 1000, 5);
 let groupman = new objJs.groupmanage('navigation', 10);
+let filter_group = new objJs.filterList('filterv3');
 
 const formatNumber = (n, x) => {
     return n.toString().padStart(Number(x), '0');
@@ -75,15 +76,17 @@ const formatNumber = (n, x) => {
     fetch('/filter_all_name')
         .then(res => res.json())
         .then(data => {
-            let html = ''
-            for (let i = 0; i < data.list.length; i++) {
-                if (data.checked.indexOf(data.list[i]) != -1) {
-                    html += `<label class="offon"><input type="checkbox" checked="checked"/><span>${data.list[i]}</span></label>`
-                } else {
-                    html += `<label class="offon"><input type="checkbox"/><span>${data.list[i]}</span></label>`
-                }
-            }
-            filterv3.innerHTML = html
+            // console.log(data)
+            // let html = ''
+            // for (let i = 0; i < data.list.length; i++) {
+            //     if (data.checked.indexOf(data.list[i]) != -1) {
+            //         html += `<label class="offon"><input type="checkbox" checked="checked"/><span>${data.list[i]}</span></label>`
+            //     } else {
+            //         html += `<label class="offon"><input type="checkbox"/><span>${data.list[i]}</span></label>`
+            //     }
+            // }
+            // filterv3.innerHTML = html
+            filter_group.initForData(data)
         });
 }();
 
@@ -136,17 +139,15 @@ function upgradeClicked() {
 };
 
 function doneClicked() {
-    const filterv3 = document.getElementById('filterv3');
-    const labels = filterv3.getElementsByTagName('label');
+    // const filterv3 = document.getElementById('filterv3');
+    // const labels = filterv3.getElementsByTagName('label');
     const checkboxStates = { 'rego': regov2.checked, 'range': range_s.value}
-    for (let i = 0; i < labels.length; i++) {
-        let ckb = labels[i].getElementsByTagName('input')[0];
-        let span = labels[i].getElementsByTagName('span')[0];
-        if (ckb.checked) {
-            checkboxStates[span.innerHTML] = ckb.checked
-        }
-    }
+    const filterCheck = filter_group.getCheckedAll()
+    Object.entries(filterCheck).forEach(([name, check])=>{
+        checkboxStates[name] = check
+    })
     const json = JSON.stringify(checkboxStates);
+    console.log(`json -> ${json}`)
     PostJson(json);
 };
 
