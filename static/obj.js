@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-03-10 20:50:31
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-18 00:12:32
+ * @Last Modified time: 2024-03-18 15:44:48
  */
 'use strict';
 import * as obj_funx from './obj_function.js';
@@ -497,5 +497,34 @@ export class filterList {
     //     <input type="checkbox" id="xd" />
     //     <label for="xd">Adobe XD</label>
     // </div>
+}
+
+export class wssocket {
+    constructor() {
+        this.socket = new WebSocket('ws://192.168.1.159:8080/ws_handle',)
+        this.open = e => { return this.onopen(e) }
+        this.shoudao = e => { return this.shoudao(e) }
+        this.close = e => {return this.onclose(e)}
+        this.socket.addEventListener('open', this.open)
+        this.socket.addEventListener('message', this.shoudao)
+        this.socket.addEventListener('close', this.close)
+    }
+
+    onopen(event) {
+        console.log(`ws handle is open.`)
+    }
+
+    shoudao(event) {
+        console.log("Message from server ", event.data);
+    }
+
+    onclose(event){
+        console.log(`ws handle is claose.`)
+    }
+
+    fasong(data=''){
+        this.socket.send(data)
+    }
+
 }
 

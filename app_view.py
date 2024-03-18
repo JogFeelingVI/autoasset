@@ -2,9 +2,9 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-12 21:03:10
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-03-17 21:08:35
+# @Last Modified time: 2024-03-18 14:26:47
 from codex import filters_v3, gethtml, postcall, tools
-from aiohttp import web
+from aiohttp import web, WSMsgType
 from app_setting import BASE_DIR
 import aiohttp_jinja2, json, random
 
@@ -134,3 +134,21 @@ async def handle_read_insx_rego(request):
         return web.Response(text=json.dumps(response_obj),
                             headers=headers,
                             status=200)
+        
+        
+async def handle_ws(request):
+    print('Websocket connection starting.')
+    ws = web.WebSocketResponse()
+    await ws.prepare(request)
+    print('Websocket connection ready.')
+    async for msg in ws:
+        print(msg)
+        if msg.type == WSMsgType.TEXT:
+            print(msg.data)
+            if msg.data == 'close':
+                await ws.close()
+            else:
+                await ws.send_str(msg.data + '/answer')
+
+    print('Websocket connection closed')
+    return ws

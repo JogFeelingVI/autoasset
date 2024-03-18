@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-03-06 15:32:30
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-17 23:55:18
+ * @Last Modified time: 2024-03-18 15:46:38
  */
 'use strict';
 import * as objJs from './obj.js';
@@ -12,6 +12,7 @@ let group_size = new objJs.radioList('GroupSizes', 'Group Size', [10, 20, 30, 50
 let ranges = new objJs.meRange('ranges', 5, 1000, 5);
 let groupman = new objJs.groupmanage('groupblack', 10);
 let filter_group = new objJs.filterList('filter_group');
+// let socket = new objJs.wssocket();
 
 
 + function () {
@@ -41,3 +42,4 @@ let filter_group = new objJs.filterList('filter_group');
     // console.log(check)
     
 }();
+
