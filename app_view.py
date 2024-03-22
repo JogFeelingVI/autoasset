@@ -2,11 +2,11 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-12 21:03:10
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-03-18 14:26:47
+# @Last Modified time: 2024-03-22 10:16:47
 from codex import filters_v3, gethtml, postcall, tools
 from aiohttp import web, WSMsgType
 from app_setting import BASE_DIR
-import aiohttp_jinja2, json, random
+import aiohttp_jinja2, json, random, asyncio
 
 
 @aiohttp_jinja2.template('index.html')
@@ -70,10 +70,14 @@ async def handle_post(request):
         p = postcall
         p.initPostCall()
         p.instal_json(js=request_data)
-        p.tasks_futures()
+        # p.tasks_futures()
+        # rejs = p.toJson()
+        # #! todo 这是新的方法
+        p.tasks_progress_rate()
         rejs = p.toJson()
-        #! todo 这是新的方法
-        
+    #     loop = asyncio.new_event_loop()
+    #     loop.create_task(p.tasks_progress_rate())
+    #     loop.run_forever()
     except:
         rejs = {'1': ['error', 'ER']}
     finally:
