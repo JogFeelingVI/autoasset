@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-18 00:07:15
+ * @Last Modified time: 2024-03-22 15:37:18
  */
 'use strict';
 import * as objJs from './obj.js';
@@ -148,7 +148,7 @@ function doneClicked() {
     })
     const json = JSON.stringify(checkboxStates);
     console.log(`json -> ${json}`)
-    PostJson(json);
+    PostJson_async(json);
 };
 
 function runing() {
@@ -156,6 +156,22 @@ function runing() {
     let value = parseFloat(rings.innerHTML) + 0.1;
     rings.innerHTML = value.toFixed(1);
 };
+
+function PostJson_async(JSONA){
+    const navigation = document.getElementById('navigation')
+    let times = setInterval("runing()", 100);
+    navigation.innerHTML = `<div id="runing">0.0</div>`;
+    fetch('/handle_post', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(JSONA)
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log(data)
+        clearInterval(times);
+    })
+}
 
 function PostJson(JSONA) {
     const navigation = document.getElementById('navigation')
@@ -166,18 +182,18 @@ function PostJson(JSONA) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(JSONA)
     })
-        .then(res => res.json())
-        .then(data => {
-            const jsdata = JSON.parse(data)
-            
-            sessionStorage.setItem('jsdata', data);
-            let item = ''
-            navigation.innerHTML = item
-            let GroupS = sessionStorage.getItem("groupsize");
-            clearInterval(times);
-            //installGroup(navigation, Number(GroupS), jsdata)
-            groupman.datasilce(jsdata, Number(GroupS))
-        });
+    .then(res => res.json())
+    .then(data => {
+        const jsdata = JSON.parse(data)
+        
+        sessionStorage.setItem('jsdata', data);
+        let item = ''
+        navigation.innerHTML = item
+        let GroupS = sessionStorage.getItem("groupsize");
+        clearInterval(times);
+        //installGroup(navigation, Number(GroupS), jsdata)
+        groupman.datasilce(jsdata, Number(GroupS))
+    });
 };
 
 

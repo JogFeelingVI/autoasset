@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-27 17:28:57
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-03-22 10:19:23
+# @Last Modified time: 2024-03-22 15:30:04
 import json, itertools, concurrent.futures, asyncio
 from typing import List
 from codex import glns_v2, note, rego_v3, datav, filters_v3, tools
@@ -157,7 +157,7 @@ def tasks_futures():
         global_vars['interimStorage'] = iStorage
     return iStorage
 
-def tasks_progress_rate():
+async def tasks_progress_rate():
     with concurrent.futures.ProcessPoolExecutor() as executor:
         global_vars = globals()
         iStorage = global_vars['interimStorage']
@@ -177,7 +177,6 @@ def tasks_progress_rate():
             print(f'\033[K[P] completed {completed/futures_len*100:.4f}% tasks completed.', end='\r')
         print(f'\033[K[P] completed. 100%')
         global_vars['interimStorage'] = iStorage
-        return iStorage
 
 def toJson():
     global_vars = globals()
