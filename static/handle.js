@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-22 15:37:18
+ * @Last Modified time: 2024-03-22 22:03:21
  */
 'use strict';
 import * as objJs from './obj.js';
@@ -148,7 +148,7 @@ function doneClicked() {
     })
     const json = JSON.stringify(checkboxStates);
     console.log(`json -> ${json}`)
-    PostJson_async(json);
+    PostJson(json);
 };
 
 function runing() {
