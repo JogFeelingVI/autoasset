@@ -2,7 +2,8 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-12 21:03:10
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-03-22 22:12:40
+# @Last Modified time: 2024-03-24 09:10:01
+import tracemalloc
 from codex import filters_v3, gethtml, postcall, tools
 from aiohttp import web, WSMsgType
 from app_setting import BASE_DIR
@@ -37,6 +38,7 @@ async def favicon(request):
 
 
 async def handle(request):
+    '''这个地方似乎要使用 ASYNC 来处理 get html'''
     response_obj = {'time': '---', 'status': 'done'}
     try:
         DataFrame = BASE_DIR / 'DataFrame.json'
@@ -62,23 +64,30 @@ async def handle(request):
                             headers=headers,
                             status=200)
 
+async def blocking_code_task(loop: asyncio.BaseEventLoop, p, request: web.Request):
+    """Wrapper to be used in asyncio Task"""
+    r = await loop.run_in_executor(executor=request.app["workers_pool"], func=p)
 
 async def handle_post(request):
     '''js done onclick'''
     try:
+        loop = asyncio.get_event_loop()
         request_data = await request.json()
         p = postcall
         p.initPostCall()
         p.instal_json(js=request_data)
-        p.tasks_futures()
-        rejs = p.toJson()
+        # p.tasks_futures()
+        # rejs = p.toJson()
+        # loop.run_in_executor(executor=request.app["workers_pool"], func=p.tasks_progress_rate)
+        # tracemalloc.stop()
+        await loop.create_task(p.tasks_progress_rate())
         #! todo 这是新的方法
         # asyncio.gather(p.tasks_progress_rate())
-        # rejs = {'async': 'run'}
+        rejs = p.toJson()
     except:
         rejs = {'1': ['error', 'ER']}
     finally:
-        print(f'postcall is done! {p.interimStorage.keys().__len__()}')
+        print(f'postcall is done! ')
         headers = {'Content-Type': 'application/json'}
         return web.Response(text=json.dumps(rejs), headers=headers, status=200)
 
