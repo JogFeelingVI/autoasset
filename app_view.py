@@ -2,8 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-12 21:03:10
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-03-24 09:10:01
-import tracemalloc
+# @Last Modified time: 2024-03-25 23:31:29
 from codex import filters_v3, gethtml, postcall, tools
 from aiohttp import web, WSMsgType
 from app_setting import BASE_DIR
@@ -71,7 +70,6 @@ async def blocking_code_task(loop: asyncio.BaseEventLoop, p, request: web.Reques
 async def handle_post(request):
     '''js done onclick'''
     try:
-        loop = asyncio.get_event_loop()
         request_data = await request.json()
         p = postcall
         p.initPostCall()
@@ -80,14 +78,14 @@ async def handle_post(request):
         # rejs = p.toJson()
         # loop.run_in_executor(executor=request.app["workers_pool"], func=p.tasks_progress_rate)
         # tracemalloc.stop()
-        await loop.create_task(p.tasks_progress_rate())
+        p.tasks_progress_rate()
         #! todo 这是新的方法
         # asyncio.gather(p.tasks_progress_rate())
         rejs = p.toJson()
     except:
         rejs = {'1': ['error', 'ER']}
     finally:
-        print(f'postcall is done! ')
+        print(f'postcall is done! {p.interimStorage.keys().__len__()}')
         headers = {'Content-Type': 'application/json'}
         return web.Response(text=json.dumps(rejs), headers=headers, status=200)
 

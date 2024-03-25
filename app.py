@@ -2,12 +2,11 @@
 # @Author: Your name
 # @Date:   2024-01-06 21:09:15
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-03-24 09:10:31
+# @Last Modified time: 2024-03-25 23:30:23
 from aiohttp import web
 from app_routes import setup_routes, setup_static_routes
 from app_midd import setup_middleware
 from app_setting import BASE_DIR
-from concurrent.futures import ThreadPoolExecutor
 import aiohttp_jinja2, jinja2, asyncio
 
 async def on_shutdown(app):
@@ -34,7 +33,6 @@ async def shell(cmd='', sleep=0):
 
 def main():
     try:
-        pool = ThreadPoolExecutor(8)
         app = web.Application()
         #print(f'BASE_DIR {BASE_DIR}')
         aiohttp_jinja2.setup(app=app,
@@ -43,9 +41,7 @@ def main():
         setup_static_routes(app=app)
         setup_routes(app=app)
         setup_middleware(app=app)
-        app["workers_pool"] = pool
-        app.on_shutdown.append(on_shutdown)
-        web.run_app(app=app, host='127.0.0.1', port=8080)
+        web.run_app(app=app, host='0.0.0.0', port=8080)
     except :
         print(f'web run app ERROR, use `kill -9 $(lsof -ti tcp:8080)`')
         asyncio.gather(shell('kill -9 $(lsof -ti tcp:8080)', 3 ))
