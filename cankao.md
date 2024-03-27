@@ -16,4 +16,5 @@
 * `netstat -tlnp | grep 8080`
 * `lsof -i :8080`
 * `kill -9 $(lsof -ti tcp:8080)`
+* `ip address | grep 'inet [1][9].*'|awk '{print $2}'`
 * Chrome `CMD` + `Shift` + `R`
