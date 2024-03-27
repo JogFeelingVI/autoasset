@@ -2,7 +2,7 @@
 # @Author: Your name
 # @Date:   2024-01-06 21:09:15
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-03-25 23:30:23
+# @Last Modified time: 2024-03-28 00:22:04
 from aiohttp import web
 from app_routes import setup_routes, setup_static_routes
 from app_midd import setup_middleware
@@ -27,7 +27,6 @@ async def shell(cmd='', sleep=0):
     if stderr:
         print(f'[stderr]\n{stderr.decode()}')
     await asyncio.sleep(sleep)
-    print(f'{cmd = }, {sleep=} is done.')
     return sleep
 
 
@@ -45,6 +44,8 @@ def main():
     except :
         print(f'web run app ERROR, use `kill -9 $(lsof -ti tcp:8080)`')
         asyncio.gather(shell('kill -9 $(lsof -ti tcp:8080)', 3 ))
+    finally:
+        asyncio.gather(shell("ip address | grep 'inet [1][9].*' | awk '{print $2}' | cut -d '/' -f 1", 3))
         
     
 
