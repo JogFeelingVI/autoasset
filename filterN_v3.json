@@ -1,30 +1,30 @@
 {
-    "date": "2024-04-04 08:48:41.541586",
+    "date": "2024-04-08 21:29:45.635406",
     "Lever": [
-        6,
         23,
         28,
+        14,
         2,
         33,
-        30,
+        6,
         16,
-        14,
+        31,
         19,
         9,
-        5,
         27,
-        31,
+        30,
+        5,
         15,
         29,
         26,
         13
     ],
     "Last": [
-        2,
         8,
-        9,
-        12,
-        21,
+        10,
+        18,
+        23,
+        27,
         31
     ],
     "filter": [
@@ -93,7 +93,7 @@
                 3,
                 0
             ],
-            "checked": true,
+            "checked": false,
             "Description": "Refers to the number adjacent to the last lottery number."
         },
         {
@@ -113,7 +113,7 @@
                 3,
                 0
             ],
-            "checked": true,
+            "checked": false,
             "Description": "The same numbers as the previous draw numbers."
         },
         {
@@ -123,8 +123,8 @@
                 183
             ],
             "recommend": [
-                71,
-                130
+                29,
+                171
             ],
             "checked": true,
             "Description": "The value obtained by adding all the numbers together."
@@ -208,8 +208,7 @@
                 0,
                 1,
                 2,
-                3,
-                4
+                3
             ],
             "checked": true,
             "Description": "The remainder of six numbers divided by 4, mod4."
@@ -248,7 +247,8 @@
             "recommend": [
                 0,
                 1,
-                2
+                2,
+                3
             ],
             "checked": true,
             "Description": "The remainder of six numbers divided by 6, mod6."
@@ -267,8 +267,7 @@
             "recommend": [
                 0,
                 1,
-                2,
-                3
+                2
             ],
             "checked": true,
             "Description": "The remainder of six numbers divided by 7, mod7."
@@ -323,12 +322,13 @@
                 6
             ],
             "recommend": [
+                1,
                 2,
                 3,
                 4,
                 5
             ],
-            "checked": true,
+            "checked": false,
             "Description": "The remainder of six numbers divided by 7, mod7."
         },
         {
@@ -363,7 +363,7 @@
         {
             "name": "onesixdiff",
             "Optional": 15.09,
-            "recommend": 15.09,
+            "recommend": 11.09,
             "checked": false,
             "Description": "The minimum difference between the first and sixth digits."
         }

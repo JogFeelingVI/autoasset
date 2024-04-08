@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-27 17:28:57
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-03-25 23:29:55
+# @Last Modified time: 2024-04-08 21:28:53
 import json, itertools, concurrent.futures, asyncio
 from typing import List
 from codex import glns_v2, note, rego_v3, datav, filters_v3, tools
@@ -104,11 +104,29 @@ def create(pcall_data: dict, jsond: dict):  # -> list[Any] | None:
                 if f(n) == False:
                     rfilter = False
                     break
-        for k, func in pcall_data['filter'].items():
-            if in_key(k, jsond) and key_val(k, jsond):
-                if func(n) == False:
+        # for k, func in pcall_data['filter'].items():
+        #     if in_key(k, jsond) and key_val(k, jsond):
+        #         if func(n) == False:
+        #             rfilter = False
+        #             break
+        
+        filterx = [func(n) for _, func in pcall_data['filter'].items()]
+        # if filterx.count(False) > 1:
+        #     rfilter = False
+        match filterx:
+            case [True, True, *MZ]:
+                if MZ.count(False) > 1:
+                    # print(f'T, T {filterx}')
                     rfilter = False
-                    break
+            case [False,_, *MZ]:
+                # print(f'F, _ {filterx}')
+                rfilter = False
+            case [True, False, *MZ]:
+                # print(f'T, F {filterx}')
+                rfilter = False
+            case _:
+                pass
+        
         if rfilter == True:
             return [_n, _t]
         count += 1
