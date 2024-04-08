@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-03-11 09:13:30
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-03-17 22:08:22
+ * @Last Modified time: 2024-04-08 22:47:06
  */
 .sw {
     display: inline-block;
@@ -200,6 +200,7 @@
     margin: 8px;
     border-radius: 5px;
     border: 1px solid var(--bgs);
+    overflow: hidden;
 }
 
 .manage .group .haed {
