@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-27 17:28:57
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-04-08 21:28:53
+# @Last Modified time: 2024-04-10 21:43:31
 import json, itertools, concurrent.futures, asyncio
 from typing import List
 from codex import glns_v2, note, rego_v3, datav, filters_v3, tools
@@ -19,9 +19,11 @@ Return_state = {'values': 0, 'length': 0, 'state': {1: 0}}
 #   -> 1 顺利获得执行结果
 #   -> 2 无法获取执行结果
 
+
 def getReturnState():
     global_vars = globals()
     return global_vars['Return_state']
+
 
 def initReturnState(values=-1, length=-1, state=[]):
     '''
@@ -43,7 +45,7 @@ def initReturnState(values=-1, length=-1, state=[]):
     if length > 0:
         _temp['length'] = length
     if state != [] and state[1] < 3:
-        _task,_state = state
+        _task, _state = state
         dict(_temp['state']).update({_task: _state})
         if _state == 1:
             _temp['length'] += 1
@@ -109,7 +111,7 @@ def create(pcall_data: dict, jsond: dict):  # -> list[Any] | None:
         #         if func(n) == False:
         #             rfilter = False
         #             break
-        
+
         filterx = [func(n) for _, func in pcall_data['filter'].items()]
         # if filterx.count(False) > 1:
         #     rfilter = False
@@ -118,7 +120,7 @@ def create(pcall_data: dict, jsond: dict):  # -> list[Any] | None:
                 if MZ.count(False) > 1:
                     # print(f'T, T {filterx}')
                     rfilter = False
-            case [False,_, *MZ]:
+            case [False, _, *MZ]:
                 # print(f'F, _ {filterx}')
                 rfilter = False
             case [True, False, *MZ]:
@@ -126,7 +128,7 @@ def create(pcall_data: dict, jsond: dict):  # -> list[Any] | None:
                 rfilter = False
             case _:
                 pass
-        
+
         if rfilter == True:
             return [_n, _t]
         count += 1
@@ -150,13 +152,17 @@ def initTaskQueue():
 def tasks_Queue():
     global_vars = globals()
     iStorage = {}
+    seen_n = set()
     f = tools.f
     for iq in initTaskQueue():
         rex = create_task(iq)
         task, nt = rex
         if nt != None:
             n, t = nt
-            iStorage[task] = [f(n), f(t)]
+            tup_n = tuple(n)
+            if tup_n not in seen_n:
+                iStorage[task] = [f(n), f(t)]
+                seen_n.add(tup_n)
     global_vars['interimStorage'] = iStorage
 
 
@@ -165,21 +171,27 @@ def tasks_futures():
         global_vars = globals()
         iStorage = global_vars['interimStorage']
         iStorage = {}
+        seen_n = set()
         results = executor.map(create_task, initTaskQueue())
         for res in results:
             if isinstance(res, list):
                 index, task = res
                 if task is not None:
                     n, t = task
-                    iStorage[index] = [tools.f(n), tools.f(t)]
+                    tup_n = tuple(n)
+                    if tup_n not in seen_n:
+                        iStorage[index] = [tools.f(n), tools.f(t)]
+                        seen_n.add(tup_n)
         global_vars['interimStorage'] = iStorage
     return iStorage
+
 
 def tasks_progress_rate():
     with concurrent.futures.ProcessPoolExecutor() as executor:
         global_vars = globals()
         iStorage = global_vars['interimStorage']
         iStorage = {}
+        seen_n = set()
         futures = [executor.submit(create_task, i) for i in initTaskQueue()]
         completed = 0
         futures_len = futures.__len__()
@@ -191,12 +203,18 @@ def tasks_progress_rate():
             else:
                 initReturnState(state=[_rf[0], 1])
                 n, t = _rf[1]
-                iStorage[_rf[0]] = [tools.f(n), tools.f(t)]
-            print(f'\033[K[P] completed {completed/futures_len*100:.4f}% tasks completed.', end='\r')
+                tup_n = tuple(n)
+                if tup_n not in seen_n:
+                    iStorage[_rf[0]] = [tools.f(n), tools.f(t)]
+                    seen_n.add(tup_n)
+            print(
+                f'\033[K[P] completed {completed/futures_len*100:.4f}% tasks completed.',
+                end='\r')
         print(f'\033[K[P] completed. 100%')
         global_vars['interimStorage'] = iStorage
-        
+
         return iStorage.keys().__len__()
+
 
 def toJson():
     global_vars = globals()
