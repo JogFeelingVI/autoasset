@@ -2,7 +2,7 @@
 # @Author: Your name
 # @Date:   2024-01-06 21:09:15
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-04-08 21:41:59
+# @Last Modified time: 2024-04-14 06:38:10
 from aiohttp import web
 from app_routes import setup_routes, setup_static_routes
 from app_midd import setup_middleware
@@ -43,7 +43,7 @@ def main():
         web.run_app(app=app, host='0.0.0.0', port=8080)
     except :
         print(f'web run app ERROR, use `kill -9 $(lsof -ti tcp:8080)`')
-        asyncio.gather(shell('kill -9 $(lsof -ti tcp:8080)', 3 ))
+        #asyncio.gather(shell('kill -9 $(lsof -ti tcp:8080)', 3 ))
     finally:
         # asyncio.gather(shell("ip address | grep 'inet [1][9].*' | awk '{print $2}' | cut -d '/' -f 1", 3))
         pass
