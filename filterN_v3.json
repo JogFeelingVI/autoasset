@@ -162,11 +162,7 @@
                 6
             ],
             "recommend": [
-                1,
-                2,
-                3,
-                4,
-                5
+                2
             ],
             "checked": true,
             "Description": "The remainder of six numbers divided by 2, mod2."
@@ -321,11 +317,9 @@
                 6
             ],
             "recommend": [
-                1,
                 2,
                 3,
-                4,
-                5
+                4
             ],
             "checked": false,
             "Description": "The remainder of six numbers divided by 7, mod7."
@@ -342,11 +336,9 @@
                 6
             ],
             "recommend": [
-                0,
                 1,
                 2,
-                3,
-                4
+                3
             ],
             "checked": true,
             "Description": "The ratio of prime numbers to composite numbers in the lottery numbers."
