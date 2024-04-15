@@ -2,12 +2,13 @@
 # @Author: Your name
 # @Date:   2024-01-06 21:09:15
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-04-14 06:38:10
+# @Last Modified time: 2024-04-15 13:02:56
 from aiohttp import web
 from app_routes import setup_routes, setup_static_routes
 from app_midd import setup_middleware
 from app_setting import BASE_DIR
 import aiohttp_jinja2, jinja2, asyncio
+from codex import pipsub
 
 async def on_shutdown(app):
     """Do not forget to correctly close ThreadPool"""
@@ -31,6 +32,11 @@ async def shell(cmd='', sleep=0):
 
 
 def main():
+    def callb(r):
+        print(f'web app http://{r}:8080')
+        
+    pipsub.runscript('./script/ip.sh', callback=callb)
+    
     try:
         app = web.Application()
         #print(f'BASE_DIR {BASE_DIR}')
@@ -43,11 +49,8 @@ def main():
         web.run_app(app=app, host='0.0.0.0', port=8080)
     except :
         print(f'web run app ERROR, use `kill -9 $(lsof -ti tcp:8080)`')
+        pipsub.runscript('./script/kill9.sh')
         #asyncio.gather(shell('kill -9 $(lsof -ti tcp:8080)', 3 ))
-    finally:
-        # asyncio.gather(shell("ip address | grep 'inet [1][9].*' | awk '{print $2}' | cut -d '/' -f 1", 3))
-        pass
-        
     
 
 if __name__ == '__main__':
