@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-02-21 12:37:31
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-04-06 09:31:34
+# @Last Modified time: 2024-04-16 17:14:15
 from collections import Counter
 from typing import List
 from functools import partial
@@ -89,6 +89,23 @@ def SyntheticFunction():
 
 
 class works:
+    
+    @staticmethod
+    def JMSHT(N:note.Note, recommend: List[int]):
+        five_map = {
+        'J': [9, 10, 21, 22, 33],
+        'M': [3, 4, 15, 16, 27, 28],
+        'S': [1, 12, 13, 24, 25],
+        'H': [6, 7, 18, 19, 30, 31],
+        'T': [2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32]
+        }
+        key_list = []
+        for key, value_list in five_map.items():
+            if any(num in value_list for num in N.setnumber_R):
+                key_list.append(key)
+        if len(key_list) in recommend:
+            return True
+        return False
 
     @staticmethod
     def dzx(N: note.Note, recommend: List[int]) -> bool:

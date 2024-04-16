@@ -1,30 +1,29 @@
 {
-    "date": "2024-04-13 20:56:35.525225",
+    "date": "2024-04-16 16:14:30.283487",
     "Lever": [
-        31,
         28,
         24,
-        33,
         4,
         19,
+        9,
         30,
         23,
-        9,
-        16,
-        27,
+        31,
         29,
         5,
         26,
         15,
-        13
+        16,
+        13,
+        27
     ],
     "Last": [
-        11,
-        14,
-        18,
-        19,
-        23,
-        26
+        2,
+        9,
+        12,
+        22,
+        25,
+        33
     ],
     "filter": [
         {
@@ -162,7 +161,9 @@
                 6
             ],
             "recommend": [
-                2
+                2,
+                3,
+                4
             ],
             "checked": true,
             "Description": "The remainder of six numbers divided by 2, mod2."
@@ -317,8 +318,6 @@
                 6
             ],
             "recommend": [
-                2,
-                3,
                 4
             ],
             "checked": false,
@@ -338,7 +337,8 @@
             "recommend": [
                 1,
                 2,
-                3
+                3,
+                4
             ],
             "checked": true,
             "Description": "The ratio of prime numbers to composite numbers in the lottery numbers."
@@ -355,6 +355,23 @@
             "name": "onesixdiff",
             "Optional": 15.09,
             "recommend": 11.09,
+            "checked": false,
+            "Description": "The minimum difference between the first and sixth digits."
+        },
+        {
+            "name": "JMSHT",
+            "Optional": [
+                1,
+                0,
+                2,
+                3,
+                4,
+                5
+            ],
+            "recommend": [
+                4,
+                3
+            ],
             "checked": false,
             "Description": "The minimum difference between the first and sixth digits."
         }
