@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-03-11 09:13:30
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-04-17 17:34:49
+ * @Last Modified time: 2024-04-17 19:04:38
  */
 .sw {
     display: inline-block;
@@ -343,8 +343,7 @@
     opacity: 0.7;
 }
 
-.filter_all .command .none:checked+span::after {
-    content: "✓ "; /* 添加一个选中标记 */
+.none:checked + .item{
     color: blue;
     
 }
