@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-03-11 09:13:30
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-04-08 22:47:06
+ * @Last Modified time: 2024-04-17 17:34:49
  */
 .sw {
     display: inline-block;
@@ -130,27 +130,30 @@
     flex-direction: row;
 }
 
-.radioList > span {
+.radioList>span {
     display: block;
     font-weight: 900;
-    font-style:normal;
+    font-style: normal;
     color: var(--cool-gray);
 }
-.radioList .item{
+
+.radioList .item {
     margin: 0 5px;
     display: block;
-    
+
 }
-.radioList .item .none{
+
+.radioList .item .none {
     display: none;
 }
-.radioList .item .sp{
-    display:block ;
+
+.radioList .item .sp {
+    display: block;
     position: relative;
     cursor: pointer;
     padding-left: 35px;
     font-weight: 900;
-    font-style:normal;
+    font-style: normal;
     font-size: 1rem;
     height: 25px;
     line-height: 25px;
@@ -158,15 +161,17 @@
     transition: .28s ease;
     user-select: none;
 }
-.radioList .item .sp:hover{
+
+.radioList .item .sp:hover {
     color: var(--fire-engine-red);
 }
-.radioList .item .sp::before{
+
+.radioList .item .sp::before {
     content: '';
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    position:absolute;
+    position: absolute;
     left: 10px;
     top: 50%;
     -webkit-transform: translate(0, 50%);
@@ -175,7 +180,8 @@
     transition: .28s ease;
     border: 1px solid var(--cool-gray);
 }
-.radioList .item .none:checked+.sp::before{
+
+.radioList .item .none:checked+.sp::before {
     background-color: var(--fire-engine-red);
     border: 1px solid var(--red-pantone);
     -webkit-transition: .28s ease;
@@ -297,4 +303,48 @@
     border: 2px solid var(----fire-engine-red);
     opacity: 1;
     transition: transform 0.3s ease, background-color .3s ease, border .1s ease, opacity 0.2s ease;
+}
+
+/* filter_all */
+.filter_all {
+    display: inline;
+}
+
+.filter_all>input[type='checkbox'] {
+    display: none;
+}
+
+.filter_all .name>span {
+    color: var(--fire-engine-red);
+}
+
+.filter_all .name>span~span {
+    color: var(--cool-gray);
+}
+
+.filter_all .command {
+    display: inline;
+    margin-left: 15px;
+}
+
+.filter_all .command .item {
+    display: inline-block;
+    padding: 2px 10px 2px 10px;
+    border-radius: 5px;
+    border: 1px solid var(--cool-gray);
+    opacity: 0.3;
+}
+
+.filter_all .command .item .none {
+    display: none;
+}
+
+.filter_all .command .item:hover {
+    opacity: 0.7;
+}
+
+.filter_all .command .none:checked+span::after {
+    content: "✓ "; /* 添加一个选中标记 */
+    color: blue;
+    
 }

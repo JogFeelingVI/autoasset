@@ -2,12 +2,12 @@
 # @Author: Your name
 # @Date:   2024-01-06 21:09:15
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-04-17 09:48:06
+# @Last Modified time: 2024-04-17 15:16:17
 from aiohttp import web
 from app_routes import setup_routes, setup_static_routes
 from app_midd import setup_middleware
 from app_setting import BASE_DIR
-import aiohttp_jinja2, jinja2, asyncio
+import aiohttp_jinja2, jinja2, asyncio, time
 from codex import pipsub
 
 
@@ -23,9 +23,12 @@ def main():
     pipsub.runscript('./script/ip.sh', callback=retule)
     print(f'ipaddress: {retule.retule()}')
     pipsub.runscript('./script/lsof.sh', callback=retule)
-    print(f'Find PID: {retule.retule()}')
-    if retule.retule() != '':
+    while retule.retule() != '':
+        print(f'Find PID: {retule.retule()}')
         pipsub.runscript('./script/kill9.sh')
+        pipsub.runscript('./script/lsof.sh', callback=retule)
+        time.sleep(3)
+    
 
     try:
         app = web.Application()

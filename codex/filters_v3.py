@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-02-21 12:37:31
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-04-17 09:35:11
+# @Last Modified time: 2024-04-17 15:19:21
 from collections import Counter
 from typing import List
 from functools import partial
@@ -58,10 +58,7 @@ def classAttrs():
 # Detailed configuration table
 def Detailed_configuration_table():
     global CONF
-    fter = {}
-    check  = []
-    for fterItem in CONF["filter"]:
-        print(f'{fterItem = }')
+    return CONF["filter"]
 
 def Checkfunc():
     '''默认选择器'''
