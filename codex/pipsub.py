@@ -2,13 +2,24 @@
 # @Author: JogFeelingVI
 # @Date:   2024-04-15 08:48:00
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-04-15 12:52:49
+# @Last Modified time: 2024-04-17 08:37:02
 
 import subprocess, pathlib
 from typing import List, Callable
 
+class callBackHandle:
+    def __init__(self) -> None:
+        self._temp = None
+        
+    def callback(self, retule):
+        self._temp = retule
+        
+    def retule(self):
+        return self._temp
+        
+
             
-def runscript(scriptname:str, callback:Callable=lambda x:x):
+def runscript(scriptname:str, callback=None):
     _script = pathlib.Path(scriptname)
     if _script.exists():
         result = subprocess.run(["sh", _script], capture_output=True, text=True)
@@ -21,7 +32,8 @@ def runscript(scriptname:str, callback:Callable=lambda x:x):
             case ['', out, 0]:
                 print(f'The execution of `{_script}` is completed as expected.')
                 try:
-                    callback(out)
+                    if isinstance(callback, callBackHandle):
+                        callback.callback(out)
                 except:
                     print(f'callblack execution failed.')
             case [err, out, 0] :

@@ -2,7 +2,7 @@
 # @Author: Your name
 # @Date:   2024-01-06 21:09:15
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-04-16 21:49:32
+# @Last Modified time: 2024-04-17 09:48:06
 from aiohttp import web
 from app_routes import setup_routes, setup_static_routes
 from app_midd import setup_middleware
@@ -18,10 +18,14 @@ async def on_shutdown(app):
 
 def main():
 
-    def callb(r):
-        print(f'web app http://{r}:8080')
+    retule = pipsub.callBackHandle()
 
-    pipsub.runscript('./script/ip.sh', callback=callb)
+    pipsub.runscript('./script/ip.sh', callback=retule)
+    print(f'ipaddress: {retule.retule()}')
+    pipsub.runscript('./script/lsof.sh', callback=retule)
+    print(f'Find PID: {retule.retule()}')
+    if retule.retule() != '':
+        pipsub.runscript('./script/kill9.sh')
 
     try:
         app = web.Application()

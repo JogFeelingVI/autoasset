@@ -359,7 +359,7 @@
             "Description": "The minimum difference between the first and sixth digits."
         },
         {
-            "name": "JMSHT",
+            "name": "jmsht",
             "Optional": [
                 1,
                 0,
@@ -372,7 +372,7 @@
                 4,
                 3
             ],
-            "checked": false,
+            "checked": true,
             "Description": "The minimum difference between the first and sixth digits."
         }
     ]

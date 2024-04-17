@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-02-21 12:37:31
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-04-16 17:14:15
+# @Last Modified time: 2024-04-17 09:35:11
 from collections import Counter
 from typing import List
 from functools import partial
@@ -43,6 +43,9 @@ def initialization():
     
     
 def classAttrs():
+    '''
+    按照配置表 返回哪些默认是需要被执行的
+    '''
     global CONF
     fter = []
     check  = []
@@ -51,6 +54,14 @@ def classAttrs():
         if fterItem['checked']:
             check.append(fterItem['name'])
     return [fter, check]
+
+# Detailed configuration table
+def Detailed_configuration_table():
+    global CONF
+    fter = {}
+    check  = []
+    for fterItem in CONF["filter"]:
+        print(f'{fterItem = }')
 
 def Checkfunc():
     '''默认选择器'''
@@ -91,7 +102,7 @@ def SyntheticFunction():
 class works:
     
     @staticmethod
-    def JMSHT(N:note.Note, recommend: List[int]):
+    def jmsht(N:note.Note, recommend: List[int]):
         five_map = {
         'J': [9, 10, 21, 22, 33],
         'M': [3, 4, 15, 16, 27, 28],

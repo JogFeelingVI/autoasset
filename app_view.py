@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-12 21:03:10
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-03-25 23:31:29
+# @Last Modified time: 2024-04-17 09:18:07
 from codex import filters_v3, gethtml, postcall, tools
 from aiohttp import web, WSMsgType
 from app_setting import BASE_DIR
@@ -96,12 +96,14 @@ async def handle_get_filter_name(request):
         fter = filters_v3
         fter.initialization()
         class_attrs, checked = fter.classAttrs()
+        
         response_obj.update({'checked': checked})
         response_obj.update({'list': class_attrs})
     except:
         response_obj.update({'status': 'Error'})
     finally:
         print(f'handle GET filter_v3 name {class_attrs.__len__()}')
+        # print(f'class {class_attrs = } {checked = }')
         headers = {'Content-Type': 'application/json'}
         return web.Response(text=json.dumps(response_obj),
                             headers=headers,

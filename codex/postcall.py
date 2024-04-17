@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-27 17:28:57
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-04-10 21:43:31
+# @Last Modified time: 2024-04-17 10:47:31
 import json, itertools, concurrent.futures, asyncio
 from typing import List
 from codex import glns_v2, note, rego_v3, datav, filters_v3, tools
@@ -101,33 +101,33 @@ def create(pcall_data: dict, jsond: dict):  # -> list[Any] | None:
         _t = pcall_data['glns']['b']()
         n = note.Note(_n, _t)
         rfilter = True
+        # print(f'{jsond = }')
         if in_key('rego', jsond) and key_val('rego', jsond):
             for _, f in pcall_data['rego'].items():
                 if f(n) == False:
                     rfilter = False
                     break
-        # for k, func in pcall_data['filter'].items():
-        #     if in_key(k, jsond) and key_val(k, jsond):
-        #         if func(n) == False:
-        #             rfilter = False
-        #             break
-
-        filterx = [func(n) for _, func in pcall_data['filter'].items()]
+        jsond_key = [k for k, v in jsond.items() if v == True]
+        filterx = {name: func(n) for name, func in pcall_data['filter'].items() if name in jsond_key}
+        # print(f'{filterx = }')
+        # for name, func in pcall_data['filter'].items():
+        #     if name in jsond.keys():
+        #         print(f'{name = }')
         # if filterx.count(False) > 1:
         #     rfilter = False
+        # filterx = {'acvalue': True, 'jmsht': True, 'mod2': True, 'mod3': True, 'mod4': True, 'mod5': True, 'mod6': True, 'mod7': True, 'mod8': True, 'mod9': True, 'sixlan': True, 'zhihe': True}
         match filterx:
-            case [True, True, *MZ]:
-                if MZ.count(False) > 1:
+            case {'acvalue':bool() as ac, 'jmsht': bool() as five} if ac == True and five == True:
+                if sum(not value for value in filterx.values()) > 1:
                     # print(f'T, T {filterx}')
                     rfilter = False
-            case [False, _, *MZ]:
+            case {'acvalue':bool() as ac, 'jmsht': bool() as five} if ac == False or five == False:
                 # print(f'F, _ {filterx}')
                 rfilter = False
-            case [True, False, *MZ]:
-                # print(f'T, F {filterx}')
-                rfilter = False
             case _:
-                pass
+                if sum(not value for value in filterx.values()) > 1:
+                    # print(f'T, T {filterx}')
+                    rfilter = False
 
         if rfilter == True:
             return [_n, _t]
