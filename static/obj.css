@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-03-11 09:13:30
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-04-17 22:51:14
+ * @Last Modified time: 2024-04-18 00:31:42
  */
 .sw {
     display: inline-block;
@@ -309,27 +309,36 @@
 .filter_all {
     display: inline;
     padding: 3px 15px 3px 15px;
+    user-select: none;
 }
 
 .filter_all .use_none {
     display: none;
 }
 
-.filter_all .name::before{
+.filter_all .name {
+    display: block;
+    padding: 0px 5px 5px 0px;
+}
+
+.filter_all .name:hover {
+    border-bottom: 1px solid aqua;
+}
+
+
+.filter_all .name::before {
     content: ' ';
     display: inline-block;
     margin-right: 15px;
     width: 5px;
     height: 10px;
     background-color: var(--cool-gray);
+    opacity: 0.3;
+    
 }
 
-.filter_all .use_none:checked+.name::before {
-    content: ' ';
-    display: inline-block;
-    margin-right: 15px;
-    width: 5px;
-    height: 10px;
+.filter_all input.use_none:checked+.name::before {
+    opacity: 0.8;
     background-color: var(--red-pantone);
 }
 
@@ -368,7 +377,7 @@
     opacity: 0.7;
 }
 
-.filter_all .command .item .none:checked+.sp {
+.filter_all .command .item input.none:checked+.sp {
     opacity: 1;
     color: var(--red-pantone);
     border-bottom: 1px solid aqua;
