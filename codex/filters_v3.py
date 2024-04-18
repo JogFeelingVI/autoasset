@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-02-21 12:37:31
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-04-17 15:19:21
+# @Last Modified time: 2024-04-18 16:35:04
 from collections import Counter
 from typing import List
 from functools import partial
@@ -11,101 +11,116 @@ from codex import ospath, note
 
 CONF = {}
 
-def parseNote(n:List[int], t:List[int]) -> note.Note:
-    return note.Note(n,t)
+
+def parseNote(n: List[int], t: List[int]) -> note.Note:
+    return note.Note(n, t)
+
 
 def saveDictToJson(name: str, value: dict):
-    '''保存dict到json文件'''
+    """保存dict到json文件"""
     F = pathlib.Path(ospath.findAbsp.file_path(name))
-    with F.open('w', encoding='utf-8') as Fopen:
+    with F.open("w", encoding="utf-8") as Fopen:
         Fopen.write(json.dumps(value, indent=4))
 
 
 def loadJsonToDict(name: str):
-    '''装载filte配置文件'''
+    """装载filte配置文件"""
     F = pathlib.Path(ospath.findAbsp.file_path(name))
-    with F.open('r', encoding='utf-8') as Fopen:
+    with F.open("r", encoding="utf-8") as Fopen:
         dicts = dict(json.loads(Fopen.read()))
         return dicts
 
 
 def initialization():
     global CONF
-    df = loadJsonToDict('DataFrame.json')
-    fn = loadJsonToDict('filterN_v3.json')
-    counter = Counter(df['R'])
+    df = loadJsonToDict("DataFrame.json")
+    fn = loadJsonToDict("filterN_v3.json")
+    counter = Counter(df["R"])
     cold = [n for n, f in counter.most_common() if f < 5.01]
-    fn['date'] = df['date']
-    fn['Last'] = df['R'][-6::]
-    fn['Lever'] = cold
+    fn["date"] = df["date"]
+    fn["Last"] = df["R"][-6::]
+    fn["Lever"] = cold
     CONF = fn
-    saveDictToJson('filterN_v3.json', CONF)
-    
-    
+    saveDictToJson("filterN_v3.json", CONF)
+
+
 def classAttrs():
-    '''
+    """
     按照配置表 返回哪些默认是需要被执行的
-    '''
+    """
     global CONF
     fter = []
-    check  = []
+    check = []
     for fterItem in CONF["filter"]:
-        fter.append(fterItem['name'])
-        if fterItem['checked']:
-            check.append(fterItem['name'])
+        fter.append(fterItem["name"])
+        if fterItem["checked"]:
+            check.append(fterItem["name"])
     return [fter, check]
+
 
 # Detailed configuration table
 def Detailed_configuration_table():
     global CONF
     return CONF["filter"]
 
+
 def Checkfunc():
-    '''默认选择器'''
+    """默认选择器"""
     global CONF
-    temp =  SyntheticFunction()
+    temp = SyntheticFunction()
     fter = {}
     for fterItem in CONF["filter"]:
-        if fterItem['checked']:
-            fter[fterItem['name']] = temp[fterItem['name']]
+        if fterItem["checked"]:
+            fter[fterItem["name"]] = temp[fterItem["name"]]
     return fter
 
 
 def SyntheticFunction():
-    '''全部过滤器'''
+    """全部过滤器"""
     global CONF
     funx = {}
     for method in inspect.getmembers(works):
         if inspect.isfunction(method[1]):
             funx.update({method[0]: method[1]})
     for fterItem in CONF["filter"]:
-        if fterItem['name'] in funx.keys():
-            args = [a.name for a in inspect.signature(funx[fterItem['name']]).parameters.values() if a.name not in ['N','n']]
+        if fterItem["name"] in funx.keys():
+            args = [
+                a.name
+                for a in inspect.signature(funx[fterItem["name"]]).parameters.values()
+                if a.name not in ["N", "n"]
+            ]
             match args:
-                case ['recommend']:
-                    func = partial(funx[fterItem['name']],
-                           recommend=fterItem['recommend'])
-                case ['recommend', 'Last']:
-                    func = partial(funx[fterItem['name']],
-                           recommend=fterItem['recommend'], Last=CONF['Last'])
-                case ['recommend', 'Lever']:
-                    func = partial(funx[fterItem['name']],
-                           recommend=fterItem['recommend'], Lever=CONF['Lever'])
-            
-            funx.update({fterItem['name']: func})
+                case ["recommend"]:
+                    func = partial(
+                        funx[fterItem["name"]], recommend=fterItem["recommend"]
+                    )
+                case ["recommend", "Last"]:
+                    func = partial(
+                        funx[fterItem["name"]],
+                        recommend=fterItem["recommend"],
+                        Last=CONF["Last"],
+                    )
+                case ["recommend", "Lever"]:
+                    func = partial(
+                        funx[fterItem["name"]],
+                        recommend=fterItem["recommend"],
+                        Lever=CONF["Lever"],
+                    )
+
+            funx.update({fterItem["name"]: func})
     return funx
 
 
 class works:
-    
+
     @staticmethod
-    def jmsht(N:note.Note, recommend: List[int]):
+    def jmsht(N: note.Note, recommend: List[int]):
         five_map = {
-        'J': [9, 10, 21, 22, 33],
-        'M': [3, 4, 15, 16, 27, 28],
-        'S': [1, 12, 13, 24, 25],
-        'H': [6, 7, 18, 19, 30, 31],
-        'T': [2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32]
+            "J": [9, 10, 21, 22, 33],
+            "M": [3, 4, 15, 16, 27, 28],
+            "S": [1, 12, 13, 24, 25],
+            "H": [6, 7, 18, 19, 30, 31],
+            "T": [2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32],
         }
         key_list = []
         for key, value_list in five_map.items():
@@ -116,22 +131,26 @@ class works:
         return False
 
     @staticmethod
-    def dzx(N: note.Note, recommend: List[int]) -> bool:
-        '''xiao zhong da [2,2,2]'''
-        g = [range(i, i + 11) for i in range(0, 33, 11)]
+    def dzx(N: note.Note, recommend: List[str]) -> bool:
+        """xiao zhong da [2,2,2]"""
+
+        g = [range(i + 1, i + 1 + 11) for i in range(0, 33, 11)]
         countofg = map(lambda x: N.setnumber_R.intersection(x).__len__(), g)
-        return [False, True][max(countofg) in recommend]
+        flg = [f"{x}" for x in countofg]
+        flg.reverse()
+        flg = "".join(flg)
+        return [False, True][flg in recommend]
 
     @staticmethod
     def acvalue(N: note.Note, recommend: List[int]) -> bool:
-        '''计算数字复杂程度 默认 P len = 6 这里操造成效率低下'''
+        """计算数字复杂程度 默认 P len = 6 这里操造成效率低下"""
         p = itertools.product(N.number[1::], N.number[0:5])
         ac = [1 for a, b in p if a - b > 0.1].__len__() - 1 - len(N.number)
         return [False, True][ac in recommend]
 
     @staticmethod
-    def linma(N: note.Note, recommend: List[int], Last:List[int]) -> bool:
-        '''计算邻码'''
+    def linma(N: note.Note, recommend: List[int], Last: List[int]) -> bool:
+        """计算邻码"""
         plus_minus = 0
         for n in N.number:
             if n + 1 in Last or n - 1 in Last:
@@ -141,19 +160,19 @@ class works:
         return True
 
     @staticmethod
-    def duplicates(N: note.Note, recommend: List[int], Last:List[int]) -> bool:
-        '''计算数组是否有重复项目'''
+    def duplicates(N: note.Note, recommend: List[int], Last: List[int]) -> bool:
+        """计算数组是否有重复项目"""
         duplic = N.setnumber_R & set(Last)
         return [False, True][duplic.__len__() in recommend]
 
     @staticmethod
     def sixlan(N: note.Note, recommend: List[int]) -> bool:
-        '''判断红色区域是否等于 1, 2, 3, 4, 5, 6, 7'''
+        """判断红色区域是否等于 1, 2, 3, 4, 5, 6, 7"""
         xi, da = recommend
         # print(f'{xi=} {da=} {sum(N.setnumber_R) =}')
         rb = [False, True][xi < sum(N.setnumber_R) < da]
         return rb
-    
+
     @staticmethod
     def lianhao(n: note.Note, recommend: List[int]) -> bool:
         count = []
@@ -179,88 +198,91 @@ class works:
             case _:
                 flg = 7
         return [False, True][flg in recommend]
-    
+
     @staticmethod
     def mod2(n: note.Note, recommend: List[int]) -> bool:
-        '''mod 3 not in [[6], [5,1],[3,3]]'''
-        counts = [x for x in n.setnumber_R if x % 2 ==1]
-        if counts.__len__() not in recommend:
+        """mod 3 not in [[6], [5,1],[3,3]]"""
+        counts = [['J', 'O'][x % 2 == 0] for x in n.setnumber_R]
+        _c = Counter(counts)
+        flg= f'{_c["J"]}:{_c["O"]}'
+        if flg not in recommend:
             return False
         return True
-    
+
     @staticmethod
     def mod3(n: note.Note, recommend: List[int]) -> bool:
-        '''mod 3 not in [[6], [5,1],[3,3]]'''
+        """mod 3 not in [[6], [5,1],[3,3]]"""
         counts = [x for x in n.setnumber_R if x % 3 == 0]
         if counts.__len__() not in recommend:
             return False
         return True
-    
+
     @staticmethod
     def mod4(n: note.Note, recommend: List[int]) -> bool:
-        '''mod 3 not in [[6], [5,1],[3,3]]'''
+        """mod 3 not in [[6], [5,1],[3,3]]"""
         counts = [x for x in n.setnumber_R if x % 4 == 0]
         if counts.__len__() not in recommend:
             return False
         return True
-    
+
     @staticmethod
     def mod5(n: note.Note, recommend: List[int]) -> bool:
-        '''mod 3 not in [[6], [5,1],[3,3]]'''
+        """mod 3 not in [[6], [5,1],[3,3]]"""
         counts = [x for x in n.setnumber_R if x % 5 == 0]
-        if counts.__len__()not in recommend:
+        if counts.__len__() not in recommend:
             return False
         return True
-    
+
     @staticmethod
     def mod6(n: note.Note, recommend: List[int]) -> bool:
-        '''mod 3 not in [[6], [5,1],[3,3]]'''
+        """mod 3 not in [[6], [5,1],[3,3]]"""
         counts = [x for x in n.setnumber_R if x % 6 == 0]
         if counts.__len__() not in recommend:
             return False
         return True
-    
+
     @staticmethod
     def mod7(n: note.Note, recommend: List[int]) -> bool:
-        '''mod 3 not in [[6], [5,1],[3,3]]'''
+        """mod 3 not in [[6], [5,1],[3,3]]"""
         counts = [x for x in n.setnumber_R if x % 7 == 0]
         if counts.__len__() not in recommend:
             return False
         return True
-    
+
     @staticmethod
     def mod8(n: note.Note, recommend: List[int]) -> bool:
-        '''mod 3 not in [[6], [5,1],[3,3]]'''
+        """mod 3 not in [[6], [5,1],[3,3]]"""
         counts = [x for x in n.setnumber_R if x % 8 == 0]
         if counts.__len__() not in recommend:
             return False
         return True
-    
+
     @staticmethod
     def mod9(n: note.Note, recommend: List[int]) -> bool:
-        '''mod 3 not in [[6], [5,1],[3,3]]'''
+        """mod 3 not in [[6], [5,1],[3,3]]"""
         counts = [x for x in n.setnumber_R if x % 9 == 0]
         if counts.__len__() not in recommend:
             return False
         return True
-    
+
     @staticmethod
-    def dx16(n: note.Note, recommend: List[int]) -> bool:
-        '''
+    def dx16(n: note.Note, recommend: List[str]) -> bool:
+        """
         da:xiao 1:5 n > 16.02 is da
-        '''
+        """
         f = lambda x: x > 16.02
-        s = [x for x in n.setnumber_R if f(x)]
-        counts = s.__len__()
-        if counts not in recommend:
+        s = [["X", "D"][f(x)] for x in n.setnumber_R]
+        counts = Counter(s)
+        flg = f'{counts["D"]}:{counts["X"]}'
+        if flg not in recommend:
             return False
         return True
-    
+
     @staticmethod
     def zhihe(n: note.Note, recommend: List[int]) -> bool:
-        '''
+        """
         da:xiao 1:5 n > 16.02 is da
-        '''
+        """
         z = (1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31)
         s = [x for x in n.setnumber_R if x in z]
         # + _b =False list(_L) = [9, 10, 25, 30, 32]
@@ -268,23 +290,21 @@ class works:
         if len(s) not in recommend:
             return False
         return True
-    
-    
+
     @staticmethod
-    def coldns(n: note.Note, recommend: int, Lever:List[int]) -> bool:
-        '''
+    def coldns(n: note.Note, recommend: int, Lever: List[int]) -> bool:
+        """
         这个方法会造成命中率降低弃用
         [(4, 1), (20, 3), (7, 3), (23, 3), (21, 3), (2, 4), (29, 4), (28, 4), (5, 4), (12, 4), (17, 4)]
-        '''
+        """
         # ninc = set(Lever).intersection(n.number).__len__()
         # if ninc == 0 or ninc <= recommend:
         #     return False
         return True
-    
+
     @staticmethod
     def onesixdiff(n: note.Note, recommend: int) -> bool:
-        '''1 - 6 diff > 15.06'''
+        """1 - 6 diff > 15.06"""
         if abs(n.index(1) - n.index(6)) > recommend:
             return False
         return True
-    
