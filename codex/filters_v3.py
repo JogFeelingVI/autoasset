@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-02-21 12:37:31
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-04-19 17:07:42
+# @Last Modified time: 2024-04-20 07:22:57
 from collections import Counter
 from typing import List
 from functools import partial
@@ -138,18 +138,18 @@ class works:
         countofg = map(lambda x: N.setnumber_R.intersection(x).__len__(), g)
         flg = [f"{x}" for x in countofg]
         flg.reverse()
-        flg = "".join(flg)
+        flg = ":".join(flg)
         return [False, True][flg in recommend]
 
     @staticmethod
-    def acvalue(N: note.Note, recommend: List[int]) -> bool:
+    def acvalue(N: note.Note, recommend: List[str]) -> bool:
         """计算数字复杂程度 默认 P len = 6 这里操造成效率低下"""
         p = itertools.product(N.number[1::], N.number[0:5])
         ac = [1 for a, b in p if a - b > 0.1].__len__() - 1 - len(N.number)
         return [False, True][ac in map(int, recommend)]
 
     @staticmethod
-    def linma(N: note.Note, recommend: List[int], Last: List[int]) -> bool:
+    def linma(N: note.Note, recommend: List[str], Last: List[int]) -> bool:
         """计算邻码"""
         plus_minus = 0
         for n in N.number:
@@ -160,7 +160,7 @@ class works:
         return True
 
     @staticmethod
-    def duplicates(N: note.Note, recommend: List[int], Last: List[int]) -> bool:
+    def duplicates(N: note.Note, recommend: List[str], Last: List[int]) -> bool:
         """计算数组是否有重复项目"""
         duplic = N.setnumber_R & set(Last)
         return [False, True][duplic.__len__() in map(int, recommend)]
@@ -175,33 +175,19 @@ class works:
         return rb
 
     @staticmethod
-    def lianhao(n: note.Note, recommend: List[int]) -> bool:
+    def lianhao(n: note.Note, recommend: List[str]) -> bool:
         count = []
         for v in n.number:
             if not count or v != count[-1][-1] + 1:
                 count.append([])
             count[-1].append(v)
         flgrex = sorted([len(v) for v in count if len(v) > 1])
-        flg = 6
-        match flgrex:
-            case []:
-                flg = 0
-            case [2]:
-                flg = 1
-            case [2, 2]:
-                flg = 2
-            case [3]:
-                flg = 3
-            case [3, 2]:
-                flg = 4
-            case [4]:
-                flg = 5
-            case _:
-                flg = 7
-        return [False, True][flg in map(int, recommend)]
+        flg = x if (x := ":".join(map(str, flgrex))) != "" else "NA"
+
+        return [False, True][flg in recommend]
 
     @staticmethod
-    def mod2(n: note.Note, recommend: List[int]) -> bool:
+    def mod2(n: note.Note, recommend: List[str]) -> bool:
         """mod 3 not in [[6], [5,1],[3,3]]"""
         counts = [["J", "O"][x % 2 == 0] for x in n.setnumber_R]
         _c = Counter(counts)
@@ -211,58 +197,60 @@ class works:
         return True
 
     @staticmethod
-    def mod3(n: note.Note, recommend: List[int]) -> bool:
-        """mod 3 not in [[6], [5,1],[3,3]]"""
-        counts = [x for x in n.setnumber_R if x % 3 == 0]
-        if counts.__len__() not in map(int, recommend):
+    def mod3(n: note.Note, recommend: List[str]) -> bool:
+        """mod 3 not in '2:2:2', '3:1:2', '3:2:1', '2:1:3', '2:3:1', '1:1:4', '3:0:3'"""
+        counts = [f"{x%3}" for x in n.setnumber_R]
+        _c = Counter(counts)
+        flg = f'{_c["0"]}:{_c["1"]}:{_c["2"]}'
+        if flg not in recommend:
             return False
         return True
 
     @staticmethod
-    def mod4(n: note.Note, recommend: List[int]) -> bool:
-        """mod 3 not in [[6], [5,1],[3,3]]"""
-        counts = [x for x in n.setnumber_R if x % 4 == 0]
-        if counts.__len__() not in map(int, recommend):
+    def mod4(n: note.Note, recommend: List[str]) -> bool:
+        """mod 4 not in [[6], [5,1],[3,3]]"""
+        counts = [x % 4 for x in n.setnumber_R]
+        if sum(counts) not in map(int, recommend):
             return False
         return True
 
     @staticmethod
-    def mod5(n: note.Note, recommend: List[int]) -> bool:
+    def mod5(n: note.Note, recommend: List[str]) -> bool:
         """mod 3 not in [[6], [5,1],[3,3]]"""
-        counts = [x for x in n.setnumber_R if x % 5 == 0]
-        if counts.__len__() not in map(int, recommend):
+        counts = [x % 5 for x in n.setnumber_R]
+        if sum(counts) not in map(int, recommend):
             return False
         return True
 
     @staticmethod
-    def mod6(n: note.Note, recommend: List[int]) -> bool:
+    def mod6(n: note.Note, recommend: List[str]) -> bool:
         """mod 3 not in [[6], [5,1],[3,3]]"""
-        counts = [x for x in n.setnumber_R if x % 6 == 0]
-        if counts.__len__() not in map(int, recommend):
+        counts = [x % 6 for x in n.setnumber_R]
+        if sum(counts) not in map(int, recommend):
             return False
         return True
 
     @staticmethod
-    def mod7(n: note.Note, recommend: List[int]) -> bool:
+    def mod7(n: note.Note, recommend: List[str]) -> bool:
         """mod 3 not in [[6], [5,1],[3,3]]"""
-        counts = [x for x in n.setnumber_R if x % 7 == 0]
-        if counts.__len__() not in map(int, recommend):
+        counts = [x % 7 for x in n.setnumber_R]
+        if sum(counts) not in map(int, recommend):
             return False
         return True
 
     @staticmethod
-    def mod8(n: note.Note, recommend: List[int]) -> bool:
+    def mod8(n: note.Note, recommend: List[str]) -> bool:
         """mod 3 not in [[6], [5,1],[3,3]]"""
-        counts = [x for x in n.setnumber_R if x % 8 == 0]
-        if counts.__len__() not in map(int, recommend):
+        counts = [x % 8 for x in n.setnumber_R]
+        if sum(counts) not in map(int, recommend):
             return False
         return True
 
     @staticmethod
-    def mod9(n: note.Note, recommend: List[int]) -> bool:
+    def mod9(n: note.Note, recommend: List[str]) -> bool:
         """mod 3 not in [[6], [5,1],[3,3]]"""
-        counts = [x for x in n.setnumber_R if x % 9 == 0]
-        if counts.__len__() not in map(int, recommend):
+        counts = [x % 9 for x in n.setnumber_R]
+        if sum(counts) not in map(int, recommend):
             return False
         return True
 
@@ -280,15 +268,18 @@ class works:
         return True
 
     @staticmethod
-    def zhihe(n: note.Note, recommend: List[int]) -> bool:
+    def zhihe(n: note.Note, recommend: List[str]) -> bool:
         """
         da:xiao 1:5 n > 16.02 is da
         """
         z = (1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31)
-        s = [x for x in n.setnumber_R if x in z]
+        s = [["H", "Z"][x in z] for x in n.setnumber_R]
+        _c = Counter(s)
+
+        flg = f'{_c["Z"]}:{_c["H"]}'
         # + _b =False list(_L) = [9, 10, 25, 30, 32]
         # + _b =True list(_L) = [13]
-        if len(s) not in map(int, recommend):
+        if flg not in recommend:
             return False
         return True
 
