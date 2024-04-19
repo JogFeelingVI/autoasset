@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-02-21 12:37:31
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-04-18 16:35:04
+# @Last Modified time: 2024-04-19 17:07:42
 from collections import Counter
 from typing import List
 from functools import partial
@@ -114,7 +114,7 @@ def SyntheticFunction():
 class works:
 
     @staticmethod
-    def jmsht(N: note.Note, recommend: List[int]):
+    def jmsht(N: note.Note, recommend: List[str]):
         five_map = {
             "J": [9, 10, 21, 22, 33],
             "M": [3, 4, 15, 16, 27, 28],
@@ -126,7 +126,7 @@ class works:
         for key, value_list in five_map.items():
             if any(num in value_list for num in N.setnumber_R):
                 key_list.append(key)
-        if len(key_list) in recommend:
+        if len(key_list) in map(int, recommend):
             return True
         return False
 
@@ -146,7 +146,7 @@ class works:
         """计算数字复杂程度 默认 P len = 6 这里操造成效率低下"""
         p = itertools.product(N.number[1::], N.number[0:5])
         ac = [1 for a, b in p if a - b > 0.1].__len__() - 1 - len(N.number)
-        return [False, True][ac in recommend]
+        return [False, True][ac in map(int, recommend)]
 
     @staticmethod
     def linma(N: note.Note, recommend: List[int], Last: List[int]) -> bool:
@@ -155,7 +155,7 @@ class works:
         for n in N.number:
             if n + 1 in Last or n - 1 in Last:
                 plus_minus += 1
-                if plus_minus not in recommend:
+                if plus_minus not in map(int, recommend):
                     return False
         return True
 
@@ -163,14 +163,15 @@ class works:
     def duplicates(N: note.Note, recommend: List[int], Last: List[int]) -> bool:
         """计算数组是否有重复项目"""
         duplic = N.setnumber_R & set(Last)
-        return [False, True][duplic.__len__() in recommend]
+        return [False, True][duplic.__len__() in map(int, recommend)]
 
     @staticmethod
-    def sixlan(N: note.Note, recommend: List[int]) -> bool:
+    def sixlan(N: note.Note, recommend: List[str]) -> bool:
         """判断红色区域是否等于 1, 2, 3, 4, 5, 6, 7"""
-        xi, da = recommend
+        sum_n = sum(N.setnumber_R)
+        recommend_int = map(int, recommend)
         # print(f'{xi=} {da=} {sum(N.setnumber_R) =}')
-        rb = [False, True][xi < sum(N.setnumber_R) < da]
+        rb = any([x + 4.01 > sum_n > x - 3.9 for x in recommend_int])
         return rb
 
     @staticmethod
@@ -197,14 +198,14 @@ class works:
                 flg = 5
             case _:
                 flg = 7
-        return [False, True][flg in recommend]
+        return [False, True][flg in map(int, recommend)]
 
     @staticmethod
     def mod2(n: note.Note, recommend: List[int]) -> bool:
         """mod 3 not in [[6], [5,1],[3,3]]"""
-        counts = [['J', 'O'][x % 2 == 0] for x in n.setnumber_R]
+        counts = [["J", "O"][x % 2 == 0] for x in n.setnumber_R]
         _c = Counter(counts)
-        flg= f'{_c["J"]}:{_c["O"]}'
+        flg = f'{_c["J"]}:{_c["O"]}'
         if flg not in recommend:
             return False
         return True
@@ -213,7 +214,7 @@ class works:
     def mod3(n: note.Note, recommend: List[int]) -> bool:
         """mod 3 not in [[6], [5,1],[3,3]]"""
         counts = [x for x in n.setnumber_R if x % 3 == 0]
-        if counts.__len__() not in recommend:
+        if counts.__len__() not in map(int, recommend):
             return False
         return True
 
@@ -221,7 +222,7 @@ class works:
     def mod4(n: note.Note, recommend: List[int]) -> bool:
         """mod 3 not in [[6], [5,1],[3,3]]"""
         counts = [x for x in n.setnumber_R if x % 4 == 0]
-        if counts.__len__() not in recommend:
+        if counts.__len__() not in map(int, recommend):
             return False
         return True
 
@@ -229,7 +230,7 @@ class works:
     def mod5(n: note.Note, recommend: List[int]) -> bool:
         """mod 3 not in [[6], [5,1],[3,3]]"""
         counts = [x for x in n.setnumber_R if x % 5 == 0]
-        if counts.__len__() not in recommend:
+        if counts.__len__() not in map(int, recommend):
             return False
         return True
 
@@ -237,7 +238,7 @@ class works:
     def mod6(n: note.Note, recommend: List[int]) -> bool:
         """mod 3 not in [[6], [5,1],[3,3]]"""
         counts = [x for x in n.setnumber_R if x % 6 == 0]
-        if counts.__len__() not in recommend:
+        if counts.__len__() not in map(int, recommend):
             return False
         return True
 
@@ -245,7 +246,7 @@ class works:
     def mod7(n: note.Note, recommend: List[int]) -> bool:
         """mod 3 not in [[6], [5,1],[3,3]]"""
         counts = [x for x in n.setnumber_R if x % 7 == 0]
-        if counts.__len__() not in recommend:
+        if counts.__len__() not in map(int, recommend):
             return False
         return True
 
@@ -253,7 +254,7 @@ class works:
     def mod8(n: note.Note, recommend: List[int]) -> bool:
         """mod 3 not in [[6], [5,1],[3,3]]"""
         counts = [x for x in n.setnumber_R if x % 8 == 0]
-        if counts.__len__() not in recommend:
+        if counts.__len__() not in map(int, recommend):
             return False
         return True
 
@@ -261,7 +262,7 @@ class works:
     def mod9(n: note.Note, recommend: List[int]) -> bool:
         """mod 3 not in [[6], [5,1],[3,3]]"""
         counts = [x for x in n.setnumber_R if x % 9 == 0]
-        if counts.__len__() not in recommend:
+        if counts.__len__() not in map(int, recommend):
             return False
         return True
 
@@ -287,7 +288,7 @@ class works:
         s = [x for x in n.setnumber_R if x in z]
         # + _b =False list(_L) = [9, 10, 25, 30, 32]
         # + _b =True list(_L) = [13]
-        if len(s) not in recommend:
+        if len(s) not in map(int, recommend):
             return False
         return True
 
@@ -303,8 +304,9 @@ class works:
         return True
 
     @staticmethod
-    def onesixdiff(n: note.Note, recommend: int) -> bool:
+    def onesixdiff(n: note.Note, recommend: List[str]) -> bool:
         """1 - 6 diff > 15.06"""
-        if abs(n.index(1) - n.index(6)) > recommend:
-            return False
-        return True
+        _cha = abs(n.index(1) - n.index(6))
+        recommend_int = map(int, recommend)
+        rb = any([x + 2.5 > _cha > x - 2.4 for x in recommend_int])
+        return rb

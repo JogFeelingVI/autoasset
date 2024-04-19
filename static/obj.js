@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-03-10 20:50:31
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-04-18 09:22:24
+ * @Last Modified time: 2024-04-19 16:41:19
  */
 "use strict";
 import * as obj_funx from "./obj_function.js";
@@ -368,18 +368,6 @@ export class meRange {
 }
 
 export class groupmanage {
-	// <div class="listmgs anmin">
-	//     <div class="haed"><span class="a">Group</span> <span class="r">7</span></div>
-	//     <div class="spa"></div>
-	//     <div><span class="r">07 12 14 19 23 32</span> <span class="b">14</span></div>
-	//     <div><span class="r">07 14 16 19 22 32</span> <span class="b">16</span></div>
-	//     <div><span class="r">05 14 17 19 22 28</span> <span class="b">14</span></div>
-	//     <div><span class="r">07 10 12 13 23 29</span> <span class="b">12</span></div>
-	//     <div><span class="r">07 11 14 19 24 28</span> <span class="b">14</span></div>
-	//     <div class="spb"></div>
-	//     <div><span class="r">05 10 12 19 21 28</span> <span class="b">14</span></div>
-	//     <div><span class="r">05 13 16 19 24 32</span> <span class="b">16</span></div>
-	// </div>
 	constructor(idx = "idx", size = 5) {
 		// init manage
 		this.manage = document.getElementById(idx);
@@ -545,5 +533,143 @@ export class wssocket {
 
 	fasong(data = "") {
 		this.socket.send(data);
+	}
+}
+
+// {
+// 	"name": "dzx",
+// 	"Optional": [
+// 		"2:2:2",
+// 	],
+// 	"recommend": [
+// 		"3:1:2",
+//
+// 	],
+// 	"checked": false,
+// 	"Description": "d is 23-33, z is 12-22,x is 1-11."
+// }
+
+export class filter_all {
+	constructor(idx = "filter_group") {
+		this.eidx = document.getElementById(idx);
+		this.eidx.innerHTML = "";
+	}
+
+	getCheckedAll() {
+		let temp = {};
+		let components = this.getJson("");
+		components.forEach((item) => {
+			if (item.checked === true) {
+				temp[item.name] = true;
+			}
+		});
+		return temp
+	}
+
+	getJson(config = "json") {
+		let components = [];
+
+		let componentElements = this.eidx.querySelectorAll(".filter_all");
+		componentElements.forEach((item) => {
+			let elmap = this.get_name(item);
+			components.push(elmap);
+		});
+		if (config === "json") {
+			components = JSON.stringify(components);
+		}
+		// console.log(JSON.stringify(components));
+		return components;
+	}
+
+	get_name(e = document.createElement("name")) {
+		let name = e.querySelector("label.name");
+		let check = name.querySelector("input.use_none").checked;
+		let na = name.querySelector("show.NA").textContent;
+		let de = name.querySelector("show.DE").textContent;
+		let command = e.querySelector("div.command");
+		let comd_items = Array.from(command.getElementsByClassName("item"));
+		let Op = [];
+		let Re = [];
+		comd_items.forEach((comd_i) => {
+			let sp = comd_i.querySelector("show.sp").textContent;
+			let check_none = comd_i.querySelector("input.none").checked;
+			Op.push(sp);
+			if (check_none === true) {
+				Re.push(sp);
+			}
+			// console.log(sp, check_none);
+		});
+
+		return {
+			name: na,
+			Description: de,
+			checked: check,
+			Optional: Op,
+			recommend: Re,
+		};
+	}
+
+	initForData(data = { list: [], status: "done" }) {
+		// console.log(data)
+		data.list.forEach((value, index, arr) => {
+			let f_all = document.createElement("div");
+			f_all.classList.add("filter_all");
+			let name = this.init_Name(
+				value.name,
+				value.Description,
+				value.checked
+			);
+			let commands = this.init_Command(value.Optional, value.recommend);
+			f_all.append(name, commands);
+			this.eidx.append(f_all);
+		});
+	}
+
+	init_Command(Optional = [], recommend = []) {
+		let command = document.createElement("div");
+		command.classList.add("command");
+		Optional.forEach((item, index, arr) => {
+			if (recommend.includes(item)) {
+				command.append(this.init_Item(item, true));
+			} else {
+				command.append(this.init_Item(item, false));
+			}
+		});
+		return command;
+	}
+
+	init_Item(info = "", check = false) {
+		let item = document.createElement("label");
+		let none = document.createElement("input");
+		let sp = document.createElement("show");
+		item.classList.add("item");
+		none.classList.add("none");
+		none.setAttribute("type", "checkbox");
+		if (check === true) {
+			none.setAttribute("checked", "");
+		}
+		sp.classList.add("sp");
+		sp.innerText = info;
+		item.append(none, sp);
+		return item;
+	}
+
+	init_Name(Na = "name", De = "", check = false) {
+		let nade = document.createElement("label");
+		let use_none = document.createElement("input");
+		let na = document.createElement("show");
+		let de = document.createElement("show");
+		nade.classList.add("name");
+		use_none.classList.add("use_none");
+		use_none.setAttribute("type", "checkbox");
+		if (check === true) {
+			use_none.setAttribute("checked", "");
+		}
+		na.classList.add("NA");
+		na.innerText = Na;
+		de.classList.add("DE");
+		de.innerText = De;
+		nade.append(use_none, na, de);
+		return nade;
 	}
 }

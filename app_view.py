@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-12 21:03:10
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-04-18 09:29:45
+# @Last Modified time: 2024-04-19 16:30:39
 from codex import filters_v3, gethtml, postcall, tools
 from aiohttp import web, WSMsgType
 from app_setting import BASE_DIR
@@ -125,6 +125,28 @@ async def handle_get_filter_name(request):
         # print(f'class {class_attrs = } {checked = }')
         headers = {"Content-Type": "application/json"}
         return web.Response(text=json.dumps(response_obj), headers=headers, status=200)
+
+
+async def handle_save_filterN_v3(request):
+    filterN_v3 = BASE_DIR / "filterN_v3.json"
+    response_obj = {"message": "", "path": filterN_v3}
+    try:
+        request_json = await request.json()
+        with filterN_v3.open(mode="r", encoding="utf-8") as rJson:
+            json_data = dict(json.loads(rJson.read()))
+            json_data.update({'filter':request_json})
+        with filterN_v3.open(mode="w", encoding="utf-8") as wJson:
+            wJson.write(json.dumps(json_data, indent=4))
+            
+        response_obj.update({"message": "filterN_v3.json File writing completed."})
+    except:
+        response_obj.update({"message": "filterN_v3.json File write failed."})
+    finally:
+        print(f'message: {response_obj["message"]}')
+        headers = {"Content-Type": "application/json"}
+        return web.Response(
+            text=json.dumps({"msg": "test"}), headers=headers, status=200
+        )
 
 
 async def handle_save_insx_rego(request):

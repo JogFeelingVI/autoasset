@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-03-06 15:32:30
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-04-18 09:19:14
+ * @Last Modified time: 2024-04-19 15:19:04
  */
 "use strict";
 import * as objJs from "./obj.js";
@@ -15,7 +15,7 @@ let group_size = new objJs.radioList(
 );
 let ranges = new objJs.meRange("ranges", 5, 1000, 5);
 let groupman = new objJs.groupmanage("groupblack", 10);
-//let filter_group = new objJs.filterList('filter_group');
+let filter_group = new objJs.filter_all('filter_group');
 // let socket = new objJs.wssocket();
 
 +(function () {
@@ -38,8 +38,10 @@ let groupman = new objJs.groupmanage("groupblack", 10);
 	fetch("/Detailed_configuration")
 		.then((res) => res.json())
 		.then((data) => {
-			console.log(data);
-			// filter_group.initForData(data)
+			// console.log(data);
+			filter_group.initForData(data)
+			let retx = filter_group.getCheckedAll()
+			console.log(retx)
 		});
 	// let check = filter_group.getCheckedAll()
 	// console.log(check)

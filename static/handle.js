@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-04-18 09:19:22
+ * @Last Modified time: 2024-04-19 16:32:41
  */
 "use strict";
 import * as objJs from "./obj.js";
@@ -14,7 +14,7 @@ let group_size = new objJs.radioList(
 );
 let range_s = new objJs.meRange("rangeslider", 5, 1000, 5);
 let groupman = new objJs.groupmanage("navigation", 10);
-let filter_group = new objJs.filterList("filterv3");
+let filter_group = new objJs.filter_all("filterv3");
 
 const formatNumber = (n, x) => {
 	return n.toString().padStart(Number(x), "0");
@@ -74,8 +74,7 @@ const formatNumber = (n, x) => {
 })();
 
 +(function () {
-	const filterv3 = document.getElementById("filterv3");
-	fetch("/filter_all_name")
+	fetch("/Detailed_configuration")
 		.then((res) => res.json())
 		.then((data) => {
 			// console.log(data)
@@ -131,6 +130,21 @@ function saveInsxRego() {
 	}
 }
 
+function saveFilter_v3_json() {
+	const filter_json = filter_group.getJson("json");
+	if (!Object.is(filter_json, null)) {
+		fetch("/save_filterN_v3", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: filter_json,
+		})
+			.then((res) => res.json())
+			.then((data) => {
+				console.log(`Save to filterN_v3 from ${data}`);
+			});
+	}
+}
+
 function upgradeClicked() {
 	fetch("/handle")
 		.then((res) => res.json())
@@ -141,8 +155,7 @@ function upgradeClicked() {
 }
 
 function doneClicked() {
-	// const filterv3 = document.getElementById('filterv3');
-	// const labels = filterv3.getElementsByTagName('label');
+	saveFilter_v3_json();
 	const checkboxStates = { rego: regov2.checked, range: range_s.value };
 	const filterCheck = filter_group.getCheckedAll();
 	Object.entries(filterCheck).forEach(([name, check]) => {

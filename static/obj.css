@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-03-11 09:13:30
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-04-18 09:19:01
+ * @Last Modified time: 2024-04-19 15:03:32
  */
 .sw {
 	display: inline-block;
@@ -305,7 +305,7 @@
 
 /* filter_all */
 .filter_all {
-	display: inline;
+	display: block;
 	padding: 3px 15px 3px 15px;
 	user-select: none;
 }
@@ -319,11 +319,15 @@
 	padding: 0px 5px 5px 0px;
 }
 
-.filter_all .name:hover {
-	border-bottom: 1px solid aqua;
+.filter_all .name:hover .DE::after {
+	content: " ";
+	display: inline-block;
+	width: 10px;
+	height: 3px;
+	background-color: var(--fire-engine-red);
 }
 
-.filter_all .name::before {
+.filter_all .NA::before {
 	content: " ";
 	display: inline-block;
 	margin-right: 15px;
@@ -333,18 +337,18 @@
 	opacity: 0.3;
 }
 
-.filter_all input.use_none:checked + .name::before {
+.filter_all input.use_none:checked + .NA::before {
 	opacity: 0.8;
-	background-color: var(--red-pantone);
+	background-color: aqua;
 }
 
-.filter_all .name > span {
+.filter_all .name > .NA {
 	color: var(--fire-engine-red);
 	font-size: 15px;
 	font-weight: bold;
 }
 
-.filter_all .name > span ~ span {
+.filter_all .name > .NA ~ .DE {
 	padding: 0 5px 0 10px;
 	color: var(--cool-gray);
 	font-size: 12px;
@@ -358,6 +362,8 @@
 
 .filter_all .command .item {
 	display: inline-block;
+	margin-right: 10px;
+	margin-bottom: 10px;
 }
 
 .filter_all .command .item .none {

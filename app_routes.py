@@ -2,9 +2,9 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-12 21:15:24
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-04-17 15:23:55
+# @Last Modified time: 2024-04-19 16:02:23
 from aiohttp import web
-from app_view import index, science, handle, favicon, handle_post, handle_get_filter_name, handle_read_insx_rego, handle_save_insx_rego, handle_ws, handle_get_Detailed_configuration
+from app_view import index, science, handle, favicon, handle_post, handle_get_filter_name, handle_read_insx_rego, handle_save_insx_rego, handle_save_filterN_v3, handle_ws, handle_get_Detailed_configuration
 from app_setting import BASE_DIR
 
 
@@ -19,6 +19,7 @@ def setup_routes(app: web.Application):
                        handler=handle_get_Detailed_configuration)
     app.router.add_get('/load_insx_rego', handler=handle_read_insx_rego)
     app.router.add_post('/save_insx_rego', handler=handle_save_insx_rego)
+    app.router.add_post('/save_filterN_v3', handler=handle_save_filterN_v3)
     app.router.add_post('/ws_handle', handler=handle_ws)
 
 
