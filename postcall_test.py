@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-05-02 20:32:56
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-05-02 21:49:28
+# @Last Modified time: 2024-05-03 07:42:13
 
 import time
 from codex import postcall
@@ -22,6 +22,7 @@ def main():
     #! todo 这是新的方法
     # asyncio.gather(p.tasks_progress_rate())
     rejs = p.toJson()
+    print(f'{rejs = }')
     end = time.time() - start
     print(f"postcall is done! {p.interimStorage.keys().__len__()} {end:.2f}")
 

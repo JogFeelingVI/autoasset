@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-27 17:28:57
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-05-02 21:49:00
+# @Last Modified time: 2024-05-03 07:35:04
 import json, itertools, concurrent.futures, os
 from typing import List
 from codex import glns_v2, note, rego_v3, datav, filters_v3, tools
@@ -151,6 +151,12 @@ def create_task_v2(task, data, jsond):
     for task_index in task:
         temp.append([task_index, create(data, jsond)])
     return temp, os.getpid()
+
+def create_task_v3(task, data, jsond):
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        futures = [executor.submit(create, data, jsond) for _ in task]
+        results = [future.result() for future in concurrent.futures.as_completed(futures)]
+    return list(zip(task, results)), os.getpid()
 
 
 

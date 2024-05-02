@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2023-09-21 21:14:47
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-02-21 19:19:02
+# @Last Modified time: 2024-05-03 07:46:03
 import itertools, random, math
 from collections import Counter, deque
 from codex import groove, note
@@ -349,6 +349,11 @@ class random_rb:
 
     def get_number_v2(self):
         dep = sorted(random.sample(self.nPool, k=self.len))
+        return dep
+    
+    def get_number_v3(self):
+        random.shuffle(self.nPool)
+        dep = sorted(self.nPool[0:self.len])
         return dep
 
 
