@@ -2,8 +2,8 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-27 17:28:57
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-04-17 10:47:31
-import json, itertools, concurrent.futures, asyncio
+# @Last Modified time: 2024-05-02 21:49:00
+import json, itertools, concurrent.futures, os
 from typing import List
 from codex import glns_v2, note, rego_v3, datav, filters_v3, tools
 
@@ -11,7 +11,7 @@ postcall_length = 25
 postcall_json = {}
 postcall_data = {}
 interimStorage = {}
-Return_state = {'values': 0, 'length': 0, 'state': {1: 0}}
+Return_state = {"values": 0, "length": 0, "state": {1: 0}}
 # values state == 1 的总长度
 # length 任务链总长度
 # state
@@ -22,34 +22,34 @@ Return_state = {'values': 0, 'length': 0, 'state': {1: 0}}
 
 def getReturnState():
     global_vars = globals()
-    return global_vars['Return_state']
+    return global_vars["Return_state"]
 
 
 def initReturnState(values=-1, length=-1, state=[]):
-    '''
+    """
     values state == 1 的总长度
     length 任务链总长度
     state [1, 0] 1 为编号 0 为状态可以是 0,1,2
         -> 0 还没有开始执行
         -> 1 顺利获得执行结果 [[1,2,3,4,5,6], [16]]
         -> 2 无法获取执行结果 None
-    '''
+    """
     global_vars = globals()
     _temp = {}
     if values == -1 and length == -1 and state == []:
-        #初始化状态
-        _temp = {'values': 0, 'length': 0, 'state': {1: 0}}
+        # 初始化状态
+        _temp = {"values": 0, "length": 0, "state": {1: 0}}
     else:
-        _temp = global_vars['Return_state']
-    #第一阶段
+        _temp = global_vars["Return_state"]
+    # 第一阶段
     if length > 0:
-        _temp['length'] = length
+        _temp["length"] = length
     if state != [] and state[1] < 3:
         _task, _state = state
-        dict(_temp['state']).update({_task: _state})
+        dict(_temp["state"]).update({_task: _state})
         if _state == 1:
-            _temp['length'] += 1
-    global_vars['Return_state'] = _temp
+            _temp["length"] += 1
+    global_vars["Return_state"] = _temp
 
 
 def initPostCall():
@@ -58,27 +58,27 @@ def initPostCall():
     cdic = datav.LoadJson().toLix
     fite = filters_v3
     fite.initialization()
-    data['glns'] = glns_v2.glnsMpls(cdic, 6, 1, 's').producer
-    data['rego'] = rego_v3.Lexer().pares(rego_v3.load_rego_v2())
-    data['filter'] = fite.SyntheticFunction()
-    global_vars['postcall_data'] = data
+    data["glns"] = glns_v2.glnsMpls(cdic, 6, 1, "s").producer
+    data["rego"] = rego_v3.Lexer().pares(rego_v3.load_rego_v2())
+    data["filter"] = fite.SyntheticFunction()
+    global_vars["postcall_data"] = data
 
 
 def setting_length(length: int):
     global_vars = globals()
-    global_vars['postcall_length'] = length
-    print(f'setting length {length}')
+    global_vars["postcall_length"] = length
+    print(f"setting length {length}")
 
 
 def instal_json(js: str):
     global_vars = globals()
     jsond = dict(json.loads(js))
-    if 'range' in jsond.keys():
-        setting_length(int(jsond['range']))
-        initReturnState(length=int(jsond['range']))
-    keys = ' '.join([k for k in jsond.keys()][-5:])
-    global_vars['postcall_json'] = jsond
-    print(f'install jsonx, keys: {keys}...')
+    if "range" in jsond.keys():
+        setting_length(int(jsond["range"]))
+        initReturnState(length=int(jsond["range"]))
+    keys = " ".join([k for k in jsond.keys()][-5:])
+    global_vars["postcall_json"] = jsond
+    print(f"install jsonx, keys: {keys}...")
 
 
 def in_key(key: str, jsond: dict) -> bool:
@@ -93,22 +93,26 @@ def key_val(key: str, jsond: dict) -> bool:
 
 def create(pcall_data: dict, jsond: dict):  # -> list[Any] | None:
     if not pcall_data:
-        print(f'Not Find PostCall Data!')
+        print(f"Not Find PostCall Data!")
         return
     count = 0
     while 1:
-        _n = pcall_data['glns']['r']()
-        _t = pcall_data['glns']['b']()
+        _n = pcall_data["glns"]["r"]()
+        _t = pcall_data["glns"]["b"]()
         n = note.Note(_n, _t)
         rfilter = True
         # print(f'{jsond = }')
-        if in_key('rego', jsond) and key_val('rego', jsond):
-            for _, f in pcall_data['rego'].items():
+        if in_key("rego", jsond) and key_val("rego", jsond):
+            for _, f in pcall_data["rego"].items():
                 if f(n) == False:
                     rfilter = False
                     break
         jsond_key = [k for k, v in jsond.items() if v == True]
-        filterx = {name: func(n) for name, func in pcall_data['filter'].items() if name in jsond_key}
+        filterx = {
+            name: func(n)
+            for name, func in pcall_data["filter"].items()
+            if name in jsond_key
+        }
         # print(f'{filterx = }')
         # for name, func in pcall_data['filter'].items():
         #     if name in jsond.keys():
@@ -117,11 +121,17 @@ def create(pcall_data: dict, jsond: dict):  # -> list[Any] | None:
         #     rfilter = False
         # filterx = {'acvalue': True, 'jmsht': True, 'mod2': True, 'mod3': True, 'mod4': True, 'mod5': True, 'mod6': True, 'mod7': True, 'mod8': True, 'mod9': True, 'sixlan': True, 'zhihe': True}
         match filterx:
-            case {'acvalue':bool() as ac, 'jmsht': bool() as five} if ac == True and five == True:
+            case {
+                "acvalue": bool() as ac,
+                "jmsht": bool() as five,
+            } if ac == True and five == True:
                 if sum(not value for value in filterx.values()) > 1:
                     # print(f'T, T {filterx}')
                     rfilter = False
-            case {'acvalue':bool() as ac, 'jmsht': bool() as five} if ac == False or five == False:
+            case {
+                "acvalue": bool() as ac,
+                "jmsht": bool() as five,
+            } if ac == False or five == False:
                 # print(f'F, _ {filterx}')
                 rfilter = False
             case _:
@@ -136,17 +146,20 @@ def create(pcall_data: dict, jsond: dict):  # -> list[Any] | None:
             break
 
 
-def create_task(iq):
-    task, pcall_data, jsond = iq
-    return [task, create(pcall_data, jsond)]
+def create_task_v2(task, data, jsond):
+    temp = []
+    for task_index in task:
+        temp.append([task_index, create(data, jsond)])
+    return temp, os.getpid()
 
 
-def initTaskQueue():
+
+def initTaskQueue_to_list():
     global_vars = globals()
-    length = global_vars['postcall_length']
-    data = global_vars['postcall_data']
-    jsond = global_vars['postcall_json']
-    return itertools.product(range(length), [data], [jsond])
+    length = global_vars["postcall_length"]
+    data = global_vars["postcall_data"]
+    jsond = global_vars["postcall_json"]
+    return length, data, jsond
 
 
 def tasks_Queue():
@@ -154,79 +167,62 @@ def tasks_Queue():
     iStorage = {}
     seen_n = set()
     f = tools.f
-    for iq in initTaskQueue():
-        rex = create_task(iq)
-        task, nt = rex
+    length, data, jsond = initTaskQueue_to_list()
+    for index in range(length):
+        rex = create(data, jsond)
+        nt = rex
         if nt != None:
             n, t = nt
             tup_n = tuple(n)
             if tup_n not in seen_n:
-                iStorage[task] = [f(n), f(t)]
+                iStorage[index] = [f(n), f(t)]
                 seen_n.add(tup_n)
-    global_vars['interimStorage'] = iStorage
+    global_vars["interimStorage"] = iStorage
 
 
-def tasks_futures():
+def tasks_progress_rate_new():
+    global_vars = globals()
+    iStorage = {}
+    length, data, jsond = initTaskQueue_to_list()
+    chunk_size = length // 8
+    chunks = [range(length)[i : i + chunk_size] for i in range(0, length, chunk_size)]
+    seen_n = set()
     with concurrent.futures.ProcessPoolExecutor() as executor:
-        global_vars = globals()
-        iStorage = global_vars['interimStorage']
-        iStorage = {}
-        seen_n = set()
-        results = executor.map(create_task, initTaskQueue())
-        for res in results:
-            if isinstance(res, list):
-                index, task = res
-                if task is not None:
-                    n, t = task
-                    tup_n = tuple(n)
-                    if tup_n not in seen_n:
-                        iStorage[index] = [tools.f(n), tools.f(t)]
-                        seen_n.add(tup_n)
-        global_vars['interimStorage'] = iStorage
-    return iStorage
+        futures = [
+            executor.submit(create_task_v2, i, data, jsond).add_done_callback(
+                lambda future: done_task(future, iStorage, seen_n)
+            )
+            for i in chunks
+        ]
+    global_vars["interimStorage"] = iStorage
 
 
-def tasks_progress_rate():
-    with concurrent.futures.ProcessPoolExecutor() as executor:
-        global_vars = globals()
-        iStorage = global_vars['interimStorage']
-        iStorage = {}
-        seen_n = set()
-        futures = [executor.submit(create_task, i) for i in initTaskQueue()]
-        completed = 0
-        futures_len = futures.__len__()
-        for future in concurrent.futures.as_completed(futures):
-            completed += 1
-            _rf = future.result()
-            if _rf[1] == None:
-                initReturnState(state=[_rf[0], 2])
-            else:
-                initReturnState(state=[_rf[0], 1])
-                n, t = _rf[1]
-                tup_n = tuple(n)
-                if tup_n not in seen_n:
-                    iStorage[_rf[0]] = [tools.f(n), tools.f(t)]
-                    seen_n.add(tup_n)
-            print(
-                f'\033[K[P] completed {completed/futures_len*100:.4f}% tasks completed.',
-                end='\r')
-        print(f'\033[K[P] completed. 100%')
-        global_vars['interimStorage'] = iStorage
-
-        return iStorage.keys().__len__()
+def done_task(future, storage: dict, seen: set):
+    temp, pid = future.result()
+    count = 0
+    for i in temp:
+        index, nt = i
+        if nt is not None:
+            n, t = nt
+            tup_n = tuple(n)
+            if tup_n not in seen:
+                storage[index] = [tools.f(n), tools.f(t)]
+                seen.add(tup_n)
+                count += 1
+    print(f"Complete effective tasks {count} from worker-{pid}")
 
 
 def toJson():
     global_vars = globals()
-    iStorage = global_vars['interimStorage']
+    iStorage = global_vars["interimStorage"]
     if iStorage.keys().__len__() == 0:
-        tasks_Queue()
+        return ""
     return json.dumps(iStorage)
 
 
 def toDict():
     global_vars = globals()
-    iStorage = global_vars['interimStorage']
+    iStorage = dict(global_vars["interimStorage"])
     if iStorage.keys().__len__() == 0:
-        tasks_Queue()
+        return {0: ["-", "-"]}
     return iStorage
