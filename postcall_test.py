@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-05-02 20:32:56
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-05-03 07:42:13
+# @Last Modified time: 2024-05-03 08:07:40
 
 import time
 from codex import postcall
@@ -18,7 +18,7 @@ def main():
     # rejs = p.toJson()
     # loop.run_in_executor(executor=request.app["workers_pool"], func=p.tasks_progress_rate)
     # tracemalloc.stop()
-    p.tasks_progress_rate_new()
+    p.tasks_Queue()
     #! todo 这是新的方法
     # asyncio.gather(p.tasks_progress_rate())
     rejs = p.toJson()

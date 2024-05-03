@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-27 17:28:57
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-05-03 07:35:04
+# @Last Modified time: 2024-05-03 07:58:42
 import json, itertools, concurrent.futures, os
 from typing import List
 from codex import glns_v2, note, rego_v3, datav, filters_v3, tools
@@ -145,6 +145,8 @@ def create(pcall_data: dict, jsond: dict):  # -> list[Any] | None:
         if count >= 3000:
             break
 
+def create_task_index(index, data, jsond):
+    return [index, create(data, jsond)]
 
 def create_task_v2(task, data, jsond):
     temp = []
@@ -167,6 +169,24 @@ def initTaskQueue_to_list():
     jsond = global_vars["postcall_json"]
     return length, data, jsond
 
+def tasks_Queue_v2():
+    global_vars = globals()
+    iStorage = {}
+    seen_n = set()
+    f = tools.f
+    length, data, jsond = initTaskQueue_to_list()
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        futures = [executor.submit(create_task_index, index, data, jsond) for index in range(length)]
+        # results = [future.result() for future in concurrent.futures.as_completed(futures)]
+        for future in concurrent.futures.as_completed(futures):
+            index, rex = future.result()
+            if rex != None:
+                n, t = rex
+                tup_n = tuple(n)
+                if tup_n not in seen_n:
+                    iStorage[index] = [f(n), f(t)]
+                    seen_n.add(tup_n)
+    global_vars["interimStorage"] = iStorage
 
 def tasks_Queue():
     global_vars = globals()
@@ -176,9 +196,8 @@ def tasks_Queue():
     length, data, jsond = initTaskQueue_to_list()
     for index in range(length):
         rex = create(data, jsond)
-        nt = rex
-        if nt != None:
-            n, t = nt
+        if rex != None:
+            n, t = rex
             tup_n = tuple(n)
             if tup_n not in seen_n:
                 iStorage[index] = [f(n), f(t)]
