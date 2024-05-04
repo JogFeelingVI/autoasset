@@ -2,10 +2,12 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-27 17:28:57
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-05-04 00:45:51
+# @Last Modified time: 2024-05-04 09:24:07
 import json, itertools, concurrent.futures, os
 from typing import List
 from codex import glns_v2, note, rego_v3, datav, filters_v3, tools
+from multiprocessing import Manager
+from collections import defaultdict
 
 postcall_length = 25
 postcall_json = {}
@@ -148,18 +150,19 @@ def create(pcall_data: dict, jsond: dict):  # -> list[Any] | None:
 def create_task_index(index, data, jsond):
     return [index, create(data, jsond)]
 
-def create_task_v2(task, data, jsond):
+def create_task_v2(task, data, jsond, pd):
     temp = []
+    pid = os.getpid()
     for task_index in task:
+        if pid not in pd.keys():
+            pd[pid] = 0
+        else:
+            pd[pid] += 1
+        sumx = sum(pd.values())
         temp.append([task_index, create(data, jsond)])
-    return temp, os.getpid()
-
-def create_task_v3(task, data, jsond):
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        futures = [executor.submit(create, data, jsond) for _ in task]
-        results = [future.result() for future in concurrent.futures.as_completed(futures)]
-    return list(zip(task, results)), os.getpid()
-
+        if task_index % 5 ==1:
+            print(f"\033[K[P] create_task_v2 completed {sumx}", end="\r")
+    return temp, pid
 
 
 def initTaskQueue_to_list():
@@ -209,16 +212,18 @@ def tasks_progress_rate_new():
     global_vars = globals()
     iStorage = {}
     length, data, jsond = initTaskQueue_to_list()
-    chunk_size = length // 8
+    chunk_size = max(1,length // 8)
     chunks = [range(length)[i : i + chunk_size] for i in range(0, length, chunk_size)]
     seen_n = set()
-    with concurrent.futures.ProcessPoolExecutor() as executor:
-        futures = [
-            executor.submit(create_task_v2, i, data, jsond).add_done_callback(
-                lambda future: done_task(future, iStorage, seen_n)
-            )
-            for i in chunks
-        ]
+    with Manager() as mem:
+        pd = mem.dict(defaultdict(int))
+        with concurrent.futures.ProcessPoolExecutor() as executor:
+            futures = [
+                executor.submit(create_task_v2, i, data, jsond, pd).add_done_callback(
+                    lambda future: done_task(future, iStorage, seen_n)
+                )
+                for i in chunks
+            ]
     global_vars["interimStorage"] = iStorage
 
 
