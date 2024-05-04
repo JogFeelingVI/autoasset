@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-27 17:28:57
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-05-03 07:58:42
+# @Last Modified time: 2024-05-04 00:45:51
 import json, itertools, concurrent.futures, os
 from typing import List
 from codex import glns_v2, note, rego_v3, datav, filters_v3, tools
@@ -234,7 +234,7 @@ def done_task(future, storage: dict, seen: set):
                 storage[index] = [tools.f(n), tools.f(t)]
                 seen.add(tup_n)
                 count += 1
-    print(f"Complete effective tasks {count} from worker-{pid}")
+    # print(f"Complete effective tasks {count} from worker-{pid}")
 
 
 def toJson():
