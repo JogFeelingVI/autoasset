@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-03-11 09:13:30
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-04-19 15:03:32
+ * @Last Modified time: 2024-05-07 17:30:24
  */
 .sw {
 	display: inline-block;
@@ -383,4 +383,30 @@
 	opacity: 1;
 	color: var(--red-pantone);
 	border-bottom: 1px solid aqua;
+}
+
+/* footer bar */
+.footer {
+	background-color: var(--space-cadet);
+	padding-top: 20px;
+	filter: brightness(95%) blur(1.8px);
+	color: #ffffff;
+}
+.footer:hover {
+	background-color: var(--space-cadet);
+	filter: brightness(95%) blur(0px);
+}
+.footer .container {
+	width: 90%;
+}
+.footer .container .line {
+	display: block;
+	width: 100%;
+}
+.line .infos {
+	padding: 5px;
+	width: 70%;
+}
+.line .links {
+	padding: 5px;
 }
