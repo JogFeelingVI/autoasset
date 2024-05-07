@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-03-11 09:13:30
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-05-07 17:30:24
+ * @Last Modified time: 2024-05-07 23:06:00
  */
 .sw {
 	display: inline-block;
@@ -400,13 +400,35 @@
 	width: 90%;
 }
 .footer .container .line {
-	display: block;
+	display: flex;
 	width: 100%;
 }
-.line .infos {
+.footer .container .line .infos {
 	padding: 5px;
-	width: 70%;
+	width: 60%;
+	margin-right: auto;
+	display: inline-block;
 }
-.line .links {
+.footer .container .line .links {
+	display: inline-block;
 	padding: 5px;
+	width: 33%;
+	margin-left: auto;
+}
+.link_a {
+	color: #eee;
+	text-decoration: none;
+}
+.toR {
+	display: inline-block;
+	margin-left: auto;
+}
+.toLi {
+	margin-left: 5px;
+}
+
+.toDuan {
+	padding: 15px;
+	text-indent: 2em; /* 首行缩进 2 个字符 */
+	line-height: 1.5; /* 行高为字体的 1.5 倍 */
 }

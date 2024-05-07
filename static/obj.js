@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-03-10 20:50:31
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-04-19 16:41:19
+ * @Last Modified time: 2024-05-07 23:07:20
  */
 "use strict";
 import * as obj_funx from "./obj_function.js";
@@ -563,7 +563,7 @@ export class filter_all {
 				temp[item.name] = true;
 			}
 		});
-		return temp
+		return temp;
 	}
 
 	getJson(config = "json") {
@@ -671,5 +671,92 @@ export class filter_all {
 		de.innerText = De;
 		nade.append(use_none, na, de);
 		return nade;
+	}
+}
+
+export class footer {
+	constructor(
+		idx = "footer",
+		config = {
+			title: "this web info",
+			text: "text",
+			links: { google: "www.google.com" },
+			Copyright: "© 2024 Copyright JogFeelingVI",
+			cr_link: "www.github.com",
+			cr_name: "Github",
+		}
+	) {
+		this.footer = document.getElementById(idx);
+		this.footer.classList.add("footer");
+		this.footer.innerHTML = "";
+		let container = this.create_div("container");
+		let line_cols = this.create_div("line");
+		line_cols.append(this.create_infos(config.title, config.text));
+		line_cols.append(this.create_links(config.links));
+		let line_Copyright = this.create_Copyright(
+			config.Copyright,
+			config.cr_link,
+			config.cr_name
+		);
+		container.append(line_cols, line_Copyright);
+		this.footer.append(container);
+	}
+
+	create_div(class_name = "container") {
+		let div = document.createElement("div");
+		div.classList.add(class_name);
+		return div;
+	}
+
+	create_link(name = "", href = "", classname = "toR") {
+		let link = document.createElement("a");
+		link.setAttribute("href", 'https://'+href);
+		link.innerText = name;
+		link.classList.add("link_a", classname);
+		return link;
+	}
+
+	create_Copyright(copyright = "this Copyright", link = "", name = "") {
+		let line = this.create_div("line");
+		let span = document.createElement("span");
+		span.innerText = copyright;
+		let link_a = this.create_link("* Github *", "www.github.com", "toR");
+		line.append(span, link_a);
+		return line;
+	}
+
+	create_h5(str = "Title") {
+		let title = document.createElement("h5");
+		title.innerText = str;
+		return title;
+	}
+
+	create_p(str = "this p element") {
+		let text_p = document.createElement("p");
+		text_p.innerText = str;
+		text_p.classList.add("toDuan");
+		return text_p;
+	}
+
+	create_infos(title = "", pstr = "") {
+		let info = this.create_div("infos");
+		info.append(this.create_h5(title), this.create_p(pstr));
+		return info;
+	}
+
+	create_links(links = { google: "www.google.com" }) {
+		let link_all = this.create_div("links");
+		let title = this.create_h5("Links");
+		link_all.append(title);
+		let ui_all = document.createElement("ui");
+		let keys = Object.keys(links);
+		keys.forEach((k) => {
+			console.log(k, links[k]);
+			let li_a = document.createElement("li");
+			li_a.append(this.create_link(k, links[k], "toLi"));
+			ui_all.append(li_a);
+		});
+		link_all.append(ui_all);
+		return link_all;
 	}
 }
