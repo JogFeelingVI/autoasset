@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-03-10 20:50:31
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-05-07 23:07:20
+ * @Last Modified time: 2024-05-10 00:29:26
  */
 "use strict";
 import * as obj_funx from "./obj_function.js";
@@ -710,7 +710,7 @@ export class footer {
 
 	create_link(name = "", href = "", classname = "toR") {
 		let link = document.createElement("a");
-		link.setAttribute("href", 'https://'+href);
+		link.setAttribute("href", "https://" + href);
 		link.innerText = name;
 		link.classList.add("link_a", classname);
 		return link;
@@ -758,5 +758,73 @@ export class footer {
 		});
 		link_all.append(ui_all);
 		return link_all;
+	}
+}
+
+export class fixbutton {
+	constructor(
+		idx = "footer",
+		config = {
+			color: "red",
+			icon: "science",
+			size: "small",
+			links: [
+				{ color: "red", icon: "tune", click: "", size: "tiny" },
+				{
+					color: "yellow",
+					icon: "done",
+					click: "doneClicked()",
+					size: "tiny",
+				},
+				{
+					color: "green",
+					icon: "download",
+					click: "donwLoadGroup()",
+					size: "tiny",
+				},
+				{
+					color: "blue",
+					icon: "science",
+					click: "donwLoadGroup()",
+					size: "tiny",
+				},
+			],
+		}
+	) {
+		this.fixedb = document.getElementById(idx);
+		this.fixedb.classList.add("fixtbutton");
+		this.fixedb.append(
+			this.create_icon(config.color, config.icon, "", config.size)
+		);
+		this.fixedb.append(this.create_ui(config.links));
+	}
+
+	create_ui(links = []) {
+		let ui = document.createElement("ui");
+		links.forEach((item) => {
+			let lix = document.createElement('li')
+			lix.append(this.create_icon(item.color, item.icon, item.click, item.size))
+			ui.append(lix);
+		});
+		return ui;
+	}
+
+	create_icon(color = "red", icon = "done", click = "", size = "small") {
+		let link_a = document.createElement("a");
+		if (size === "small") {
+			link_a.classList.add("btn", color);
+		}else{
+			// link_a.setAttribute('style','opacity: 1; transform: scale(0.4) translateY(40px) translateX(0px);')
+			link_a.classList.add("btn","btn_s", color);
+		}
+
+		let ico = document.createElement("i");
+		ico.classList.add("material-icons", size);
+		ico.innerText = icon;
+		link_a.append(ico);
+		if (click.length != 0) {
+			link_a.setAttribute("onclick", click);
+		}
+		return link_a;
 	}
 }

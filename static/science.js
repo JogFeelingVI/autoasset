@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-03-06 15:32:30
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-05-07 23:09:16
+ * @Last Modified time: 2024-05-09 22:43:26
  */
 "use strict";
 import * as objJs from "./obj.js";
@@ -17,6 +17,7 @@ let ranges = new objJs.meRange("ranges", 5, 1000, 5);
 let groupman = new objJs.groupmanage("groupblack", 10);
 let filter_group = new objJs.filter_all("filter_group");
 // let socket = new objJs.wssocket();
+let fixed = new objJs.fixbutton('fixbut')
 
 let footer = new objJs.footer("footerx", {
 	title: "Friendly Reminder",
