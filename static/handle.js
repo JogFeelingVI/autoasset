@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-01-25 20:54:21
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-05-07 23:10:59
+ * @Last Modified time: 2024-05-10 10:11:44
  */
 "use strict";
 import * as objJs from "./obj.js";
@@ -27,6 +27,38 @@ let footer = new objJs.footer("footerx", {
 	Copyright: "© 2024 Copyright JogFeelingVI",
 	cr_link: "www.github.com",
 	cr_name: "Github",
+});
+//
+let fixed = new objJs.fixbutton("fixbut", {
+	color: "red",
+	icon: "rocket_launch",
+	size: "small",
+	links: [
+		{
+			color: "red",
+			icon: "upgrade",
+			click: "upgradeClicked()",
+			size: "tiny",
+		},
+		{
+			color: "yellow",
+			icon: "done",
+			click: "doneClicked()",
+			size: "tiny",
+		},
+		{
+			color: "green",
+			icon: "download",
+			click: "donwLoadGroup()",
+			size: "tiny",
+		},
+		{
+			color: "blue",
+			icon: "science",
+			click: "+function(){location.href = '/science'}();",
+			size: "tiny",
+		},
+	],
 });
 //
 

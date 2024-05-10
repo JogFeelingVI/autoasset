@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-03-06 15:32:30
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-05-09 22:43:26
+ * @Last Modified time: 2024-05-10 10:00:52
  */
 "use strict";
 import * as objJs from "./obj.js";
@@ -17,7 +17,37 @@ let ranges = new objJs.meRange("ranges", 5, 1000, 5);
 let groupman = new objJs.groupmanage("groupblack", 10);
 let filter_group = new objJs.filter_all("filter_group");
 // let socket = new objJs.wssocket();
-let fixed = new objJs.fixbutton('fixbut')
+let fixed = new objJs.fixbutton("fixbut", {
+	color: "red",
+	icon: "science",
+	size: "small",
+	links: [
+		{
+			color: "red",
+			icon: "tune",
+			click: "+function(){location.href = '/'}();",
+			size: "tiny",
+		},
+		{
+			color: "yellow",
+			icon: "done",
+			click: "doneClicked()",
+			size: "tiny",
+		},
+		{
+			color: "green",
+			icon: "download",
+			click: "donwLoadGroup()",
+			size: "tiny",
+		},
+		{
+			color: "blue",
+			icon: "science",
+			click: "donwLoadGroup()",
+			size: "tiny",
+		},
+	],
+});
 
 let footer = new objJs.footer("footerx", {
 	title: "Friendly Reminder",
@@ -34,14 +64,14 @@ let footer = new objJs.footer("footerx", {
 });
 //
 
-+(function () {
-	console.log("install fixed-action-btn");
-	document.addEventListener("DOMContentLoaded", (event) => {
-		let acts = document.querySelectorAll(".fixed-action-btn");
-		let action = M.FloatingActionButton.init(acts, "");
-		/* install modal .modal */
-	});
-})();
+// +(function () {
+// 	console.log("install fixed-action-btn");
+// 	document.addEventListener("DOMContentLoaded", (event) => {
+// 		let acts = document.querySelectorAll(".fixed-action-btn");
+// 		let action = M.FloatingActionButton.init(acts, "");
+// 		/* install modal .modal */
+// 	});
+// })();
 
 +(function () {
 	group_size.setChecked = 300;

@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-03-10 20:50:31
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-05-10 00:29:26
+ * @Last Modified time: 2024-05-10 09:57:55
  */
 "use strict";
 import * as obj_funx from "./obj_function.js";
@@ -769,7 +769,7 @@ export class fixbutton {
 			icon: "science",
 			size: "small",
 			links: [
-				{ color: "red", icon: "tune", click: "", size: "tiny" },
+				{ color: "red", icon: "tune", click: "+function(){location.href = '/'}();", size: "tiny" },
 				{
 					color: "yellow",
 					icon: "done",

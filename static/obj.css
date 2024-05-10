@@ -2,7 +2,7 @@
  * @Author: JogFeelingVI
  * @Date:   2024-03-11 09:13:30
  * @Last Modified by:   JogFeelingVI
- * @Last Modified time: 2024-05-10 00:42:21
+ * @Last Modified time: 2024-05-10 10:04:23
  */
 .sw {
 	display: inline-block;
@@ -435,7 +435,7 @@
 /* fixtbutton */
 .fixtbutton {
 	position: fixed;
-	left: 23px;
+	right: 23px;
 	bottom: 23px;
 	padding-top: 15px;
 	margin-bottom: 0;
@@ -504,16 +504,29 @@
 }
 .fixtbutton:hover ui {
 	visibility: visible;
-	
+}
+
+.fixtbutton:hover ui li {
+	animation: scale-animation 1s ease;
+}
+
+@keyframes scale-animation {
+	from {
+		opacity: 0.1;
+		transform: scale(0.1);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
 }
 
 .fixtbutton li {
 	display: list-item;
 	list-style-type: none;
 	margin-bottom: 10px;
-	
 }
 
-.fixtbutton li a{
+.fixtbutton li a {
 	transition: opacity 1s ease-in-out;
 }
