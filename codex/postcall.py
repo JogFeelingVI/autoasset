@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-27 17:28:57
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-05-04 09:24:07
+# @Last Modified time: 2024-05-28 09:32:56
 import json, itertools, concurrent.futures, os
 from typing import List
 from codex import glns_v2, note, rego_v3, datav, filters_v3, tools
@@ -127,7 +127,7 @@ def create(pcall_data: dict, jsond: dict):  # -> list[Any] | None:
                 "acvalue": bool() as ac,
                 "jmsht": bool() as five,
             } if ac == True and five == True:
-                if sum(not value for value in filterx.values()) > 1:
+                if sum(not value for value in filterx.values()) > 0:
                     # print(f'T, T {filterx}')
                     rfilter = False
             case {
@@ -137,7 +137,7 @@ def create(pcall_data: dict, jsond: dict):  # -> list[Any] | None:
                 # print(f'F, _ {filterx}')
                 rfilter = False
             case _:
-                if sum(not value for value in filterx.values()) > 1:
+                if sum(not value for value in filterx.values()) > 0:
                     # print(f'T, T {filterx}')
                     rfilter = False
 
