@@ -2,10 +2,11 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-27 17:28:57
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-05-31 15:14:59
+# @Last Modified time: 2024-05-31 23:37:45
+from functools import partial
 import json, itertools, concurrent.futures, os
 from typing import List
-from codex import glns_v2, note, rego_v3, datav, filters_v3, tools
+from codex import BigLottery52, note, rego_v3, filters_v3, tools
 from multiprocessing import Manager
 from collections import defaultdict
 
@@ -57,10 +58,10 @@ def initReturnState(values=-1, length=-1, state=[]):
 def initPostCall():
     global_vars = globals()
     data = {}
-    cdic = datav.LoadJson().toLix
+    # cdic = datav.LoadJson().toLix
     fite = filters_v3
     fite.initialization()
-    data["glns"] = glns_v2.glnsMpls(cdic, 6, 1, "b").producer
+    # data["glns"] = glns_v2.glnsMpls(cdic, 6, 1, "b").producer
     data["rego"] = rego_v3.Lexer().pares(rego_v3.load_rego_v2())
     data["filter"] = fite.SyntheticFunction()
     global_vars["postcall_data"] = data
@@ -92,6 +93,16 @@ def in_key(key: str, jsond: dict) -> bool:
 def key_val(key: str, jsond: dict) -> bool:
     return bool(jsond[key])
 
+def mark_by_BigLotter52():
+    rngs_r = [range(1, 34)]
+    rngs_b = [range(1, 17)]
+    conf = {
+        "red": partial(BigLottery52.coda_sec, rngs=rngs_r, k=6),
+        "blue": partial(BigLottery52.coda_sec, rngs=rngs_b, k=1),
+    }
+    numx = BigLottery52.mark(config=conf)
+    return numx['red'], numx['blue']
+
 
 def create(pcall_data: dict, jsond: dict):  # -> list[Any] | None:
     if not pcall_data:
@@ -99,8 +110,7 @@ def create(pcall_data: dict, jsond: dict):  # -> list[Any] | None:
         return
     count = 0
     while 1:
-        _n = pcall_data["glns"]["r"]()
-        _t = pcall_data["glns"]["b"]()
+        _n, _t = mark_by_BigLotter52()
         # print(f'test {_n} {_t}')
         n = note.Note(_n, _t)
         rfilter = True
@@ -128,7 +138,7 @@ def create(pcall_data: dict, jsond: dict):  # -> list[Any] | None:
                 "acvalue": bool() as ac,
                 "jmsht": bool() as five,
             } if ac == True and five == True:
-                if sum(not value for value in filterx.values()) > 0:
+                if sum(not value for value in filterx.values()) > 1:
                     # print(f'T, T {filterx}')
                     rfilter = False
             case {
@@ -138,7 +148,7 @@ def create(pcall_data: dict, jsond: dict):  # -> list[Any] | None:
                 # print(f'F, _ {filterx}')
                 rfilter = False
             case _:
-                if sum(not value for value in filterx.values()) > 0:
+                if sum(not value for value in filterx.values()) > 1:
                     # print(f'T, T {filterx}')
                     rfilter = False
 

@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-05-18 08:58:03
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-05-31 15:14:06
+# @Last Modified time: 2024-05-31 23:24:12
 import collections, os, time, re, logging, random, concurrent.futures, pathlib, itertools, secrets
 from dataclasses import dataclass
 from functools import partial
@@ -116,22 +116,16 @@ def coda_sec(rngs: list | range, k: int = 2):
         codae.add(numbers[index])
         del numbers[index]
         random.shuffle(numbers)
-    return sorted([_c for _c in codae])
+    return sorted(list(codae))
         
-def mark(config:dict = {}, rex='dict'):
+def mark(config:dict = {}):
     keys = config.keys()
     temp = dict().fromkeys(keys, [])
     for k, funx in config.items():
         temp[k] = funx()
     if debug.count("v") == 3:
         print(f"mark_by config {config}\n{temp}")
-    match rex:
-        case 'dict':
-            return temp
-        case 'value':
-            return list(temp.values())[0]
-        case _:
-            return temp
+    return temp
 
 
 def mark_by(config: dict = {}, irangs:range=range(1, 1000)):
