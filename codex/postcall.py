@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-27 17:28:57
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-05-28 09:32:56
+# @Last Modified time: 2024-05-31 15:14:59
 import json, itertools, concurrent.futures, os
 from typing import List
 from codex import glns_v2, note, rego_v3, datav, filters_v3, tools
@@ -60,7 +60,7 @@ def initPostCall():
     cdic = datav.LoadJson().toLix
     fite = filters_v3
     fite.initialization()
-    data["glns"] = glns_v2.glnsMpls(cdic, 6, 1, "s").producer
+    data["glns"] = glns_v2.glnsMpls(cdic, 6, 1, "b").producer
     data["rego"] = rego_v3.Lexer().pares(rego_v3.load_rego_v2())
     data["filter"] = fite.SyntheticFunction()
     global_vars["postcall_data"] = data
@@ -101,6 +101,7 @@ def create(pcall_data: dict, jsond: dict):  # -> list[Any] | None:
     while 1:
         _n = pcall_data["glns"]["r"]()
         _t = pcall_data["glns"]["b"]()
+        # print(f'test {_n} {_t}')
         n = note.Note(_n, _t)
         rfilter = True
         # print(f'{jsond = }')
