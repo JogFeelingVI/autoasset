@@ -2,7 +2,7 @@
 # @Author: JogFeelingVI
 # @Date:   2024-01-27 17:28:57
 # @Last Modified by:   JogFeelingVI
-# @Last Modified time: 2024-05-31 23:37:45
+# @Last Modified time: 2024-06-02 07:05:29
 from functools import partial
 import json, itertools, concurrent.futures, os
 from typing import List
@@ -235,6 +235,7 @@ def tasks_progress_rate_new():
                 )
                 for i in chunks
             ]
+    print(f"\033[K[P] create_task_v2 completed 100%")
     global_vars["interimStorage"] = iStorage
 
 
