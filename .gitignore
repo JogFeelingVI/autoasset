@@ -1,7 +1,7 @@
 .venv/*
 Codex/__pycache__
-codetest/__pycache__
 generated_wiki
 *.pyc
 .DS_Store
 *.log
+ 
