@@ -1,30 +1,30 @@
 {
-    "date": "2024-06-09 15:14:27.490779",
+    "date": "2024-06-15 21:36:03.541703",
     "Lever": [
-        5,
-        9,
-        29,
+        31,
+        12,
         33,
-        21,
-        4,
-        15,
-        27,
-        30,
         11,
         19,
-        24,
+        5,
+        15,
         3,
         13,
+        27,
+        30,
+        4,
+        24,
+        21,
         20,
         16
     ],
     "Last": [
-        6,
-        8,
+        1,
+        11,
+        13,
         17,
-        18,
-        28,
-        30
+        25,
+        29
     ],
     "filter": [
         {
@@ -51,6 +51,7 @@
                 "4:2:0"
             ],
             "recommend": [
+                "2:2:2",
                 "3:1:2",
                 "1:2:3",
                 "1:3:2",
@@ -86,16 +87,14 @@
                 "10"
             ],
             "recommend": [
-                "7",
-                "8",
-                "9",
-                "10"
+                "5",
+                "7"
             ]
         },
         {
             "name": "linma",
             "Description": "Refers to the number adjacent to the last lottery number.",
-            "checked": true,
+            "checked": false,
             "Optional": [
                 "0",
                 "1",
@@ -114,7 +113,7 @@
         {
             "name": "duplicates",
             "Description": "The same numbers as the previous draw numbers.",
-            "checked": true,
+            "checked": false,
             "Optional": [
                 "0",
                 "1",
@@ -178,8 +177,9 @@
             ],
             "recommend": [
                 "2",
-                "3",
-                "2:3"
+                "NA",
+                "2:2",
+                "3"
             ]
         },
         {
@@ -197,7 +197,8 @@
             "recommend": [
                 "3:3",
                 "2:4",
-                "4:2"
+                "4:2",
+                "5:1"
             ]
         },
         {
@@ -548,13 +549,14 @@
                 "3:3",
                 "4:2",
                 "2:4",
-                "1:5"
+                "1:5",
+                "5:1"
             ]
         },
         {
             "name": "zhihe",
             "Description": "The ratio of prime numbers to composite numbers in the lottery numbers.",
-            "checked": true,
+            "checked": false,
             "Optional": [
                 "2:4",
                 "3:3",
